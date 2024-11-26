@@ -1,0 +1,23 @@
+{
+  "name": "mahdiabderraouf/facturx-php",
+  "description": "A PHP package for managing Factur-x/ZUGFeRD compliant PDF invoices",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/mahdiabderraouf/facturx-php",
+  "autoload": {
+    "psr-4": {
+      "MahdiAbderraouf\\FacturX\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Abderraouf MAHDI",
+      "email": "mahdi.abderraouf@outlook.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
