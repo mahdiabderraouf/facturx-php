@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  facturx:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    working_dir: /var/www/html
+    ports:
+      - "8080:80"
+    volumes:
+      - ../src:/var/www/html
