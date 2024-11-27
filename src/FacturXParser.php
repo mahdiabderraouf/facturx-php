@@ -3,7 +3,7 @@
 namespace MahdiAbderraouf\FacturX;
 
 use InvalidArgumentException;
-use MahdiAbderraouf\FacturX\Enums\XmlFilenames;
+use MahdiAbderraouf\FacturX\Enums\XmlFilename;
 use MahdiAbderraouf\FacturX\Exceptions\NotPdfFileException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
@@ -20,11 +20,11 @@ class FacturXParser
      */
     public static function getXML(string $pdfPath, string|array|null $xmlFilename = null): string
     {
-        if (!Utils::isPdf($pdfPath)) {
+        if (!Utils::isPdfFile($pdfPath)) {
             throw new NotPdfFileException('The file ' . $pdfPath . ' is not a PDF file');
         }
 
-        $xmlFilename ??= XmlFilenames::values();
+        $xmlFilename ??= XmlFilename::values();
         $xmlFilename = is_string($xmlFilename) ? [$xmlFilename] : $xmlFilename;
 
         if (!Utils::isValidXmlFilenames($xmlFilename)) {
