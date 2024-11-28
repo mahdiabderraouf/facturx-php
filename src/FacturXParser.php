@@ -18,7 +18,7 @@ class FacturXParser
      * @throws NotPdfFileException
      * @throws UnableToExtractXmlException
      */
-    public static function getXML(string $pdfPath, string|array|null $xmlFilename = null): string
+    public static function getXml(string $pdfPath, string|array|null $xmlFilename = null): string
     {
         if (!Utils::isPdfFile($pdfPath)) {
             throw new NotPdfFileException('The file ' . $pdfPath . ' is not a PDF file');

@@ -6,7 +6,7 @@ use DOMDocument;
 use DOMXPath;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
-use MahdiAbderraouf\FacturX\Exceptions\InvalidFacturXXmlException;
+use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 
@@ -18,7 +18,7 @@ class FacturXValidator
      * @param  string $source Path for PDF or XML file or XML string
      *
      * @throws InvalidArgumentException
-     * @throws InvalidFacturXXmlException
+     * @throws InvalidXmlException
      */
     public static function validate(string $source, ?FacturXProfile $profile = null): string
     {
@@ -35,7 +35,7 @@ class FacturXValidator
             libxml_clear_errors();
             libxml_use_internal_errors(false);
 
-            throw new InvalidFacturXXmlException('Invalid Factur-X XML', errors: $xmlErrors);
+            throw new InvalidXmlException('Invalid Factur-X XML', errors: $xmlErrors);
         }
 
         libxml_use_internal_errors(false);
@@ -55,7 +55,7 @@ class FacturXValidator
         try {
             return Utils::isXmlFile($source) ?
                 file_get_contents($source) :
-                FacturXParser::getXML($source);
+                FacturXParser::getXml($source);
         } catch (UnableToExtractXmlException) {
             throw new InvalidArgumentException('Invalid argument $source : not a Factur-X file');
         }
@@ -70,7 +70,7 @@ class FacturXValidator
         );
 
         if (!$profileNode || $profileNode->length !== 1) {
-            throw new InvalidFacturXXmlException('Invalid Factur-X XML : invalid or missing profile tag');
+            throw new InvalidXmlException('Invalid Factur-X XML : invalid or missing profile tag');
         }
 
         var_dump($profileNode->item(0)->nodeValue);
@@ -78,7 +78,7 @@ class FacturXValidator
         var_dump($profile);
 
         if (!$profile) {
-            throw new InvalidFacturXXmlException('Invalid Factur-X XML : invalid profile found');
+            throw new InvalidXmlException('Invalid Factur-X XML : invalid profile found');
         }
 
         return $profile;

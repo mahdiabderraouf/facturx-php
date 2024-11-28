@@ -6,7 +6,7 @@ use Exception;
 use LibXMLError;
 use Throwable;
 
-class InvalidFacturXXmlException extends Exception
+class InvalidXmlException extends Exception
 {
     /** @var array<LibXMLError> */
     private ?array $errors;

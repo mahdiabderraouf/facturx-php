@@ -1,5 +1,7 @@
 <?php
 
+use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
+use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\FacturXParser;
 use MahdiAbderraouf\FacturX\FacturXValidator;
 
@@ -7,6 +9,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 // $parser = new FacturXParser();
 
-// echo htmlspecialchars($parser->getXML(__DIR__ . '/../Facture_F-20240000014.pdf'));
+// echo htmlspecialchars($parser->getXml(__DIR__ . '/../Facture_F-20240000014.pdf'));
 
-echo FacturXValidator::validate(__DIR__ . '/../noprofile.pdf');
+try {
+    FacturXValidator::validate(__DIR__ . '/../Facture_F-20240000014.pdf', FacturXProfile::BASIC);
+} catch (InvalidXmlException $e) {
+    print_r($e->getErrors());
+}
