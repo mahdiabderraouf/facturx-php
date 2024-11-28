@@ -4,7 +4,6 @@ namespace MahdiAbderraouf\FacturX;
 
 use DOMDocument;
 use DOMXPath;
-use Exception;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidFacturXXmlException;
@@ -36,7 +35,7 @@ class FacturXValidator
             libxml_clear_errors();
             libxml_use_internal_errors(false);
 
-            throw new InvalidFacturXXmlException('Invalid Factur-X XML', 0, null, $xmlErrors);
+            throw new InvalidFacturXXmlException('Invalid Factur-X XML', errors: $xmlErrors);
         }
 
         libxml_use_internal_errors(false);
