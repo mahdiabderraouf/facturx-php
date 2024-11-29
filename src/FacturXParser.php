@@ -2,10 +2,13 @@
 
 namespace MahdiAbderraouf\FacturX;
 
+use DOMDocument;
+use DOMXPath;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
 use MahdiAbderraouf\FacturX\Exceptions\NotPdfFileException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
+use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 use MahdiAbderraouf\FacturX\Helpers\XmlExtractor;
 
@@ -32,5 +35,20 @@ class FacturXParser
         }
 
         return XmlExtractor::extract($pdfPath, $xmlFilename);
+    }
+
+    public static function extractBaseData(string $xml): array
+    {
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML(is_file($xml) ? file_get_contents($xml) : $xml);
+        $domXPath = new DOMXPath($domDocument);
+
+        return [
+            'issueDate' => DateFormat102::fromFormat102(
+                $domXPath->query('//rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString')->item(0)->nodeValue
+            ),
+            'supplier' => $domXPath->query('//ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:Name')->item(0)->nodeValue,
+            'documentNumber' => $domXPath->query('//rsm:ExchangedDocument/ram:ID')->item(0)->nodeValue,
+        ];
     }
 }
