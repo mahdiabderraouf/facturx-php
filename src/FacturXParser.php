@@ -2,10 +2,11 @@
 
 namespace MahdiAbderraouf\FacturX;
 
-use DOMDocument;
 use DOMXPath;
 use InvalidArgumentException;
+use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
+use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\NotPdfFileException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
 use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
@@ -39,9 +40,7 @@ class FacturXParser
 
     public static function extractBaseData(string $xml): array
     {
-        $domDocument = new DOMDocument();
-        $domDocument->loadXML(is_file($xml) ? file_get_contents($xml) : $xml);
-        $domXPath = new DOMXPath($domDocument);
+        $domXPath = Utils::getDomXPath($xml);
 
         return [
             'issueDate' => DateFormat102::fromFormat102(
@@ -50,5 +49,29 @@ class FacturXParser
             'supplier' => $domXPath->query('//ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:Name')->item(0)->nodeValue,
             'documentNumber' => $domXPath->query('//rsm:ExchangedDocument/ram:ID')->item(0)->nodeValue,
         ];
+    }
+
+    /**
+     * @throws InvalidXmlException
+     */
+    public static function getProfile(string $xml): FacturXProfile
+    {
+        $domXPath = Utils::getDomXPath($xml);
+
+        $profileNode = $domXPath->query(
+            '//rsm:ExchangedDocumentContext/ram:GuidelineSpecifiedDocumentContextParameter/ram:ID'
+        );
+
+        if (!$profileNode || $profileNode->length !== 1) {
+            throw new InvalidXmlException('Invalid Factur-X XML : invalid or missing profile tag');
+        }
+
+        $profile = FacturXProfile::tryFrom($profileNode->item(0)->nodeValue);
+
+        if (!$profile) {
+            throw new InvalidXmlException('Invalid Factur-X XML : invalid profile found');
+        }
+
+        return $profile;
     }
 }

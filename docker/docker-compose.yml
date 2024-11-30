@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   facturx:
@@ -10,3 +10,4 @@ services:
       - "8080:80"
     volumes:
       - ../:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/local.ini

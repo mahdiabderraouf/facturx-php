@@ -2,6 +2,8 @@
 
 namespace MahdiAbderraouf\FacturX\Helpers;
 
+use DOMDocument;
+use DOMXPath;
 use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
 
@@ -41,5 +43,13 @@ class Utils
     public static function isValidProfile(string $profile): bool
     {
         return in_array($profile, FacturXProfile::values());
+    }
+
+    public static function getDomXPath(string $xml): DOMXPath
+    {
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML(is_file($xml) ? file_get_contents($xml) : $xml);
+
+        return new DOMXPath($domDocument);
     }
 }

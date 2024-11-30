@@ -3,31 +3,40 @@
 namespace MahdiAbderraouf\FacturX;
 
 use DateTime;
-use DOMXPath;
+use Exception;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\AttachmentRelationship;
 use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
+use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\NotPdfFileException;
-use MahdiAbderraouf\FacturX\Helpers\PdfWithAttachments;
+use MahdiAbderraouf\FacturX\Fpdi\PdfA3b;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 use MahdiAbderraouf\FacturX\Helpers\Version;
-use MahdiAbderraouf\FacturX\Helpers\XmlExtractor;
-use setasign\Fpdi\Fpdi;
 
 class FacturXGenerator
 {
     /**
      * Generate Factur-X PDF
+     * 
+     * @param array<array> $attachments additional attachments:
+     *      - string 'file': The file path.
+     *      - ?string 'filename': Alternative file name defaults to given file basename.
+     *      - ?string 'relationship': Enum value of AttachmentRelationship.
+     *      - ?string 'description': A description of the attachment.
      *
      * @throws InvalidArgumentException
      * @throws NotPdfFileException
+     * @throws InvalidXmlException
+     * @throws Exception
      */
     public static function generate(
         string $pdfPath,
         string $xml,
+        AttachmentRelationship $relationship = AttachmentRelationship::DATA,
+        ?string $outputPath = null,
         ?FacturXProfile $profile = null,
-        AttachmentRelationship $relationship = AttachmentRelationship::DATA
+        ?array $additionalAttachments = []
     ): string {
         if (!Utils::isPdfFile($pdfPath)) {
             throw new NotPdfFileException('The file ' . $pdfPath . ' is not a PDF file');
@@ -39,24 +48,25 @@ class FacturXGenerator
 
         $xml = self::resolveXml($xml);
 
-        $profile ??=
+        $profile ??= FacturXParser::getProfile($xml);
 
         FacturXValidator::validate($xml, $profile);
 
-        $pdfWithAttachments = new PdfWithAttachments($pdfPath);
-
-        $invoiceData = FacturXParser::extractBaseData($xml);
-        // Update date is the current date
-        // Create date is the invoice issue date
+        // Update date is the current date, while create date is the invoice issue date
         $updateDate = (new DateTime())->setTime(0, 0);
+        $invoiceData = FacturXParser::extractBaseData($xml);
 
-        $pdfWithAttachments->setAttachments(self::buildAttachmentsArray($xml, $relationship));
-        $pdfWithAttachments->setPdfId('2024/11/29', '2024/11/29');
-        $pdfWithAttachments->setXmp(self::buildXmpString($invoiceData, $updateDate, $profile));
+        $pdf = new PdfA3b($pdfPath);
 
-        // Set XMP metadata
+        $pdf->setAttachments(self::buildAttachmentsArray($xml, $relationship, $additionalAttachments));
+        $pdf->setPdfId($invoiceData['issueDate']->format('Y-m-d'), $updateDate->format('Y-m-d'));
+        $pdf->setXmp(self::buildXmpString($invoiceData, $updateDate, $profile));
 
-        return $pdfWithAttachments->Output('S');
+        if ($outputPath) {
+            return $pdf->Output('F', $outputPath);
+        }
+
+        return $pdf->Output('S');
     }
 
     private static function resolveXml(string $xml): string
@@ -72,7 +82,7 @@ class FacturXGenerator
         return $tmpFilePath;
     }
 
-    private function buildXmpString(array $invoiceData, DateTime $updateDate, FacturXProfile $profile): string
+    private static function buildXmpString(array $invoiceData, DateTime $updateDate, FacturXProfile $profile): string
     {
         $xmp = file_get_contents(__DIR__ . '/../resources/xmp/FACTUR-X_extension_schema.xmp');
 
@@ -82,19 +92,20 @@ class FacturXGenerator
         $xmp = str_replace('{documentCreateDate}', $invoiceData['issueDate']->format('Y-m-d'), $xmp);
         $xmp = str_replace('{documentUpdateDate}', $updateDate->format('Y-m-d'), $xmp);
         $xmp = str_replace('{facturxFilename}', XmlFilename::FACTUR_X->value, $xmp);
+        $xmp = str_replace('{libraryVersion}', Version::VERSION, $xmp);
         $xmp = str_replace('{facturxVersion}', Version::FACTURX_VERSION, $xmp);
-        $xmp = str_replace('{facturxProfile}', $profile->value, $xmp);
+        $xmp = str_replace('{facturxProfile}', $profile->name, $xmp);
 
         return $xmp;
     }
 
-    private function buildAttachmentsArray(string $xml, AttachmentRelationship $relationship, array $additionalAttachments = []): array
+    private static function buildAttachmentsArray(string $xml, AttachmentRelationship $relationship, array $additionalAttachments = []): array
     {
         $attachments = [
             [
                 'file' => $xml,
-                'filename' => XmlFilename::FACTUR_X,
-                'relationship' => $relationship,
+                'filename' => XmlFilename::FACTUR_X->value,
+                'relationship' => $relationship->value,
                 'description' => 'Factur-X Invoice',
             ],
         ];
@@ -102,8 +113,8 @@ class FacturXGenerator
         foreach ($additionalAttachments as $additionalAttachment) {
             $attachments[] = [
                 'file' => $additionalAttachment['file'],
-                'file' => $additionalAttachment['filename'] ?? basename($additionalAttachment['filename']),
-                'relationship' => $additionalAttachment['relationship'] ?? AttachmentRelationship::UNSPECIFIED,
+                'filename' => $additionalAttachment['filename'] ?? basename($additionalAttachment['filename']),
+                'relationship' => $additionalAttachment['relationship']->value ?? AttachmentRelationship::UNSPECIFIED->value,
                 'description' => $additionalAttachment['description'] ?? '',
             ];
         }

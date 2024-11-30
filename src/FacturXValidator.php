@@ -3,7 +3,6 @@
 namespace MahdiAbderraouf\FacturX;
 
 use DOMDocument;
-use DOMXPath;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
@@ -27,7 +26,7 @@ class FacturXValidator
         $domDocument = new DOMDocument();
         $domDocument->loadXML($xml);
 
-        $profile ??= self::getProfile($domDocument);
+        $profile ??= FacturXParser::getProfile($xml);
 
         libxml_use_internal_errors(true);
         if (!$domDocument->schemaValidate(self::getXsdFilePathByProfile($profile))) {
@@ -59,29 +58,6 @@ class FacturXValidator
         } catch (UnableToExtractXmlException) {
             throw new InvalidArgumentException('Invalid argument $source : not a Factur-X file');
         }
-    }
-
-    private static function getProfile(DOMDocument $domDocument): FacturXProfile
-    {
-        $domXPath = new DOMXPath($domDocument);
-
-        $profileNode = $domXPath->query(
-            '//rsm:ExchangedDocumentContext/ram:GuidelineSpecifiedDocumentContextParameter/ram:ID'
-        );
-
-        if (!$profileNode || $profileNode->length !== 1) {
-            throw new InvalidXmlException('Invalid Factur-X XML : invalid or missing profile tag');
-        }
-
-        var_dump($profileNode->item(0)->nodeValue);
-        $profile = FacturXProfile::tryFrom($profileNode->item(0)->nodeValue);
-        var_dump($profile);
-
-        if (!$profile) {
-            throw new InvalidXmlException('Invalid Factur-X XML : invalid profile found');
-        }
-
-        return $profile;
     }
 
     private static function getXsdFilePathByProfile(FacturXProfile $facturXProfile): string

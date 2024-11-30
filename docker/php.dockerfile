@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
     poppler-utils \
     git \
     unzip \
+    libzip-dev \
+    zlib1g-dev \
     && docker-php-ext-install pdo pdo_mysql \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

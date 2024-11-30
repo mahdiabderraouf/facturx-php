@@ -1,6 +1,6 @@
 <?php
 
-namespace MahdiAbderraouf\FacturX\Helpers;
+namespace MahdiAbderraouf\FacturX\Fpdi;
 
 use MahdiAbderraouf\FacturX\Enums\AttachmentRelationship;
 use setasign\Fpdi\Fpdi;
@@ -15,16 +15,16 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
  * @see http://www.fpdf.org/en/script/script95.php
  * @see http://www.fpdf.org/en/script/script103.php
  */
-class PdfWithAttachments extends Fpdi
+class PdfA3b extends Fpdi
 {
     private string $pdfPath;
     private array $attachments = [];
     private string $xmp;
     private string $pdfId;
     protected int $attachmentsSpecificationIndex = 0;
-    protected int $descriptionIndex = 0;
+    protected int $xmpIndex = 0;
     protected int $outputIntentIndex = 0;
-    protected int $nFiles;
+    protected int $nFiles = 0;
 
     public function __construct(string $pdfPath, $orientation = 'P', $unit = 'mm', $size = 'A4')
     {
@@ -38,9 +38,9 @@ class PdfWithAttachments extends Fpdi
     /**
      * Specification : ISO 19005-1:2005
      */
-    public function setPdfId(string $createDate, string $updateDate = ''): void
+    public function setPdfId(string $createDate, string $updateDate): void
     {
-        $this->pdfId = '[<' . bin2hex($createDate) . '> <' . bin2hex($updateDate) . '>]';
+        $this->pdfId = '[<' . bin2hex($createDate) . '><' . bin2hex($updateDate) . '>]';
     }
 
     public function setAttachments(array $attachments): void
@@ -48,10 +48,10 @@ class PdfWithAttachments extends Fpdi
         foreach ($attachments as $attachment) {
             $this->attachments[] = [
                 'file' => $attachment['file'],
-                'filename' => $attachment['filename'],
+                'filename' => mb_convert_encoding($attachment['filename'], 'UTF-8'),
                 'description' => mb_convert_encoding($attachment['description'], 'UTF-8'),
                 'relationship' => $attachment['relationship'] ?? AttachmentRelationship::UNSPECIFIED,
-                'mimeType' => mb_convert_encoding(mime_content_type($attachment['file']), 'UTF-8'),
+                'mimeType' => str_replace('/', '#2F', mime_content_type($attachment['file'])),
             ];
         }
     }
@@ -109,8 +109,8 @@ class PdfWithAttachments extends Fpdi
             $this->_put('/AF ' . $this->nFiles . ' 0 R');
         }
 
-        if ($this->descriptionIndex) {
-            $this->_put('/Metadata ' . $this->descriptionIndex . ' 0 R');
+        if ($this->xmpIndex) {
+            $this->_put('/Metadata ' . $this->xmpIndex . ' 0 R');
         }
         $this->_put('/Names <<');
         $this->_put('/EmbeddedFiles ');
@@ -118,7 +118,7 @@ class PdfWithAttachments extends Fpdi
         $this->_put('>>');
 
         if (0 != $this->outputIntentIndex) {
-            $this->_put('/OutputIntents [' . $this->outputIntentIndex . ' 0 R]', );
+            $this->_put('/OutputIntents [' . $this->outputIntentIndex . ' 0 R]',);
         }
 
         /**
@@ -157,7 +157,7 @@ class PdfWithAttachments extends Fpdi
         $pageCount = $this->setSourceFile($this->pdfPath);
 
         for ($i = 1; $i <= $pageCount; $i++) {
-            $templateId = $this->importPage($i);
+            $templateId = $this->importPage($i, '/MediaBox', importExternalLinks: true);
             $this->AddPage();
             $this->useTemplate($templateId, adjustPageSize: true);
         }
@@ -169,10 +169,10 @@ class PdfWithAttachments extends Fpdi
     private function getVersionBinaryComment(): string
     {
         return '%' .
-            chr(mt_rand(128, 255)) .
-            chr(mt_rand(128, 255)) .
-            chr(mt_rand(128, 255)) .
-            chr(mt_rand(128, 255));
+            chr(mt_rand(128, 256)) .
+            chr(mt_rand(128, 256)) .
+            chr(mt_rand(128, 256)) .
+            chr(mt_rand(128, 256));
     }
 
     private function putAttachments(): void
@@ -180,7 +180,7 @@ class PdfWithAttachments extends Fpdi
         $attachmentsCount = count($this->attachments);
 
         for ($i = 0; $i < $attachmentsCount; $i++) {
-            $this->putAttachmentSpecification($this->attachments[$i]['file']);
+            $this->putAttachmentSpecification($this->attachments[$i]);
             $this->attachments[$i]['fileIndex'] = $this->n;
             $this->putAttachment($this->attachments[$i]);
         }
@@ -198,7 +198,7 @@ class PdfWithAttachments extends Fpdi
         $this->_put('<<');
         $this->_put('/F (' . $this->_escape($attachment['filename']) . ')');
         $this->_put('/Type /Filespec');
-        $this->_put('/UF ' . $this->_textstring(mb_convert_encoding($attachment['filename'], 'UTF-8')));
+        $this->_put('/UF ' . $this->_textstring($attachment['filename']));
         $this->_put('/AFRelationship /' . $attachment['relationship']);
         if ($attachment['description']) {
             $this->_put('/Desc ' . $this->_textstring($attachment['description']));
@@ -219,15 +219,9 @@ class PdfWithAttachments extends Fpdi
         $this->_put('/Subtype /' . $attachment['mimeType']);
         $this->_put('/Type /EmbeddedFile');
 
-        $fileContent = file_get_contents($attachment['file']);
+        $fileContent = gzcompress(file_get_contents($attachment['file']));
         $updateAt = @date('YmdHis', filemtime($attachment['file']));
 
-        if (!$fileContent) {
-            /** @TODO */
-            $this->Error('Cannot open file: ' . $attachment['file']);
-        }
-
-        $fileContent = gzcompress($fileContent);
         $this->_put('/Length ' . strlen($fileContent));
         $this->_put("/Params <</ModDate (D:$updateAt)>>");
         $this->_put('>>');
@@ -246,7 +240,7 @@ class PdfWithAttachments extends Fpdi
     }
 
     /**
-     * Sorting attachments in name order as PDF specs
+     * Sorting attachments in name order as PDF specifications
      */
     private function getSortedAttachmentNames(): string
     {
@@ -258,18 +252,17 @@ class PdfWithAttachments extends Fpdi
 
         foreach ($attachments as $attachment) {
             $attachmentsNamesSorted .= $this->_textstring($attachment['filename']) .
-                $attachment['fileIndex'] .
+                ' ' . $attachment['fileIndex'] .
                 ' 0 R ';
         }
 
         return $attachmentsNamesSorted;
     }
 
-    /**
-     * Put metadata descriptions.
-     */
     private function putXmp(): void
     {
+        $this->_newobj();
+        $this->xmpIndex = $this->n;
         $this->_put('<<');
         $this->_put('/Length ' . strlen($this->xmp));
         $this->_put('/Type /Metadata');
@@ -294,6 +287,7 @@ class PdfWithAttachments extends Fpdi
         $this->_put('/Info (sRGB V4 ICC)');
         $this->_put('>>');
         $this->_put('endobj');
+
         $this->outputIntentIndex = $this->n;
 
         $icc = file_get_contents(__DIR__ . '/../../resources/icc/sRGB2014.icc');
