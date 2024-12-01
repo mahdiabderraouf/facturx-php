@@ -21,7 +21,7 @@ class Validator
      */
     public static function validate(string $source, ?Profile $profile = null): string
     {
-        $xml = self::resolveXmlFromSource($source);
+        $xml = self::resolveXml($source);
 
         $domDocument = new DOMDocument();
         $domDocument->loadXML($xml);
@@ -45,7 +45,7 @@ class Validator
     /**
      * @throws InvalidArgumentException
      */
-    private static function resolveXmlFromSource(string $source): string
+    private static function resolveXml(string $source): string
     {
         if (!@is_file($source)) {
             return $source;

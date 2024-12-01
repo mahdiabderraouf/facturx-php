@@ -1,3 +1,4 @@
 vendor/
+demo/
 composer.lock
 .vscode
