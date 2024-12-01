@@ -13,7 +13,7 @@ use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 use MahdiAbderraouf\FacturX\Helpers\XmlExtractor;
 
-class FacturXParser
+class Parser
 {
     /**
      * Get Factur-X XML from a PDF file

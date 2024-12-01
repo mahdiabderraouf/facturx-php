@@ -9,7 +9,7 @@ use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 
-class FacturXValidator
+class Validator
 {
     /**
      * Validate Factur-X PDF or XML against XSD schema
@@ -26,7 +26,7 @@ class FacturXValidator
         $domDocument = new DOMDocument();
         $domDocument->loadXML($xml);
 
-        $profile ??= FacturXParser::getProfile($xml);
+        $profile ??= Parser::getProfile($xml);
 
         libxml_use_internal_errors(true);
         if (!$domDocument->schemaValidate(self::getXsdFilePathByProfile($profile))) {
@@ -54,7 +54,7 @@ class FacturXValidator
         try {
             return Utils::isXmlFile($source) ?
                 file_get_contents($source) :
-                FacturXParser::getXml($source);
+                Parser::getXml($source);
         } catch (UnableToExtractXmlException) {
             throw new InvalidArgumentException('Invalid argument $source : not a Factur-X file');
         }

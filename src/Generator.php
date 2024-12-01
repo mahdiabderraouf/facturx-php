@@ -14,7 +14,7 @@ use MahdiAbderraouf\FacturX\Fpdi\PdfA3b;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 use MahdiAbderraouf\FacturX\Helpers\Version;
 
-class FacturXGenerator
+class Generator
 {
     /**
      * Generate Factur-X PDF
@@ -48,13 +48,13 @@ class FacturXGenerator
 
         $xml = self::resolveXml($xml);
 
-        $profile ??= FacturXParser::getProfile($xml);
+        $profile ??= Parser::getProfile($xml);
 
-        FacturXValidator::validate($xml, $profile);
+        Validator::validate($xml, $profile);
 
         // Update date is the current date, while create date is the invoice issue date
         $updateDate = (new DateTime())->setTime(0, 0);
-        $invoiceData = FacturXParser::extractBaseData($xml);
+        $invoiceData = Parser::extractBaseData($xml);
 
         $pdf = new PdfA3b($pdfPath);
 

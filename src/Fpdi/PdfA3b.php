@@ -21,10 +21,9 @@ class PdfA3b extends Fpdi
     private array $attachments = [];
     private string $xmp;
     private string $pdfId;
-    protected int $attachmentsSpecificationIndex = 0;
-    protected int $xmpIndex = 0;
-    protected int $outputIntentIndex = 0;
-    protected int $nFiles = 0;
+    private int $xmpIndex = 0;
+    private int $outputIntentIndex = 0;
+    private int $nFiles = 0;
 
     public function __construct(string $pdfPath, $orientation = 'P', $unit = 'mm', $size = 'A4')
     {
@@ -50,7 +49,7 @@ class PdfA3b extends Fpdi
                 'file' => $attachment['file'],
                 'filename' => mb_convert_encoding($attachment['filename'], 'UTF-8'),
                 'description' => mb_convert_encoding($attachment['description'], 'UTF-8'),
-                'relationship' => $attachment['relationship'] ?? AttachmentRelationship::UNSPECIFIED,
+                'relationship' => $attachment['relationship'] ?? AttachmentRelationship::UNSPECIFIED->value,
                 'mimeType' => str_replace('/', '#2F', mime_content_type($attachment['file'])),
             ];
         }
@@ -117,7 +116,7 @@ class PdfA3b extends Fpdi
         $this->_put($this->nFiles . ' 0 R');
         $this->_put('>>');
 
-        if (0 != $this->outputIntentIndex) {
+        if ($this->outputIntentIndex) {
             $this->_put('/OutputIntents [' . $this->outputIntentIndex . ' 0 R]',);
         }
 
