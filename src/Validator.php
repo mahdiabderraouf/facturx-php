@@ -4,7 +4,7 @@ namespace MahdiAbderraouf\FacturX;
 
 use DOMDocument;
 use InvalidArgumentException;
-use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
@@ -19,7 +19,7 @@ class Validator
      * @throws InvalidArgumentException
      * @throws InvalidXmlException
      */
-    public static function validate(string $source, ?FacturXProfile $profile = null): string
+    public static function validate(string $source, ?Profile $profile = null): string
     {
         $xml = self::resolveXmlFromSource($source);
 
@@ -60,14 +60,14 @@ class Validator
         }
     }
 
-    private static function getXsdFilePathByProfile(FacturXProfile $facturXProfile): string
+    private static function getXsdFilePathByProfile(Profile $profile): string
     {
-        $xsdFilePath = match ($facturXProfile) {
-            FacturXProfile::MINIMUM => 'minimum/Factur-X_1.0.07_MINIMUM.xsd',
-            FacturXProfile::BASIC_WL => 'basic-wl/Factur-X_1.0.07_BASICWL.xsd',
-            FacturXProfile::BASIC => 'basic/Factur-X_1.0.07_BASIC.xsd',
-            FacturXProfile::EN16931 => 'en16931/Factur-X_1.0.07_EN16931.xsd',
-            FacturXProfile::EXTENDED => 'extended/Factur-X_1.0.07_EXTENDED.xsd',
+        $xsdFilePath = match ($profile) {
+            Profile::MINIMUM => 'minimum/Factur-X_1.0.07_MINIMUM.xsd',
+            Profile::BASIC_WL => 'basic-wl/Factur-X_1.0.07_BASICWL.xsd',
+            Profile::BASIC => 'basic/Factur-X_1.0.07_BASIC.xsd',
+            Profile::EN16931 => 'en16931/Factur-X_1.0.07_EN16931.xsd',
+            Profile::EXTENDED => 'extended/Factur-X_1.0.07_EXTENDED.xsd',
         };
 
         return __DIR__ . '/../resources/xsd/' . $xsdFilePath;

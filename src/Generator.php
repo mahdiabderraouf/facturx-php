@@ -6,13 +6,14 @@ use DateTime;
 use Exception;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\AttachmentRelationship;
-use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\NotPdfFileException;
 use MahdiAbderraouf\FacturX\Fpdi\PdfA3b;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 use MahdiAbderraouf\FacturX\Helpers\Version;
+use MahdiAbderraouf\FacturX\Models\Invoice;
 
 class Generator
 {
@@ -35,7 +36,7 @@ class Generator
         string|Invoice $xml,
         AttachmentRelationship $relationship = AttachmentRelationship::DATA,
         ?string $outputPath = null,
-        ?FacturXProfile $profile = null,
+        ?Profile $profile = null,
         ?array $additionalAttachments = []
     ): string {
         if (!Utils::isPdfFile($pdfPath)) {
@@ -49,6 +50,10 @@ class Generator
         $xml = self::resolveXml($xml);
 
         $profile ??= Parser::getProfile($xml);
+
+        if (in_array($profile, [Profile::MINIMUM, Profile::BASIC_WL]) && $relationship !== AttachmentRelationship::DATA) {
+            throw new InvalidArgumentException('Invalid argument $relationship: ' . $relationship->value . ', only the relationship Data is allowed for minimumn and basic-wl profiles.');
+        }
 
         Validator::validate($xml, $profile);
 
@@ -85,7 +90,7 @@ class Generator
         return $tmpFile;
     }
 
-    private static function buildXmpString(array $invoiceData, DateTime $updateDate, FacturXProfile $profile): string
+    private static function buildXmpString(array $invoiceData, DateTime $updateDate, Profile $profile): string
     {
         $xmp = file_get_contents(__DIR__ . '/../resources/xmp/FACTUR-X_extension_schema.xmp');
 

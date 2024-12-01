@@ -4,7 +4,7 @@ namespace MahdiAbderraouf\FacturX;
 
 use DOMXPath;
 use InvalidArgumentException;
-use MahdiAbderraouf\FacturX\Enums\FacturXProfile;
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\NotPdfFileException;
@@ -54,7 +54,7 @@ class Parser
     /**
      * @throws InvalidXmlException
      */
-    public static function getProfile(string $xml): FacturXProfile
+    public static function getProfile(string $xml): Profile
     {
         $domXPath = Utils::getDomXPath($xml);
 
@@ -66,7 +66,7 @@ class Parser
             throw new InvalidXmlException('Invalid Factur-X XML : invalid or missing profile tag');
         }
 
-        $profile = FacturXProfile::tryFrom($profileNode->item(0)->nodeValue);
+        $profile = Profile::tryFrom($profileNode->item(0)->nodeValue);
 
         if (!$profile) {
             throw new InvalidXmlException('Invalid Factur-X XML : invalid profile found');
