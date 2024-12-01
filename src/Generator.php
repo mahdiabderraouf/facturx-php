@@ -32,7 +32,7 @@ class Generator
      */
     public static function generate(
         string $pdfPath,
-        string $xml,
+        string|Invoice $xml,
         AttachmentRelationship $relationship = AttachmentRelationship::DATA,
         ?string $outputPath = null,
         ?FacturXProfile $profile = null,
@@ -69,17 +69,20 @@ class Generator
         return $pdf->Output('S');
     }
 
-    private static function resolveXml(string $xml): string
+    private static function resolveXml(string|Invoice $xml): string
     {
+        if ($xml instanceof Invoice) {
+            $xml = $xml->toXml();
+        }
+
         if (Utils::isXmlFile($xml)) {
             return $xml;
         }
 
-        $tmpFile = tmpfile();
-        $tmpFilePath = stream_get_meta_data($tmpFile)['uri'];
-        file_put_contents($tmpFilePath, $xml);
+        $tmpFile = tempnam(sys_get_temp_dir(), 'FACTURX_XML');
+        file_put_contents($tmpFile, $xml);
 
-        return $tmpFilePath;
+        return $tmpFile;
     }
 
     private static function buildXmpString(array $invoiceData, DateTime $updateDate, FacturXProfile $profile): string

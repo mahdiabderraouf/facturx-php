@@ -15,7 +15,6 @@ class Utils
     public static function isPdfFile(string $pdfPath): bool
     {
         return file_exists($pdfPath) &&
-            pathinfo($pdfPath)['extension'] === 'pdf' &&
             mime_content_type($pdfPath) === 'application/pdf';
     }
 
@@ -25,7 +24,6 @@ class Utils
     public static function isXmlFile(string $xmlPath): bool
     {
         return file_exists($xmlPath) &&
-            pathinfo($xmlPath)['extension'] === 'xml' &&
             in_array(mime_content_type($xmlPath), ['application/xml', 'text/xml']);
     }
 
