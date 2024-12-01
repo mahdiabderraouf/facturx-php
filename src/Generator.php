@@ -102,7 +102,7 @@ class Generator
         $xmp = str_replace('{facturxFilename}', XmlFilename::FACTUR_X->value, $xmp);
         $xmp = str_replace('{libraryVersion}', Version::VERSION, $xmp);
         $xmp = str_replace('{facturxVersion}', Version::FACTURX_VERSION, $xmp);
-        $xmp = str_replace('{facturxProfile}', $profile->name, $xmp);
+        $xmp = str_replace('{facturxProfile}', $profile->toConformanceLevel(), $xmp);
 
         return $xmp;
     }

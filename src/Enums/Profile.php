@@ -33,4 +33,12 @@ enum Profile: string
 
         return $thisIndex >= $profileIndex;
     }
+
+    public function toConformanceLevel(): string
+    {
+        return match ($this) {
+            Profile::BASIC_WL => 'BASIC WL',
+            default => $this->name,
+        };
+    }
 }
