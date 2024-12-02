@@ -2,10 +2,8 @@
 
 namespace MahdiAbderraouf\FacturX\Models;
 
-use DateTime;
-use InvalidArgumentException;
-use MahdiAbderraouf\FacturX\Enums\DeliveryLocationSchemeIdentifier;
 use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
+use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class Seller
 {
@@ -17,7 +15,7 @@ class Seller
      */
     public function __construct(
         public string $name,
-        public string $vatIndetifier,
+        public string $vatIdentifier,
         public Address $address,
         public string $email = '',
         SchemeIdentifier|string $schemeIdentifier = '0009',
@@ -28,16 +26,9 @@ class Seller
         public ?string $tradingName = null,
         public ?string $taxRepresentativeName = null,
         public ?string $taxRepresentativeVatIdentifier = null,
-        public ?Address $taxRepresentativeAdress = null,
-        public ?string $contactReference = null,
-        public ?string $deliverToLocationIdentifier = null,
-        public ?string $deliverToLocationGlobalIdentifier = null,
-        public ?DeliveryLocationSchemeIdentifier $deliverToLocationGlobalIdentifierScheme = null,
-        public ?string $deliverToPartyName = null,
-        public ?Address $deliverToAdress = null,
-        public ?DateTime $actualDeliveryDate = null,
-        public ?string $issuerAssignedID = null
+        public ?Address $taxRepresentativeaddress = null,
+        public ?string $contactReference = null
     ) {
-        $this->schemeIdentifier = $schemeIdentifier instanceof SchemeIdentifier ? $schemeIdentifier->value : $schemeIdentifier;
+        $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
     }
 }

@@ -5,43 +5,67 @@ namespace MahdiAbderraouf\FacturX\Models;
 use DateTime;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Builder;
+use MahdiAbderraouf\FacturX\Enums\DeliveryLocationSchemeIdentifier;
 use MahdiAbderraouf\FacturX\Enums\InvoiceTypeCode;
 use MahdiAbderraouf\FacturX\Enums\NoteSubjectCode;
+use MahdiAbderraouf\FacturX\Enums\PaymentMeans;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
 use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
+use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class Invoice
 {
-    public int $typeCode;
+    public string $typeCode;
 
+    /**
+     * @param ?array<VatBreakdown>
+     * @param ?array<Allowance>
+     * @param ?array<Charge>
+     */
     public function __construct(
         public Profile $profile,
         public string $number,
-        public string $documentName,
-        InvoiceTypeCode|int $typeCode,
+        InvoiceTypeCode|string $typeCode,
         public DateTime $issueDate,
-        public string $businessProcessType = 'A1',
-        public string $currencyCode = 'EUR',
-        public string $vatCurrency = 'EUR',
         public float $totalAmountWithoutVAT,
         public float $totalVATAmount,
         public float $totalAmountWithVAT,
         public float $amountDueForPayment,
         public Buyer $buyer,
         public Seller $seller,
+        public string $businessProcessType = 'A1',
+        public string $currencyCode = 'EUR',
+        public string $vatCurrency = 'EUR',
+        public ?float $lineNetAmount = null,
+        public ?float $chargesSum = null,
+        public ?float $allowancesSum = null,
+        public ?float $paidAmount = null,
         public ?string $purchaseOrderReference = null,
         public ?string $note = null,
         public ?NoteSubjectCode $noteSubjectCode = NoteSubjectCode::GENERAL_INFORMATION,
-        public ?string $bankAssignedCreditorIdentifier,
+        public ?string $deliverToLocationIdentifier = null,
+        public ?string $deliverToLocationGlobalIdentifier = null,
+        public ?DeliveryLocationSchemeIdentifier $deliverToLocationGlobalIdentifierSchemeIdentifier = null,
+        public ?string $deliverToPartyName = null,
+        public ?Address $deliverToAddress = null,
+        public ?DateTime $actualDeliveryDate = null,
+        public ?string $issuerAssignedID = null,
+        public ?string $bankAssignedCreditorIdentifier = '',
         public ?string $remittanceInformation = '',
         public ?string $vatAccountingCurrencyCode = '',
-        public ?string $payeeIdentifier = '',
-        public ?string $payeeGlobalIdentifier = '',
-        public SchemeIdentifier|string|null $payeeGlobalSchemeIdentifier = '',
-        public ?string $payeeName = '',
-        public ?string $payeeLegalRegistrationIdentifier = '',
-        public SchemeIdentifier|string|null $payeeLegalRegistrationSchemeIdentifier = '',
+        public ?Payee $payee = null,
+        public ?Payment $payment = null,
+        public ?array $vatBreakdowns = null,
+        public ?DateTime $invoicingPeriodStartDate = null,
+        public ?DateTime $invoicingPeriodEndDate = null,
+        public ?array $allowances = null,
+        public ?array $charges = null,
+        public ?string $paymentTerms = null,
+        public ?DateTime $paymentDueDate = null,
+        public ?DateTime $mandateReferenceIdentifier = null,
+        public ?string $precedingInvoiceReference = null,
+        public ?DateTime $precedingInvoiceDate = null,
     ) {
         if (strlen($currencyCode) !== 3) {
             throw new InvalidArgumentException('$currencyCode must be contain 3 characters');
@@ -53,14 +77,12 @@ class Invoice
         }
         $this->vatCurrency = strtoupper($vatCurrency);
 
-        $this->typeCode = $typeCode instanceof InvoiceTypeCode ? $typeCode->value : $typeCode;
+        $this->typeCode = Utils::stringOrEnumToString($typeCode);
 
         if ($vatAccountingCurrencyCode && strlen($vatAccountingCurrencyCode) !== 3) {
             throw new InvalidArgumentException('$vatAccountingCurrencyCode must be contain 3 characters');
         }
         $this->vatAccountingCurrencyCode = strtoupper($vatAccountingCurrencyCode);
-        $this->payeeGlobalSchemeIdentifier = $payeeGlobalSchemeIdentifier instanceof SchemeIdentifier ? $payeeGlobalSchemeIdentifier->value : $payeeGlobalSchemeIdentifier;
-        $this->payeeLegalRegistrationSchemeIdentifier = $payeeLegalRegistrationSchemeIdentifier instanceof SchemeIdentifier ? $payeeLegalRegistrationSchemeIdentifier->value : $payeeLegalRegistrationSchemeIdentifier;
     }
 
     public function toXml(): string

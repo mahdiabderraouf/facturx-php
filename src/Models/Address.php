@@ -9,9 +9,9 @@ class Address
     public function __construct(
         public string $countryCode,
         public string $postCode = '',
-        public string $adress1 = '',
-        public string $adress2 = '',
-        public string $adress3 = '',
+        public string $address1 = '',
+        public string $address2 = '',
+        public string $address3 = '',
         public string $city = '',
         public string $province = ''
     ) {

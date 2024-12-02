@@ -193,7 +193,6 @@ class PdfA3b extends Fpdi
     private function putAttachmentSpecification(array $attachment): void
     {
         $this->_newobj();
-        $this->attachmentsSpecificationIndex = $this->n;
         $this->_put('<<');
         $this->_put('/F (' . $this->_escape($attachment['filename']) . ')');
         $this->_put('/Type /Filespec');

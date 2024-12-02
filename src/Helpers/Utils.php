@@ -2,6 +2,7 @@
 
 namespace MahdiAbderraouf\FacturX\Helpers;
 
+use BackedEnum;
 use DOMDocument;
 use DOMXPath;
 use MahdiAbderraouf\FacturX\Enums\Profile;
@@ -49,5 +50,10 @@ class Utils
         $domDocument->loadXML(is_file($xml) ? file_get_contents($xml) : $xml);
 
         return new DOMXPath($domDocument);
+    }
+
+    public static function stringOrEnumToString(string|BackedEnum $data): string
+    {
+        return $data instanceof BackedEnum ? $data->value : $data;
     }
 }

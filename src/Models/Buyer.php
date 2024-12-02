@@ -3,6 +3,7 @@
 namespace MahdiAbderraouf\FacturX\Models;
 
 use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
+use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class Buyer
 {
@@ -14,21 +15,17 @@ class Buyer
      */
     public function __construct(
         public string $name,
-        public string $countryCode,
-        public string $postCode = '',
-        public string $adress1 = '',
-        public string $adress2 = '',
-        public string $adress3 = '',
-        public string $city = '',
-        public string $province = '',
+        public Address $address,
         public string $email = '',
         SchemeIdentifier|string $schemeIdentifier = '0009',
         public ?string $legalRegistrationIdentifier = null,
         /** @var array<string> */
         public ?array $identifiers = null,
         public ?array $globalIndetifiers = null,
-        public ?string $buyerReference = null
+        public ?string $vatIdentifier = null,
+        public ?string $buyerReference = null,
+        public ?string $accountingReference = null
     ) {
-        $this->schemeIdentifier = $schemeIdentifier instanceof SchemeIdentifier ? $schemeIdentifier->value : $schemeIdentifier;
+        $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
     }
 }
