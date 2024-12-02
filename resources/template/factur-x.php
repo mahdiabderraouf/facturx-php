@@ -94,7 +94,7 @@ use MahdiAbderraouf\FacturX\Models\Seller;
                     <ram:CountryID><?= $seller->countryCode; ?></ram:CountryID>
                 </ram:PostalTradeAddress>
                 <ram:SpecifiedTaxRegistration>
-                    <ram:ID schemeID="<?= $seller->taxSchemeIdentifier; ?>"><?= $seller->vatIndetifier; ?></ram:ID>
+                    <ram:ID schemeID="VA"><?= $seller->vatIndetifier; ?></ram:ID>
                 </ram:SpecifiedTaxRegistration>
             </ram:SellerTradeParty>
             <ram:BuyerTradeParty>

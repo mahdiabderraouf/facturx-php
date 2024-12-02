@@ -19,7 +19,7 @@ class Generator
 {
     /**
      * Generate Factur-X PDF
-     * 
+     *
      * @param array<array> $attachments additional attachments:
      *      - string 'file': The file path.
      *      - ?string 'filename': Alternative file name defaults to given file basename.
