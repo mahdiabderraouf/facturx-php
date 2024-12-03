@@ -8,25 +8,25 @@ use MahdiAbderraouf\FacturX\Models\Invoice;
  */
 
 if ($invoice->payterm) {
-?>
+    ?>
     <ram:SpecifiedTradePaymentTerms>
         <?php
         if ($invoice->payterm->paymentTerms) {
-        ?>
+            ?>
             <ram:Description><?= $invoice->payterm->paymentTerms; ?></ram:Description>
-        <?php
+            <?php
         }
         if ($invoice->payterm->dueDate) {
-        ?>
+            ?>
             <ram:DueDateDateTime>
                 <udt:DateTimeString format="102"><?= DateFormat102::toFormat102($invoice->payterm->dueDate); ?></udt:DateTimeString>
             </ram:DueDateDateTime>
-        <?php
+            <?php
         }
         if ($invoice->payterm->mandateReferenceIdentifier) {
-        ?>
+            ?>
             <ram:DirectDebitMandateID><?= $invoice->payterm->mandateReferenceIdentifier; ?></ram:DirectDebitMandateID>
-    <?php
+            <?php
         }
-    }
-    ?>
+}
+?>

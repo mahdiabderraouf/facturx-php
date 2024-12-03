@@ -9,26 +9,26 @@ use MahdiAbderraouf\FacturX\Models\Invoice;
  */
 
 if ($isAtLeastBasicWL && ($invoice->invoicingPeriodStartDate || $invoice->invoicingPeriodEndDate)) {
-?>
+    ?>
     <ram:BillingSpecifiedPeriod>
         <?php
         if ($invoice->invoicingPeriodStartDate) {
-        ?>
+            ?>
             ?>
             <ram:StartDateTime>
                 <udt:DateTimeString format="102"><?= DateFormat102::toFormat102($invoice->invoicingPeriodStartDate); ?></udt:DateTimeString>
             </ram:StartDateTime>
-        <?php
+            <?php
         }
 
         if ($invoice->invoicingPeriodEndDate) {
-        ?>
+            ?>
             <ram:EndDateTime>
                 <udt:DateTimeString format="102"><?= DateFormat102::toFormat102($invoice->invoicingPeriodEndDate); ?></udt:DateTimeString>
             </ram:EndDateTime>
-        <?php
+            <?php
         }
         ?>
     </ram:BillingSpecifiedPeriod>
-<?php
+    <?php
 }

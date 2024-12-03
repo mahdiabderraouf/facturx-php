@@ -19,14 +19,14 @@ use MahdiAbderraouf\FacturX\Models\Seller;
 
     if ($isAtLeastBasicWL) {
         foreach ($seller->identifiers as $identifier) {
-    ?>
+            ?>
             <ram:ID><?= $identifier; ?></ram:ID>
-        <?php
+            <?php
         }
         foreach ($seller->globalIndetifiers as $globalIdentifier) {
-        ?>
+            ?>
             <ram:GlobalID schemeID="<?= Utils::stringOrEnumToString($globalIdentifier['schemeIdentifier']); ?>"><?= $globalIdentifier['identifier']; ?></ram:GlobalID>
-    <?php
+            <?php
         }
     }
     ?>
@@ -34,70 +34,69 @@ use MahdiAbderraouf\FacturX\Models\Seller;
     <?php
     $addTradingName = $seller->tradingName && $isAtLeastBasicWL;
     if ($seller->legalRegistrationIdentifier || $addTradingName) {
-    ?>
+        ?>
         <ram:SpecifiedLegalOrganization>
             <?php
             if ($seller->legalRegistrationIdentifier) {
-            ?>
+                ?>
                 <ram:ID schemeID="<?= $seller->schemeIdentifier; ?>"><?= $seller->legalRegistrationIdentifier; ?></ram:ID>
-            <?php
+                <?php
             }
             if ($addTradingName) {
-            ?>
+                ?>
                 <ram:TradingBusinessName><?= $seller->tradingName; ?></ram:TradingBusinessName>
-            <?php
+                <?php
             }
             ?>
         </ram:SpecifiedLegalOrganization>
-    <?php
+        <?php
     }
     ?>
     <ram:PostalTradeAddress>
         <ram:CountryID><?= $seller->address->countryCode; ?></ram:CountryID>
         <?php
         if ($isAtLeastBasicWL) {
-
             if ($seller->address->postCode) {
-        ?>
+                ?>
                 <ram:PostcodeCode><?= $seller->address->postCode; ?></ram:PostcodeCode>
-            <?php
+                <?php
             }
             if ($seller->address->address1) {
-            ?>
+                ?>
                 <ram:LineOne><?= $seller->address->address1; ?></ram:LineOne>
-            <?php
+                <?php
             }
             if ($seller->address->address2) {
-            ?>
+                ?>
                 <ram:LineTwo><?= $seller->address->address2; ?></ram:LineTwo>
-            <?php
+                <?php
             }
             if ($seller->address->address3) {
-            ?>
+                ?>
                 <ram:LineThree><?= $seller->address->address3; ?></ram:LineThree>
-            <?php
+                <?php
             }
             if ($seller->address->city) {
-            ?>
+                ?>
                 <ram:CityName><?= $seller->address->city; ?></ram:CityName>
-            <?php
+                <?php
             }
             if ($seller->address->province) {
-            ?>
+                ?>
                 <ram:CountrySubDivisionName><?= $seller->address->province; ?></ram:CountrySubDivisionName>
-            <?php
+                <?php
             }
             if ($seller->address->province) {
-            ?>
+                ?>
                 <ram:CountrySubDivisionName><?= $seller->address->province; ?></ram:CountrySubDivisionName>
-            <?php
+                <?php
             }
             if ($seller->email) {
-            ?>
+                ?>
                 <ram:URIUniversalCommunication>
                     <ram:URIId schemeID="<?= SchemeIdentifier::EMAIL; ?>"><?= $seller->email; ?></ram:URIId>
                 </ram:URIUniversalCommunication>
-        <?php
+                <?php
             }
         }
         ?>

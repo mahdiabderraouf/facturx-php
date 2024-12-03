@@ -8,46 +8,46 @@ use MahdiAbderraouf\FacturX\Models\Seller;
  */
 
 if ($isAtLeastBasicWL && $seller->taxRepresentativeName) {
-?>
+    ?>
     <ram:SellerTaxRepresentativeTradeParty>
         <ram:Name><?= $seller->taxRepresentativeName; ?></ram:Name>
         <ram:PostalTradeAddress>
             <ram:CountryID><?= $seller->taxRepresentativeaddress->countryCode; ?></ram:CountryID>
             <?php
             if ($seller->taxRepresentativeaddress->postCode) {
-            ?>
+                ?>
                 <ram:PostcodeCode><?= $seller->taxRepresentativeaddress->postCode; ?></ram:PostcodeCode>
-            <?php
+                <?php
             }
             if ($seller->taxRepresentativeaddress->address1) {
-            ?>
+                ?>
                 <ram:LineOne><?= $seller->taxRepresentativeaddress->address1; ?></ram:LineOne>
-            <?php
+                <?php
             }
             if ($seller->taxRepresentativeaddress->address2) {
-            ?>
+                ?>
                 <ram:LineTwo><?= $seller->taxRepresentativeaddress->address2; ?></ram:LineTwo>
-            <?php
+                <?php
             }
             if ($seller->taxRepresentativeaddress->address3) {
-            ?>
+                ?>
                 <ram:LineThree><?= $seller->taxRepresentativeaddress->address3; ?></ram:LineThree>
-            <?php
+                <?php
             }
             if ($seller->taxRepresentativeaddress->city) {
-            ?>
+                ?>
                 <ram:CityName><?= $seller->taxRepresentativeaddress->city; ?></ram:CityName>
-            <?php
+                <?php
             }
             if ($seller->taxRepresentativeaddress->province) {
-            ?>
+                ?>
                 <ram:CountrySubDivisionName><?= $seller->taxRepresentativeaddress->province; ?></ram:CountrySubDivisionName>
-            <?php
+                <?php
             }
             if ($seller->taxRepresentativeaddress->province) {
-            ?>
+                ?>
                 <ram:CountrySubDivisionName><?= $seller->taxRepresentativeaddress->province; ?></ram:CountrySubDivisionName>
-            <?php
+                <?php
             }
             ?>
         </ram:PostalTradeAddress>
@@ -55,5 +55,5 @@ if ($isAtLeastBasicWL && $seller->taxRepresentativeName) {
             <ram:ID schemeID="VA"><?= $seller->taxRepresentativeVatIdentifier; ?></ram:ID>
         </ram:SpecifiedTaxRegistration>
     </ram:SellerTaxRepresentativeTradeParty>
-<?php
+    <?php
 }

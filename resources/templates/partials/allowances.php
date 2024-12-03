@@ -5,38 +5,38 @@
  */
 
 if ($allowances) {
-?>
+    ?>
     <ram:SpecifiedTradeAllowanceCharge>
         <?php
         foreach ($invoice->allowances as $allowance) {
-        ?>
+            ?>
             <ram:ChargeIndicator>
                 <udt:Indicator><?= !$allowance->isAllowance; ?></udt:Indicator>
                 <?php
                 if ($allowance->percentage) {
-                ?>
+                    ?>
                     <ram:CalculationPercent><?= $allowance->percentage; ?></ram:CalculationPercent>
-                <?php
+                    <?php
                 }
 
                 if ($allowance->baseAmount) {
-                ?>
+                    ?>
                     <ram:BasisAmount><?= $allowance->baseAmount; ?></ram:BasisAmount>
-                <?php
+                    <?php
                 }
                 ?>
                 <ram:ActualAmount><?= $allowance->amount; ?></ram:ActualAmount>
 
                 <?php
                 if ($allowance->reasonCode) {
-                ?>
+                    ?>
                     <ram:ReasonCode><?= $allowance->reasonCode; ?></ram:ReasonCode>
-                <?php
+                    <?php
                 }
                 if ($allowance->reason) {
-                ?>
+                    ?>
                     <ram:Reason><?= $allowance->reason; ?></ram:Reason>
-                <?php
+                    <?php
                 }
                 ?>
                 <ram:CategoryTradeTax>
@@ -44,15 +44,15 @@ if ($allowances) {
                     <ram:CategoryCode><?= $allowance->vatCategory->value; ?></ram:CategoryCode>
                     <?php
                     if ($allowance->vatRate) {
-                    ?>
+                        ?>
                         <ram:RateApplicablePercent><?= $allowance->vatRate; ?></ram:RateApplicablePercent>
-                    <?php
+                        <?php
                     }
                     ?>
                 </ram:CategoryTradeTax>
             </ram:ChargeIndicator>
     </ram:SpecifiedTradeAllowanceCharge>
-<?php
+            <?php
         }
-    }
+}
 ?>

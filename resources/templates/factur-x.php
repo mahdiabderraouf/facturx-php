@@ -26,9 +26,9 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
         <ram:ApplicableHeaderTradeAgreement>
             <?php
             if ($buyer->buyerReference) {
-            ?>
+                ?>
                 <ram:BuyerReference><?= $buyer->buyerReference; ?></ram:BuyerReference>
-            <?php
+                <?php
             }
 
             include __DIR__ . '/partials/seller.php';
@@ -38,19 +38,19 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             include __DIR__ . '/partials/tax-representative.php';
 
             if ($invoice->purchaseOrderReference) {
-            ?>
+                ?>
                 <ram:BuyerOrderReferencedDocument>
                     <ram:IssuerAssignedID><?= $invoice->purchaseOrderReference; ?></ram:IssuerAssignedID>
                 </ram:BuyerOrderReferencedDocument>
-            <?php
+                <?php
             }
 
             if ($isAtLeastBasicWL && $seller->contactReference) {
-            ?>
+                ?>
                 <ram:ContractReferencedDocument>
                     <ram:IssuerAssignedID><?= $seller->contactReference; ?></ram:IssuerAssignedID>
                 </ram:ContractReferencedDocument>
-            <?php
+                <?php
             }
             ?>
         </ram:ApplicableHeaderTradeAgreement>
@@ -62,20 +62,19 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             <?php
             if ($isAtLeastBasicWL) {
                 if ($invoice->bankAssignedCreditorIdentifier) {
-            ?>
+                    ?>
                     <ram:CreditorReferenceID><?= $invoice->bankAssignedCreditorIdentifier; ?></ram:CreditorReferenceID>
-                <?php
-
+                    <?php
                 }
                 if ($invoice->remittanceInformation) {
-                ?>
+                    ?>
                     <ram:PaymentReference><?= $invoice->remittanceInformation; ?></ram:PaymentReference>
-                <?php
+                    <?php
                 }
                 if ($invoice->vatAccountingCurrencyCode) {
-                ?>
+                    ?>
                     <ram:TaxCurrencyCode><?= $invoice->vatAccountingCurrencyCode; ?></ram:TaxCurrencyCode>
-            <?php
+                    <?php
                 }
             }
             ?>
@@ -106,9 +105,9 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             include __DIR__ . '/partials/preeceding-invoices.php';
 
             if ($isAtLeastBasicWL && $buyer->accountingReference) {
-            ?>
+                ?>
                 <ram:ReceivableSpecifiedTradeAccountingAccount><?= $buyer->accountingReference; ?></ram:ReceivableSpecifiedTradeAccountingAccount>
-            <?php
+                <?php
             }
             ?>
         </ram:ApplicableHeaderTradeSettlement>

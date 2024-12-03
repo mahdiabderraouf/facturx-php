@@ -8,37 +8,37 @@ use MahdiAbderraouf\FacturX\Models\Invoice;
  */
 
 if ($isAtLeastBasicWL && $invoice->payment) {
-?>
+    ?>
     <ram:SpecifiedTradeSettlementPaymentMeans>
         <ram:TypeCode><?= $invoice->payment->paymentMeansTypeCode; ?></ram:TypeCode>
         <?php
         if ($invoice->payment->debitedAccountIdentifier) {
-        ?>
+            ?>
             <ram:PayerPartyDebtorFinancialAccount>
                 <ram:IBANID><?= $invoice->payment->paymentMeansTypeCode; ?></ram:IBANID>
             </ram:PayerPartyDebtorFinancialAccount>
-        <?php
+            <?php
         }
         if ($invoice->payment->paymentAccountIdentifier || $invoice->payment->nationalAccountNumber) {
-        ?>
+            ?>
             <ram:PayeePartyCreditorFinancialAccount>
                 <?php
 
                 if ($invoice->payment->debitedAccountIdentifier) {
-                ?>
+                    ?>
                     <ram:IBANID><?= $invoice->payment->debitedAccountIdentifier; ?></ram:IBANID>
-                <?php
+                    <?php
                 }
                 if ($invoice->payment->nationalAccountNumber) {
-                ?>
+                    ?>
                     <ram:ProprietaryID><?= $invoice->payment->nationalAccountNumber; ?></ram:ProprietaryID>
-                <?php
+                    <?php
                 }
                 ?>
             </ram:PayeePartyCreditorFinancialAccount>
-        <?php
+            <?php
         }
         ?>
     </ram:SpecifiedTradeSettlementPaymentMeans>
-<?php
+    <?php
 }

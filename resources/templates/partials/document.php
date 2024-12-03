@@ -17,12 +17,12 @@ use MahdiAbderraouf\FacturX\Models\Invoice;
     </ram:IssueDateTime>
     <?php
     if ($isAtLeastBasicWL && $invoice->note) {
-    ?>
+        ?>
         <ram:IncludedNote>
             <ram:Content><?= $invoice->note; ?></ram:Content>
             <ram:SubjectCode><?= $invoice->noteSubjectCode; ?></ram:SubjectCode>
         </ram:IncludedNote>
-    <?php
+        <?php
     }
     ?>
 </rsm:ExchangedDocument>

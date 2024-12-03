@@ -11,18 +11,18 @@ use MahdiAbderraouf\FacturX\Models\Invoice;
 <ram:SpecifiedTradeSettlementHeaderMonetarySummation>
     <?php
     if ($isAtLeastBasicWL) {
-    ?>
+        ?>
         <ram:LineTotalAmount><?= $invoice->lineNetAmount; ?></ram:LineTotalAmount>
         <?php
         if ($invoice->chargesSum) {
-        ?>
+            ?>
             <ram:ChargeTotalAmount><?= $invoice->chargesSum; ?></ram:ChargeTotalAmount>
-        <?php
+            <?php
         }
         if ($invoice->allowancesSum) {
-        ?>
+            ?>
             <ram:AllowanceTotalAmount><?= $invoice->allowancesSum; ?></ram:AllowanceTotalAmount>
-    <?php
+            <?php
         }
     }
     ?>
@@ -32,9 +32,9 @@ use MahdiAbderraouf\FacturX\Models\Invoice;
 
     <?php
     if ($isAtLeastBasicWL && $invoice->paidAmount) {
-    ?>
+        ?>
         <ram:TotalPrepaidAmount><?= $invoice->paidAmount; ?></ram:TotalPrepaidAmount>
-    <?php
+        <?php
     }
     ?>
     <ram:DuePayableAmount><?= $invoice->amountDueForPayment; ?></ram:DuePayableAmount>
