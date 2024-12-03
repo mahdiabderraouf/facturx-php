@@ -2,3 +2,4 @@ vendor/
 demo/
 composer.lock
 .vscode
+rector.php

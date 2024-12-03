@@ -77,7 +77,7 @@ class Invoice
         if ($vatAccountingCurrencyCode && strlen($vatAccountingCurrencyCode) !== 3) {
             throw new InvalidArgumentException('$vatAccountingCurrencyCode must be contain 3 characters');
         }
-        $this->vatAccountingCurrencyCode = strtoupper($vatAccountingCurrencyCode);
+        $this->vatAccountingCurrencyCode = strtoupper((string) $vatAccountingCurrencyCode);
     }
 
     public function toXml(): string

@@ -9,7 +9,7 @@ use Throwable;
 class InvalidXmlException extends Exception
 {
     /** @var array<LibXMLError> */
-    private ?array $errors;
+    private readonly ?array $errors;
 
     /**
      * @param  ?array<LibXMLError> $errors

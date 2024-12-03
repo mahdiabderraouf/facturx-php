@@ -10,5 +10,6 @@ class Payterm
         public ?string $paymentTerms = null,
         public ?DateTime $dueDate = null,
         public ?DateTime $mandateReferenceIdentifier = null,
-    ) {}
+    ) {
+    }
 }

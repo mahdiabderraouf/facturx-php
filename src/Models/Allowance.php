@@ -16,5 +16,6 @@ class Allowance
         public ?float $baseAmount = null,
         public ?string $reasonCode = null,
         public ?string $reason = null
-    ) {}
+    ) {
+    }
 }

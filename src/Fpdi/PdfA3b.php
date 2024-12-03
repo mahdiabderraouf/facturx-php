@@ -17,7 +17,7 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
  */
 class PdfA3b extends Fpdi
 {
-    private string $pdfPath;
+    private readonly string $pdfPath;
     private array $attachments = [];
     private string $xmp;
     private string $pdfId;
@@ -146,7 +146,7 @@ class PdfA3b extends Fpdi
     {
         parent::writePdfType($value);
 
-        if ($value instanceof PdfIndirectObject && \PHP_EOL !== substr($this->buffer, -1)) {
+        if ($value instanceof PdfIndirectObject && \PHP_EOL !== substr((string) $this->buffer, -1)) {
             $this->_put('');
         }
     }
@@ -245,7 +245,7 @@ class PdfA3b extends Fpdi
         $attachmentsNamesSorted = '';
         $attachments = $this->attachments;
         usort($attachments, function ($a, $b) {
-            return strcmp($a['filename'], $b['filename']);
+            return strcmp((string) $a['filename'], (string) $b['filename']);
         });
 
         foreach ($attachments as $attachment) {

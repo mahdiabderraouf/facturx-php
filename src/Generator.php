@@ -123,11 +123,11 @@ class Generator
 
         foreach ($additionalAttachments as $additionalAttachment) {
             if (!file_exists($additionalAttachment['file'])) {
-                throw new InvalidArgumentException('File ' . ($additionalAttachment['filename'] ?? basename($additionalAttachment['filename'])) . ' don\'t exist.');
+                throw new InvalidArgumentException('File ' . ($additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file'])) . ' don\'t exist.');
             }
             $attachments[] = [
                 'file' => $additionalAttachment['file'],
-                'filename' => $additionalAttachment['filename'] ?? basename($additionalAttachment['filename']),
+                'filename' => $additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file']),
                 'relationship' => $additionalAttachment['relationship']->value ?? AttachmentRelationship::UNSPECIFIED->value,
                 'description' => $additionalAttachment['description'] ?? '',
             ];
