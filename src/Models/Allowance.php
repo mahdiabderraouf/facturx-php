@@ -9,10 +9,10 @@ class Allowance
     public bool $isAllowance = true;
 
     public function __construct(
+        public float $amount,
         public VatCategory $vatCategory,
-        public VatCategory $vatRate,
+        public ?float $vatRate = null,
         public ?float $percentage = null,
-        public ?float $amount = null,
         public ?float $baseAmount = null,
         public ?string $reasonCode = null,
         public ?string $reason = null

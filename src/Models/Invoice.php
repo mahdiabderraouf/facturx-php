@@ -8,10 +8,7 @@ use MahdiAbderraouf\FacturX\Builder;
 use MahdiAbderraouf\FacturX\Enums\DeliveryLocationSchemeIdentifier;
 use MahdiAbderraouf\FacturX\Enums\InvoiceTypeCode;
 use MahdiAbderraouf\FacturX\Enums\NoteSubjectCode;
-use MahdiAbderraouf\FacturX\Enums\PaymentMeans;
 use MahdiAbderraouf\FacturX\Enums\Profile;
-use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
-use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class Invoice
@@ -61,10 +58,8 @@ class Invoice
         public ?DateTime $invoicingPeriodEndDate = null,
         public ?array $allowances = null,
         public ?array $charges = null,
-        public ?string $paymentTerms = null,
-        public ?DateTime $paymentDueDate = null,
-        public ?DateTime $mandateReferenceIdentifier = null,
-        public ?string $precedingInvoiceReference = null,
+        public ?Payterm $payterm = null,
+        public ?array $precedingInvoices = null,
         public ?DateTime $precedingInvoiceDate = null,
     ) {
         if (strlen($currencyCode) !== 3) {
@@ -88,10 +83,5 @@ class Invoice
     public function toXml(): string
     {
         return Builder::build($this);
-    }
-
-    public function getFormattedIssueDate(): string
-    {
-        return DateFormat102::toFormat102($this->issueDate);
     }
 }

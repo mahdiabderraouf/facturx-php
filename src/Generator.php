@@ -107,6 +107,9 @@ class Generator
         return $xmp;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     private static function buildAttachmentsArray(string $xml, AttachmentRelationship $relationship, array $additionalAttachments = []): array
     {
         $attachments = [
@@ -119,6 +122,9 @@ class Generator
         ];
 
         foreach ($additionalAttachments as $additionalAttachment) {
+            if (!file_exists($additionalAttachment['file'])) {
+                throw new InvalidArgumentException('File ' . ($additionalAttachment['filename'] ?? basename($additionalAttachment['filename'])) . ' don\'t exist.');
+            }
             $attachments[] = [
                 'file' => $additionalAttachment['file'],
                 'filename' => $additionalAttachment['filename'] ?? basename($additionalAttachment['filename']),

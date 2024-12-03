@@ -3,7 +3,6 @@
 namespace MahdiAbderraouf\FacturX;
 
 use DOMDocument;
-use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
@@ -16,7 +15,7 @@ class Validator
      *
      * @param  string $source Path for PDF or XML file or XML string
      *
-     * @throws InvalidArgumentException
+     * @throws UnableToExtractXmlException
      * @throws InvalidXmlException
      */
     public static function validate(string $source, ?Profile $profile = null): string
@@ -43,7 +42,7 @@ class Validator
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws UnableToExtractXmlException
      */
     private static function resolveXml(string $source): string
     {
@@ -51,13 +50,9 @@ class Validator
             return $source;
         }
 
-        try {
-            return Utils::isXmlFile($source) ?
-                file_get_contents($source) :
-                Parser::getXml($source);
-        } catch (UnableToExtractXmlException) {
-            throw new InvalidArgumentException('Invalid argument $source : not a Factur-X file');
-        }
+        return Utils::isXmlFile($source) ?
+            file_get_contents($source) :
+            Parser::getXml($source);
     }
 
     private static function getXsdFilePathByProfile(Profile $profile): string

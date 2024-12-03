@@ -2,6 +2,7 @@
 
 namespace MahdiAbderraouf\FacturX;
 
+use BackedEnum;
 use DOMXPath;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\Profile;
@@ -22,14 +23,14 @@ class Parser
      * @throws NotPdfFileException
      * @throws UnableToExtractXmlException
      */
-    public static function getXml(string $pdfPath, string|array|null $xmlFilename = null): string
+    public static function getXml(string $pdfPath, XmlFilename|array|null $xmlFilename = null): string
     {
         if (!Utils::isPdfFile($pdfPath)) {
             throw new NotPdfFileException('The file ' . $pdfPath . ' is not a PDF file');
         }
 
         $xmlFilename ??= XmlFilename::values();
-        $xmlFilename = is_string($xmlFilename) ? [$xmlFilename] : $xmlFilename;
+        $xmlFilename = $xmlFilename instanceof BackedEnum ? [$xmlFilename->value] : $xmlFilename;
 
         if (!Utils::isValidXmlFilenames($xmlFilename)) {
             throw new InvalidArgumentException('Invalid argument $xmlFilename');
