@@ -15,7 +15,11 @@ use MahdiAbderraouf\FacturX\Models\Seller;
 $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
 ?>
 
-<rsm:CrossIndustryInvoice xmlns:qdt="urn:un:unece:uncefact:data:standard:QualifiedDataType:100" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100" xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<rsm:CrossIndustryInvoice xmlns:qdt="urn:un:unece:uncefact:data:standard:QualifiedDataType:100"
+    xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100"
+    xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100"
+    xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <?php
     include __DIR__ . '/partials/header.php';
 
@@ -27,7 +31,8 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             <?php
             if ($buyer->buyerReference) {
                 ?>
-                <ram:BuyerReference><?= $buyer->buyerReference; ?></ram:BuyerReference>
+                <ram:BuyerReference><?= $buyer->buyerReference; ?>
+                </ram:BuyerReference>
                 <?php
             }
 
@@ -40,7 +45,9 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             if ($invoice->purchaseOrderReference) {
                 ?>
                 <ram:BuyerOrderReferencedDocument>
-                    <ram:IssuerAssignedID><?= $invoice->purchaseOrderReference; ?></ram:IssuerAssignedID>
+                    <ram:IssuerAssignedID>
+                        <?= $invoice->purchaseOrderReference; ?>
+                    </ram:IssuerAssignedID>
                 </ram:BuyerOrderReferencedDocument>
                 <?php
             }
@@ -48,7 +55,9 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             if ($isAtLeastBasicWL && $seller->contactReference) {
                 ?>
                 <ram:ContractReferencedDocument>
-                    <ram:IssuerAssignedID><?= $seller->contactReference; ?></ram:IssuerAssignedID>
+                    <ram:IssuerAssignedID>
+                        <?= $seller->contactReference; ?>
+                    </ram:IssuerAssignedID>
                 </ram:ContractReferencedDocument>
                 <?php
             }
@@ -63,22 +72,29 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
             if ($isAtLeastBasicWL) {
                 if ($invoice->bankAssignedCreditorIdentifier) {
                     ?>
-                    <ram:CreditorReferenceID><?= $invoice->bankAssignedCreditorIdentifier; ?></ram:CreditorReferenceID>
+                    <ram:CreditorReferenceID>
+                        <?= $invoice->bankAssignedCreditorIdentifier; ?>
+                    </ram:CreditorReferenceID>
                     <?php
                 }
                 if ($invoice->remittanceInformation) {
                     ?>
-                    <ram:PaymentReference><?= $invoice->remittanceInformation; ?></ram:PaymentReference>
+                    <ram:PaymentReference>
+                        <?= $invoice->remittanceInformation; ?>
+                    </ram:PaymentReference>
                     <?php
                 }
                 if ($invoice->vatAccountingCurrencyCode) {
                     ?>
-                    <ram:TaxCurrencyCode><?= $invoice->vatAccountingCurrencyCode; ?></ram:TaxCurrencyCode>
+                    <ram:TaxCurrencyCode>
+                        <?= $invoice->vatAccountingCurrencyCode; ?>
+                    </ram:TaxCurrencyCode>
                     <?php
                 }
             }
             ?>
-            <ram:InvoiceCurrencyCode><?= $invoice->currencyCode; ?></ram:InvoiceCurrencyCode>
+            <ram:InvoiceCurrencyCode><?= $invoice->currencyCode; ?>
+            </ram:InvoiceCurrencyCode>
 
             <?php
 
@@ -106,7 +122,9 @@ $isAtLeastBasicWL = $profile->isAtLeast(Profile::BASIC_WL);
 
             if ($isAtLeastBasicWL && $buyer->accountingReference) {
                 ?>
-                <ram:ReceivableSpecifiedTradeAccountingAccount><?= $buyer->accountingReference; ?></ram:ReceivableSpecifiedTradeAccountingAccount>
+                <ram:ReceivableSpecifiedTradeAccountingAccount>
+                    <?= $buyer->accountingReference; ?>
+                </ram:ReceivableSpecifiedTradeAccountingAccount>
                 <?php
             }
             ?>
