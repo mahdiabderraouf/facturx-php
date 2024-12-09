@@ -82,6 +82,7 @@ class Invoice
 
     public function toXml(): string
     {
-        return Builder::build($this);
+        return (new Builder($this))
+            ->build($this);
     }
 }
