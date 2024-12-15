@@ -16,7 +16,7 @@ class ExchangedDocument
             $includedNote = <<<XML
             <ram:IncludedNote>
                 <ram:Content>{$invoice->note}</ram:Content>
-                <ram:SubjectCode>{$invoice->noteSubjectCode}</ram:SubjectCode>
+                <ram:SubjectCode>{$invoice->noteSubjectCode->value}</ram:SubjectCode>
             </ram:IncludedNote>
             XML;
         }
