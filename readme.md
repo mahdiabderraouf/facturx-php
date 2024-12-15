@@ -1,7 +1,7 @@
 # Factur-X PHP
 
 ## About
-A PHP package for managing Factur-x/ZUGFeRD compliant PDF invoices.
+A PHP library for managing Factur-x/ZUGFeRD compliant PDF invoices.
 
 ---
 
