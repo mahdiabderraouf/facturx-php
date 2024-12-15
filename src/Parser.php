@@ -3,7 +3,6 @@
 namespace MahdiAbderraouf\FacturX;
 
 use BackedEnum;
-use DOMXPath;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;

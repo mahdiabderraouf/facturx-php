@@ -13,8 +13,7 @@ $profile = Profile::MINIMUM;
 $pdf = '/path/to/invoice.pdf';
 
 try {
-    $pdfString = Validator::validate(
-        // path or PDF string
+    Validator::validate(
         $pdf,
 
         // You can precise the wanted profile

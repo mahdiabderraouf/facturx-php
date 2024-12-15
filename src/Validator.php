@@ -18,7 +18,7 @@ class Validator
      * @throws UnableToExtractXmlException
      * @throws InvalidXmlException
      */
-    public static function validate(string $source, ?Profile $profile = null): string
+    public static function validate(string $source, ?Profile $profile = null): bool
     {
         $xml = self::resolveXml($source);
 
