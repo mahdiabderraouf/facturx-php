@@ -120,6 +120,8 @@ try {
 ### Generate a Factur-X PDF
 Using the static method `Generator::generate` you can embed an XML into a PDF file to generate a Factur-X file.
 
+To ensure the integrity of every Factur-X file, the XML is validated before being embedded, so there is no need to validate it beforehand.
+
 Please note about attachment relationship:
 - The only relationships that can be used for the XML file are `Data`, `Source` and `Alternative`.
 - In Germany the only relationship allowed is `Alternative`.
@@ -139,8 +141,8 @@ try {
     $pdfString = Generator::generate(
         // path or PDF string
         '/path/to/Invoice.pdf',
-        // XML string or path
-        $invoice->toXml(),
+        // Invoice, XML string or path
+        $invoice,
 
         // optional
         AttachmentRelationship::DATA, // default one

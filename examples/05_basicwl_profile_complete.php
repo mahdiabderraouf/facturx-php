@@ -2,93 +2,188 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use MahdiAbderraouf\FacturX\Enums\AttachmentRelationship;
+use MahdiAbderraouf\FacturX\Generator;
+use MahdiAbderraouf\FacturX\Enums\Profile;
+use MahdiAbderraouf\FacturX\Models\Invoice;
+use MahdiAbderraouf\FacturX\Enums\VatCategory;
+use MahdiAbderraouf\FacturX\Enums\PaymentMeans;
 use MahdiAbderraouf\FacturX\Enums\InvoiceTypeCode;
 use MahdiAbderraouf\FacturX\Enums\NoteSubjectCode;
-use MahdiAbderraouf\FacturX\Enums\PaymentMeans;
-use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
-use MahdiAbderraouf\FacturX\Enums\VatCategory;
+use MahdiAbderraouf\FacturX\Enums\AttachmentRelationship;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
-use MahdiAbderraouf\FacturX\Generator;
-use MahdiAbderraouf\FacturX\Models\Address;
-use MahdiAbderraouf\FacturX\Models\Buyer;
-use MahdiAbderraouf\FacturX\Models\Invoice;
-use MahdiAbderraouf\FacturX\Models\Payee;
-use MahdiAbderraouf\FacturX\Models\Payment;
-use MahdiAbderraouf\FacturX\Models\Payterm;
-use MahdiAbderraouf\FacturX\Models\Seller;
-use MahdiAbderraouf\FacturX\Models\TaxRespresentative;
-use MahdiAbderraouf\FacturX\Models\VatBreakdown;
+use MahdiAbderraouf\FacturX\Enums\DeliveryLocationSchemeIdentifier;
 
 $profile = Profile::BASIC_WL;
 
-$invoice = new Invoice(
-    $profile,
-    'F-2024-12-15-0001',
-    InvoiceTypeCode::COMMERCIAL_INVOICE,
-    new DateTime(),
-    80,
-    20,
-    100,
-    50,
-    new Buyer(
-        'Buyer name',
-        new Address('FR', '83210', '25 rue de test', 'Bat 7'),
-        'buyer@email.com',
-        legalRegistrationIdentifier: 'SIRET-BUYER',
-        identifiers: ['B-2514', 'EXT-2541'],
-        globalIndetifiers: [
-            [
-                'identifier' => 'GLOBAL-IDENTIGIER-BUYER',
-                'schemeIdentifier' => SchemeIdentifier::SIREN
-            ],
-            // other global identifiers
+$invoice = Invoice::createFromArray([
+    // Profile and Basic Information
+    'profile' => Profile::BASIC_WL,
+    'number' => 'F-2024-12-15-0002',
+    'typeCode' => InvoiceTypeCode::COMMERCIAL_INVOICE,
+    'issueDate' => new DateTime(),
+
+    // Invoice totals
+    'totalAmountWithoutVAT' => 500.00,
+    'totalVATAmount' => 100.00,
+    'totalAmountWithVAT' => 600.00,
+    'amountDueForPayment' => 600.00,
+    'lineNetAmount' => 500.00,
+    'paidAmount' => 600.00,
+
+    // Buyer Information
+    'buyer' => [
+        'name' => 'John Doe Inc.',
+        'address' => [
+            'countryCode' => 'FR',
+            'postCode' => '75001',
+            'address1' => '1 Rue de Paris',
+            'city' => 'Paris',
+            'province' => 'Ile-de-France',
         ],
-        vatIdentifier: 'FR21514164516451',
-        buyerReference: 'REF-125',
-        accountingReference: 'ACCOUNTING-REF'
-    ),
-    new Seller(
-        'Seller name',
-        'FR2151481365',
-        new Address('FR', '83210', '25 rue de test', 'Bat 7'),
-        'seller@email.com',
-        legalRegistrationIdentifier: 'SIRET-SELLER',
-        identifiers: ['S-1518'],
-        globalIndetifiers: [
+        'email' => 'johndoe@email.com',
+        'legalRegistrationIdentifier' => 'SIRET-BUYER-12345',
+        'identifiers' => ['B-1001'],
+        'globalIndetifiers' => [
             [
-                'identifier' => 'GLOBAL-IDENTIGIER-SELLER',
+                'identifier' => 'GLOBAL-IDENTIFIER-BUYER',
                 'schemeIdentifier' => SchemeIdentifier::SIREN
-            ],
-            // other global identifiers
+            ]
         ],
-        tradingName: 'SELLER TRADING NAME',
-        taxRespresentative: new TaxRespresentative('Tax representative name', 'FR232554', new Address('FR')),
-    ),
-    lineNetAmount: 80,
-    paidAmount: 50.00,
-    purchaseOrderReference: 'PO-2024000015',
-    contractReference: 'contract reference',
-    note: 'This is a comment',
-    noteSubjectCode: NoteSubjectCode::GENERAL_INFORMATION,
-    bankAssignedCreditorIdentifier: 'creditor id',
-    remittanceInformation: 'payment ref',
-    vatAccountingCurrencyCode: 'EUR',
-    payee: new Payee('Payee name'),
-    payment: new Payment(PaymentMeans::SPECIES, 'account id'),
-    vatBreakdowns: [new VatBreakdown(15, 80, VatCategory::STANDARD_RATE, 20.00)],
-    invoicingPeriodStartDate: new DateTime('2024-01-01'),
-    invoicingPeriodEndDate: new DateTime('2024-12-31'),
-    payterm: new Payterm('custom', new DateTime('2024-12-22')),
-    precedingInvoices: [
+        'vatIdentifier' => 'FR21514164516451',
+        'buyerReference' => 'BUYER-REF-1001',
+        'accountingReference' => 'ACCT-1001'
+    ],
+
+    // Seller Information
+    'seller' => [
+        'name' => 'ACME Corp.',
+        'vatIdentifier' => 'FR2151481365',
+        'address' => [
+            'countryCode' => 'FR',
+            'postCode' => '69001',
+            'address1' => '5 Rue des Alpes',
+            'city' => 'Lyon',
+            'province' => 'Auvergne-Rhône-Alpes',
+        ],
+        'email' => 'sales@acmecorp.com',
+        'legalRegistrationIdentifier' => 'SIRET-SELLER-67890',
+        'identifiers' => ['S-2001'],
+        'globalIndetifiers' => [
+            [
+                'identifier' => 'GLOBAL-IDENTIFIER-SELLER',
+                'schemeIdentifier' => SchemeIdentifier::SIREN
+            ]
+        ],
+        'tradingName' => 'ACME CORPORATION',
+        'taxRespresentative' => [
+            'name' => 'Tax Representative',
+            'vatIdentifier' => 'FR232554',
+            'address' => [
+                'countryCode' => 'FR',
+                'postCode' => '75001',
+                'address1' => '1 Rue de Paris',
+                'city' => 'Paris',
+                'province' => 'Ile-de-France',
+            ]
+        ]
+    ],
+
+    // Note (comment)
+    'note' => 'Payment due within 30 days.',
+    'noteSubjectCode' => NoteSubjectCode::GENERAL_INFORMATION,
+
+    'purchaseOrderReference' => 'PO-2024000111',
+
+    'contractReference' => 'Contract-001',
+
+    'vatAccountingCurrencyCode' => 'EUR',
+
+    // Payee and Payment Information
+    'bankAssignedCreditorIdentifier' => 'BANK-12345',
+    'remittanceInformation' => 'Invoice F-2024-12-15-0002',
+    'payee' => [
+        'name' => 'ACME Corp. Payments',
+        'identifier' => 'PAYEE-1001',
+        'globalIdentifier' => 'GLOBAL-PAYEE-ID',
+        'globalIdentifierSchemeIdentifier' => '003',
+        'legalRegistrationIdentifier' => 'REG-PAYEE-1001',
+        'legalRegistrationSchemeIdentifier' => '004',
+    ],
+    'payment' => [
+        'paymentMeansTypeCode' => PaymentMeans::CHECK,
+        'debitedAccountIdentifier' => 'account-12345',
+        'paymentAccountIdentifier' => 'payment-67890',
+        'nationalAccountNumber' => '9876543210',
+    ],
+
+    // VAT Breakdown
+    'vatBreakdowns' => [
+        [
+            'vatCategoryTaxAmount' => 100.00,
+            'vatCategoryTaxableAmount' => 500.00,
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'percentage' => 20.00,
+        ]
+    ],
+
+    // Invoicing Period
+    'invoicingPeriodStartDate' => new DateTime('2024-01-01'),
+    'invoicingPeriodEndDate' => new DateTime('2024-12-31'),
+
+    // Payment Terms
+    'payterm' => [
+        'paymentTerms' => 'Net 30',
+        'dueDate' => new DateTime('2025-01-14'),
+    ],
+
+    // Preceding Invoices
+    'precedingInvoices' => [
         [
             'reference' => 'F-2024-11-15-0001',
             'issueDate' => new DateTime('2024-11-15')
+        ]
+    ],
+
+    // Charges
+    'charges' => [
+        [
+            'amount' => 50.00,
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'vatRate' => 5.5,
+            'reasonCode' => 'CHARGE-001',
+            'reason' => 'Shipping cost'
+        ]
+    ],
+
+    // Allowances
+    'allowances' => [
+        [
+            'amount' => 20.00,
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'percentage' => 5.00,
+            'reasonCode' => 'ALLOWANCE-001',
+            'reason' => 'Discount'
+        ]
+    ],
+
+    // Delivery Information
+    'delivery' => [
+        'locationIdentifier' => 'LOC-1234',
+        'locationGlobalIdentifier' => 'GLOBAL-LOC-5678',
+        'locationSchemeIdentifier' => DeliveryLocationSchemeIdentifier::DISTRIBUTOR,
+        'partyName' => 'John Doe Inc.',
+        'address' => [
+            'countryCode' => 'FR',
+            'postCode' => '75001',
+            'address1' => '1 Rue de Paris',
+            'city' => 'Paris',
+            'province' => 'Ile-de-France',
         ],
-        // older preceding invoices
+        'actualDeliveryDate' => new DateTime('2024-12-10'),
+        'issuerAssignedID' => 'ISSUER-12345'
     ]
-);
+]);
 
 try {
     // The only relationship allowed for minimum profile is Data which is the default one
