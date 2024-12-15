@@ -6,7 +6,7 @@ use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class GlobalIdentifiers
 {
-    public static function build(?array $globalIdentifiers, bool $isAtLeastBasicWl = false): string
+    public static function build(?array $globalIdentifiers, bool $isAtLeastBasicWl): string
     {
         if (!$globalIdentifiers) {
             return '';

@@ -13,7 +13,7 @@ class SellerTaxRepresentativeTradeParty
 
             $xml .= '<ram:Name>' . $taxRespresentative->name . '</ram:Name>';
 
-            $xml .= PostalTradeAddress::build($taxRespresentative->address);
+            $xml .= PostalTradeAddress::build($taxRespresentative->address, $isAtLeastBasicWl);
 
             $xml .= SpecifiedTaxRegistration::build($taxRespresentative->vatIdentifier);
 

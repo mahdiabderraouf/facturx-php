@@ -6,7 +6,7 @@ use MahdiAbderraouf\FacturX\Models\Buyer;
 
 class BuyerTradeParty
 {
-    public static function build(Buyer $buyer, bool $isAtLeastBasicWl = false): string
+    public static function build(Buyer $buyer, bool $isAtLeastBasicWl): string
     {
         if (!$buyer) {
             return '';
@@ -21,11 +21,11 @@ class BuyerTradeParty
             $xml .= '<ram:Name>' . $buyer->name . '</ram:Name>';
         }
 
-        $xml .= SpecifiedLegalOrganization::build($buyer->legalRegistrationIdentifier);
+        $xml .= SpecifiedLegalOrganization::build($isAtLeastBasicWl, $buyer->legalRegistrationIdentifier, $buyer->schemeIdentifier);
 
         if ($isAtLeastBasicWl) {
             $xml .= PostalTradeAddress::build($buyer->address, $isAtLeastBasicWl);
-            $xml .= Email::build($buyer->email, $isAtLeastBasicWl);
+            $xml .= Email::build($isAtLeastBasicWl, $buyer->email);
             $xml .= SpecifiedTaxRegistration::build($buyer->vatIdentifier);
         }
 

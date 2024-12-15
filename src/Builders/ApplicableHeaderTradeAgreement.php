@@ -17,12 +17,12 @@ class ApplicableHeaderTradeAgreement
         }
 
         $xml .= SellerTradeParty::build($invoice->seller, $isAtLeastBasicWl);
-        $xml .= BuyerTradeParty::build($invoice->buyer);
+        $xml .= BuyerTradeParty::build($invoice->buyer, $isAtLeastBasicWl);
 
         $xml .= SellerTaxRepresentativeTradeParty::build($invoice->seller->taxRespresentative, $isAtLeastBasicWl);
 
         $xml .= BuyerOrderReferencedDocument::build($invoice->purchaseOrderReference);
-        $xml .= ContractReferencedDocument::build($invoice->contractRefernce, $isAtLeastBasicWl);
+        $xml .= ContractReferencedDocument::build($invoice->contractReference, $isAtLeastBasicWl);
 
         $xml .= '</ram:ApplicableHeaderTradeAgreement>';
 

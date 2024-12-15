@@ -26,7 +26,7 @@ class ShipToTradeParty
         }
 
         if ($delivery->address) {
-            $xml .= PostalTradeAddress::build($delivery->address);
+            $xml .= PostalTradeAddress::build($delivery->address, $isAtLeastBasicWl);
         }
 
         $xml .= '</ram:ShipToTradeParty>';

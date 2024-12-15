@@ -20,4 +20,17 @@ class Address
         }
         $this->countryCode = strtoupper($countryCode);
     }
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            countryCode: $data['countryCode'],
+            postCode: $data['postCode'] ?? '',
+            address1: $data['address1'] ?? '',
+            address2: $data['address2'] ?? '',
+            address3: $data['address3'] ?? '',
+            city: $data['city'] ?? '',
+            province: $data['province'] ?? ''
+        );
+    }
 }

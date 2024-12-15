@@ -39,7 +39,7 @@ class Invoice
         public ?float $allowancesSum = null,
         public ?float $paidAmount = null,
         public ?string $purchaseOrderReference = null,
-        public ?string $contractRefernce = null,
+        public ?string $contractReference = null,
         public ?string $note = null,
         public ?NoteSubjectCode $noteSubjectCode = NoteSubjectCode::GENERAL_INFORMATION,
         public ?Delivery $delivery = null,
@@ -55,7 +55,6 @@ class Invoice
         public ?array $charges = null,
         public ?Payterm $payterm = null,
         public ?array $precedingInvoices = null,
-        public ?DateTime $precedingInvoiceDate = null,
     ) {
         if (strlen($currencyCode) !== 3) {
             throw new InvalidArgumentException('$currencyCode must be contain 3 characters');
@@ -73,6 +72,46 @@ class Invoice
             throw new InvalidArgumentException('$vatAccountingCurrencyCode must be contain 3 characters');
         }
         $this->vatAccountingCurrencyCode = strtoupper((string) $vatAccountingCurrencyCode);
+    }
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            profile: $data['profile'],
+            number: $data['number'],
+            typeCode: $data['typeCode'],
+            issueDate: $data['issueDate'],
+            totalAmountWithoutVAT: $data['totalAmountWithoutVAT'],
+            totalVATAmount: $data['totalVATAmount'],
+            totalAmountWithVAT: $data['totalAmountWithVAT'],
+            amountDueForPayment: $data['amountDueForPayment'],
+            buyer: Buyer::createFromArray($data['buyer']),
+            seller: Seller::createFromArray($data['seller']),
+            businessProcessType: $data['businessProcessType'] ?? 'A1',
+            currencyCode: $data['currencyCode'] ?? 'EUR',
+            vatCurrency: $data['vatCurrency'] ?? 'EUR',
+            lineNetAmount: $data['lineNetAmount'] ?? null,
+            chargesSum: $data['chargesSum'] ?? null,
+            allowancesSum: $data['allowancesSum'] ?? null,
+            paidAmount: $data['paidAmount'] ?? null,
+            purchaseOrderReference: $data['purchaseOrderReference'] ?? null,
+            contractReference: $data['contractReference'] ?? null,
+            note: $data['note'] ?? null,
+            noteSubjectCode: $data['noteSubjectCode'] ?? NoteSubjectCode::GENERAL_INFORMATION,
+            delivery: isset($data['delivery']) ? Delivery::createFromArray($data['delivery']) : null,
+            bankAssignedCreditorIdentifier: $data['bankAssignedCreditorIdentifier'] ?? '',
+            remittanceInformation: $data['remittanceInformation'] ?? '',
+            vatAccountingCurrencyCode: $data['vatAccountingCurrencyCode'] ?? '',
+            payee: isset($data['payee']) ? Payee::createFromArray($data['payee']) : null,
+            payment: isset($data['payment']) ? Payment::createFromArray($data['payment']) : null,
+            vatBreakdowns: isset(($data['vatBreakdowns'])) ? array_map([VatBreakdown::class, 'createFromArray'], $data['vatBreakdowns']) : null,
+            invoicingPeriodStartDate: $data['invoicingPeriodStartDate'] ?? null,
+            invoicingPeriodEndDate: $data['invoicingPeriodEndDate'] ?? null,
+            allowances: isset(($data['allowances'])) ? array_map([Allowance::class, 'createFromArray'], $data['allowances']) : null,
+            charges: isset(($data['charges'])) ? array_map([Charge::class, 'createFromArray'], $data['charges']) : null,
+            payterm: isset($data['payterm']) ? Payterm::createFromArray($data['payterm']) : null,
+            precedingInvoices: $data['precedingInvoices'] ?? null
+        );
     }
 
     public function toXml(): string

@@ -9,9 +9,9 @@ class ReceivableSpecifiedTradeAccountingAccount
         $xml = '';
 
         if ($isAtLeastBasicWl && $buyerAccountingReference) {
-            $xml .= '<ram:ReceivableSpecifiedTradeAccountingAccount>';
-            $xml .= $buyerAccountingReference;
-            $xml .= '</ram:ReceivableSpecifiedTradeAccountingAccount>';
+            $xml .= '<ram:ReceivableSpecifiedTradeAccountingAccount>' .
+                '<ram:ID>' . $buyerAccountingReference . '</ram:ID>' .
+                '</ram:ReceivableSpecifiedTradeAccountingAccount>';
         }
 
         return $xml;

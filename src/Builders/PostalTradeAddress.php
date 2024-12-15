@@ -6,10 +6,9 @@ use MahdiAbderraouf\FacturX\Models\Address;
 
 class PostalTradeAddress
 {
-    public static function build(Address $address, bool $isAtLeastBasicWl = false): string
+    public static function build(Address $address, bool $isAtLeastBasicWl): string
     {
         $xml = '<ram:PostalTradeAddress>';
-        $xml .= '<ram:CountryID>' . $address->countryCode . '</ram:CountryID>';
 
         if ($isAtLeastBasicWl) {
             if ($address->postCode) {
@@ -27,6 +26,10 @@ class PostalTradeAddress
             if ($address->city) {
                 $xml .= '<ram:CityName>' . $address->city . '</ram:CityName>';
             }
+        }
+
+        $xml .= '<ram:CountryID>' . $address->countryCode . '</ram:CountryID>';
+        if ($isAtLeastBasicWl) {
             if ($address->province) {
                 $xml .= '<ram:CountrySubDivisionName>' . $address->province . '</ram:CountrySubDivisionName>';
             }

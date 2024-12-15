@@ -4,7 +4,7 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class Identifiers
 {
-    public static function build(?array $identifiers, bool $isAtLeastBasicWl = false): string
+    public static function build(?array $identifiers, bool $isAtLeastBasicWl): string
     {
         if (!$identifiers) {
             return '';

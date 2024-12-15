@@ -17,14 +17,17 @@ class PayeeTradeParty
         $xml .= Identifiers::build([$payee->identifier], $isAtLeastBasicWl);
 
         $xml .= GlobalIdentifiers::build([
-            'identifier' => $payee->globalIdentifier,
-            'schemeIdentifier' => $payee->globalIdentifierSchemeIdentifier,
+            [
+                'identifier' => $payee->globalIdentifier,
+                'schemeIdentifier' => $payee->globalIdentifierSchemeIdentifier,
+            ],
         ], $isAtLeastBasicWl);
 
         $xml .= '<ram:Name>' . $payee->name . '</ram:Name>';
 
         if ($payee->legalRegistrationIdentifier) {
             $xml .= SpecifiedLegalOrganization::build(
+                $isAtLeastBasicWl,
                 $payee->legalRegistrationIdentifier,
                 $payee->legalRegistrationSchemeIdentifier
             );

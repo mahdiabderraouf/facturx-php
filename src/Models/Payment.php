@@ -17,4 +17,14 @@ class Payment
     ) {
         $this->paymentMeansTypeCode = Utils::stringOrEnumToString($paymentMeansTypeCode);
     }
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            paymentMeansTypeCode: $data['paymentMeansTypeCode'],
+            debitedAccountIdentifier: $data['debitedAccountIdentifier'] ?? null,
+            paymentAccountIdentifier: $data['paymentAccountIdentifier'] ?? null,
+            nationalAccountNumber: $data['nationalAccountNumber'] ?? null
+        );
+    }
 }

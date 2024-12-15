@@ -16,13 +16,15 @@ class SellerTradeParty
         $xml .= '<ram:Name>' . $seller->name . '</ram:Name>';
 
         $xml .= SpecifiedLegalOrganization::build(
+            $isAtLeastBasicWl,
             $seller->legalRegistrationIdentifier,
+            $seller->schemeIdentifier,
             $seller->tradingName
         );
 
-        $xml .= PostalTradeAddress::build($seller->address);
+        $xml .= PostalTradeAddress::build($seller->address, $isAtLeastBasicWl);
 
-        $xml .= Email::build($seller->email);
+        $xml .= Email::build($isAtLeastBasicWl, $seller->email);
 
         $xml .= SpecifiedTaxRegistration::build($seller->vatIdentifier);
 

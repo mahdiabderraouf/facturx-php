@@ -21,4 +21,16 @@ class Payee
         $this->globalIdentifierSchemeIdentifier = Utils::stringOrEnumToString($globalIdentifierSchemeIdentifier);
         $this->legalRegistrationSchemeIdentifier = Utils::stringOrEnumToString($legalRegistrationSchemeIdentifier);
     }
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            name: $data['name'],
+            identifier: $data['identifier'] ?? '',
+            globalIdentifier: $data['globalIdentifier'] ?? '',
+            globalIdentifierSchemeIdentifier: $data['globalIdentifierSchemeIdentifier'] ?? '',
+            legalRegistrationIdentifier: $data['legalRegistrationIdentifier'] ?? '',
+            legalRegistrationSchemeIdentifier: $data['legalRegistrationSchemeIdentifier'] ?? ''
+        );
+    }
 }

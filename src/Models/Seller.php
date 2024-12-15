@@ -28,4 +28,20 @@ class Seller
     ) {
         $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
     }
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            name: $data['name'],
+            vatIdentifier: $data['vatIdentifier'],
+            address: Address::createFromArray($data['address']),
+            email: $data['email'] ?? '',
+            schemeIdentifier: $data['schemeIdentifier'] ?? '0009',
+            legalRegistrationIdentifier: $data['legalRegistrationIdentifier'] ?? null,
+            identifiers: $data['identifiers'] ?? null,
+            globalIndetifiers: $data['globalIndetifiers'] ?? null,
+            tradingName: $data['tradingName'] ?? null,
+            taxRespresentative: isset($data['taxRespresentative']) ? TaxRespresentative::createFromArray($data['taxRespresentative']) : null,
+        );
+    }
 }

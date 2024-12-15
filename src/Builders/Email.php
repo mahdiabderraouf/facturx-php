@@ -6,15 +6,15 @@ use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
 
 class Email
 {
-    public static function build(?string $email = null, bool $isAtLeastBasicWl = false): string
+    public static function build(bool $isAtLeastBasicWl, ?string $email = null): string
     {
         $xml = '';
 
         if ($isAtLeastBasicWl && $email) {
-            $schemeId = SchemeIdentifier::EMAIL;
+            $schemeId = SchemeIdentifier::EMAIL->value;
             $xml .= <<<XML
             <ram:URIUniversalCommunication>
-                <ram:URIId schemeID="$schemeId">$email</ram:URIId>
+                <ram:URIID schemeID="$schemeId">$email</ram:URIID>
             </ram:URIUniversalCommunication>
             XML;
         }

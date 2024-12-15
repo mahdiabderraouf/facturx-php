@@ -5,10 +5,10 @@ namespace MahdiAbderraouf\FacturX\Builders;
 class SpecifiedLegalOrganization
 {
     public static function build(
+        bool $isAtLeastBasicWl,
         ?string $legalRegistrationIdentifier = null,
         ?string $schemeIdentifier = null,
         ?string $tradingName = null,
-        bool $isAtLeastBasicWl = false
     ): string {
         $xml = '';
 

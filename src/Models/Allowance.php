@@ -16,6 +16,18 @@ class Allowance
         public ?float $baseAmount = null,
         public ?string $reasonCode = null,
         public ?string $reason = null
-    ) {
+    ) {}
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            amount: $data['amount'],
+            vatCategory: $data['vatCategory'],
+            vatRate: $data['vatRate'] ?? null,
+            percentage: $data['percentage'] ?? null,
+            baseAmount: $data['baseAmount'] ?? null,
+            reasonCode: $data['reasonCode'] ?? null,
+            reason: $data['reason'] ?? null
+        );
     }
 }
