@@ -39,15 +39,10 @@ class Invoice
         public ?float $allowancesSum = null,
         public ?float $paidAmount = null,
         public ?string $purchaseOrderReference = null,
+        public ?string $contractRefernce = null,
         public ?string $note = null,
         public ?NoteSubjectCode $noteSubjectCode = NoteSubjectCode::GENERAL_INFORMATION,
-        public ?string $deliverToLocationIdentifier = null,
-        public ?string $deliverToLocationGlobalIdentifier = null,
-        public ?DeliveryLocationSchemeIdentifier $deliverToLocationGlobalIdentifierSchemeIdentifier = null,
-        public ?string $deliverToPartyName = null,
-        public ?Address $deliverToAddress = null,
-        public ?DateTime $actualDeliveryDate = null,
-        public ?string $issuerAssignedID = null,
+        public ?Delivery $delivery = null,
         public ?string $bankAssignedCreditorIdentifier = '',
         public ?string $remittanceInformation = '',
         public ?string $vatAccountingCurrencyCode = '',
@@ -82,7 +77,6 @@ class Invoice
 
     public function toXml(): string
     {
-        return (new Builder($this))
-            ->build($this);
+        return Builder::build($this);
     }
 }

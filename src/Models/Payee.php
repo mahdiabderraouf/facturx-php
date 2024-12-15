@@ -11,7 +11,7 @@ class Payee
     public string $legalRegistrationSchemeIdentifier = '';
 
     public function __construct(
-        public string $name = '',
+        public string $name,
         public ?string $identifier = '',
         public ?string $globalIdentifier = '',
         SchemeIdentifier|string|null $globalIdentifierSchemeIdentifier = '',

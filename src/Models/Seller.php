@@ -24,10 +24,7 @@ class Seller
         public ?array $identifiers = null,
         public ?array $globalIndetifiers = null,
         public ?string $tradingName = null,
-        public ?string $taxRepresentativeName = null,
-        public ?string $taxRepresentativeVatIdentifier = null,
-        public ?Address $taxRepresentativeaddress = null,
-        public ?string $contactReference = null
+        public ?TaxRespresentative $taxRespresentative = null,
     ) {
         $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
     }
