@@ -188,7 +188,7 @@ try {
 ---
 
 ## Documentation
-The full documentation can be found [here](https://github.com/mahdiabderraouf/facturx-php).
+The full documentation can be found [here](documentation).
 
 ---
 
