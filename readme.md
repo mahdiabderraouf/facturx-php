@@ -31,7 +31,7 @@ composer require mahdiabderraouf/facturx-php
 ---
 
 ## Usage
-Here are some quick examples on how to use this this libraray. for advanced usage please refer to the [documentation](https://github.com/mahdiabderraouf/facturx-php)
+Here are some quick examples of usage. For advanced usage please refer to the [documentation](https://github.com/mahdiabderraouf/facturx-php)
 
 ### Generate minimum profile XML
 ```php
