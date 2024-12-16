@@ -10,7 +10,7 @@ class Buyer
     public string $schemeIdentifier = '0009';
 
     /**
-     * @param array<array> $globalIndetifiers Global identifiers when schemeIdentifier is known :
+     * @param array<array> $globalIdentifiers Global identifiers when schemeIdentifier is known :
      *      [['id' => string, 'schemeIdentifier' => SchemeIdentifier|string], ...]
      */
     public function __construct(
@@ -21,7 +21,7 @@ class Buyer
         public ?string $legalRegistrationIdentifier = null,
         /** @var array<string> */
         public ?array $identifiers = null,
-        public ?array $globalIndetifiers = null,
+        public ?array $globalIdentifiers = null,
         public ?string $vatIdentifier = null,
         public ?string $buyerReference = null,
         public ?string $accountingReference = null
@@ -38,7 +38,7 @@ class Buyer
             schemeIdentifier: $data['schemeIdentifier'] ?? '0009',
             legalRegistrationIdentifier: $data['legalRegistrationIdentifier'] ?? null,
             identifiers: $data['identifiers'] ?? null,
-            globalIndetifiers: $data['globalIndetifiers'] ?? null,
+            globalIdentifiers: $data['globalIdentifiers'] ?? null,
             vatIdentifier: $data['vatIdentifier'] ?? null,
             buyerReference: $data['buyerReference'] ?? null,
             accountingReference: $data['accountingReference'] ?? null

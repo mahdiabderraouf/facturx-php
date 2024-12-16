@@ -12,7 +12,7 @@ class ApplicableHeaderTradeSettlement
 
         $xml .= CreditorReferenceID::build($invoice->bankAssignedCreditorIdentifier, $isAtLeastBasicWl);
         $xml .= PaymentReference::build($invoice->remittanceInformation, $isAtLeastBasicWl);
-        $xml .= TaxCurrencyCode::build($invoice->vatAccountingCurrencyCode, $isAtLeastBasicWl);
+        $xml .= TaxCurrencyCode::build($invoice->vatCurrency, $isAtLeastBasicWl);
         $xml .= '<ram:InvoiceCurrencyCode>' . $invoice->currencyCode . '</ram:InvoiceCurrencyCode>';
         $xml .= PayeeTradeParty::build($invoice->payee, $isAtLeastBasicWl);
         $xml .= SpecifiedTradeSettlementPaymentMeans::build($invoice->payment, $isAtLeastBasicWl);

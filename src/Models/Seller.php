@@ -10,7 +10,7 @@ class Seller
     public string $schemeIdentifier = '0009';
 
     /**
-     * @param array<array> $globalIndetifiers Global identifiers when schemeIdentifier is known :
+     * @param array<array> $globalIdentifiers Global identifiers when schemeIdentifier is known :
      *      [['id' => string, 'schemeIdentifier' => SchemeIdentifier|string], ...]
      */
     public function __construct(
@@ -22,7 +22,7 @@ class Seller
         public ?string $legalRegistrationIdentifier = null,
         /** @var array<string> */
         public ?array $identifiers = null,
-        public ?array $globalIndetifiers = null,
+        public ?array $globalIdentifiers = null,
         public ?string $tradingName = null,
         public ?TaxRespresentative $taxRespresentative = null,
     ) {
@@ -39,7 +39,7 @@ class Seller
             schemeIdentifier: $data['schemeIdentifier'] ?? '0009',
             legalRegistrationIdentifier: $data['legalRegistrationIdentifier'] ?? null,
             identifiers: $data['identifiers'] ?? null,
-            globalIndetifiers: $data['globalIndetifiers'] ?? null,
+            globalIdentifiers: $data['globalIdentifiers'] ?? null,
             tradingName: $data['tradingName'] ?? null,
             taxRespresentative: isset($data['taxRespresentative']) ? TaxRespresentative::createFromArray($data['taxRespresentative']) : null,
         );

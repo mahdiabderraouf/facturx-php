@@ -44,7 +44,7 @@ $invoice = Invoice::createFromArray([
         'email' => 'johndoe@email.com',
         'legalRegistrationIdentifier' => 'SIRET-BUYER-12345',
         'identifiers' => ['B-1001'],
-        'globalIndetifiers' => [
+        'globalIdentifiers' => [
             [
                 'identifier' => 'GLOBAL-IDENTIFIER-BUYER',
                 'schemeIdentifier' => SchemeIdentifier::SIREN
@@ -69,7 +69,7 @@ $invoice = Invoice::createFromArray([
         'email' => 'sales@acmecorp.com',
         'legalRegistrationIdentifier' => 'SIRET-SELLER-67890',
         'identifiers' => ['S-2001'],
-        'globalIndetifiers' => [
+        'globalIdentifiers' => [
             [
                 'identifier' => 'GLOBAL-IDENTIFIER-SELLER',
                 'schemeIdentifier' => SchemeIdentifier::SIREN
@@ -97,7 +97,8 @@ $invoice = Invoice::createFromArray([
 
     'contractReference' => 'Contract-001',
 
-    'vatAccountingCurrencyCode' => 'EUR',
+    'vatAccountingCurrencyCode' => 'USD',
+    'totalVATAmountInAccountingCurrency' => 10.00,
 
     // Payee and Payment Information
     'bankAssignedCreditorIdentifier' => 'BANK-12345',

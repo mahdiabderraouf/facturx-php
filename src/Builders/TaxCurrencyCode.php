@@ -4,12 +4,12 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class TaxCurrencyCode
 {
-    public static function build(?string $vatAccountingCurrencyCode, bool $isAtLeastBasicWl): string
+    public static function build(?string $taxCurrencyCode, bool $isAtLeastBasicWl): string
     {
-        if (!$isAtLeastBasicWl || !$vatAccountingCurrencyCode) {
+        if (!$isAtLeastBasicWl || !$taxCurrencyCode) {
             return '';
         }
 
-        return '<ram:TaxCurrencyCode>' . $vatAccountingCurrencyCode . '</ram:TaxCurrencyCode>';
+        return '<ram:TaxCurrencyCode>' . $taxCurrencyCode . '</ram:TaxCurrencyCode>';
     }
 }

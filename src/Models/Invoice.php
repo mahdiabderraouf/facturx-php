@@ -5,7 +5,6 @@ namespace MahdiAbderraouf\FacturX\Models;
 use DateTime;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Builder;
-use MahdiAbderraouf\FacturX\Enums\DeliveryLocationSchemeIdentifier;
 use MahdiAbderraouf\FacturX\Enums\InvoiceTypeCode;
 use MahdiAbderraouf\FacturX\Enums\NoteSubjectCode;
 use MahdiAbderraouf\FacturX\Enums\Profile;
@@ -16,9 +15,16 @@ class Invoice
     public string $typeCode;
 
     /**
-     * @param ?array<VatBreakdown>
-     * @param ?array<Allowance>
-     * @param ?array<Charge>
+     * @param ?array<VatBreakdown> $vatBreakdowns
+     * @param ?array<Allowance> $allowances
+     * @param ?array<Charge> $charges
+     * @param ?array $precedingInvoices
+     *  [
+     *      [
+     *          'reference' => 'reference',
+     *           'issueDate' => new DateTime(),
+     *      ],
+     *  ]
      */
     public function __construct(
         public Profile $profile,
@@ -43,9 +49,10 @@ class Invoice
         public ?string $note = null,
         public ?NoteSubjectCode $noteSubjectCode = NoteSubjectCode::GENERAL_INFORMATION,
         public ?Delivery $delivery = null,
-        public ?string $bankAssignedCreditorIdentifier = '',
-        public ?string $remittanceInformation = '',
-        public ?string $vatAccountingCurrencyCode = '',
+        public ?string $bankAssignedCreditorIdentifier = null,
+        public ?string $remittanceInformation = null,
+        public ?float $totalVATAmountInAccountingCurrency = null,
+        public ?string $vatAccountingCurrencyCode = null,
         public ?Payee $payee = null,
         public ?Payment $payment = null,
         public ?array $vatBreakdowns = null,
@@ -102,6 +109,7 @@ class Invoice
             bankAssignedCreditorIdentifier: $data['bankAssignedCreditorIdentifier'] ?? '',
             remittanceInformation: $data['remittanceInformation'] ?? '',
             vatAccountingCurrencyCode: $data['vatAccountingCurrencyCode'] ?? '',
+            totalVATAmountInAccountingCurrency: $data['totalVATAmountInAccountingCurrency'] ?? '',
             payee: isset($data['payee']) ? Payee::createFromArray($data['payee']) : null,
             payment: isset($data['payment']) ? Payment::createFromArray($data['payment']) : null,
             vatBreakdowns: isset(($data['vatBreakdowns'])) ? array_map([VatBreakdown::class, 'createFromArray'], $data['vatBreakdowns']) : null,

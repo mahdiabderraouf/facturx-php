@@ -15,7 +15,7 @@ class BuyerTradeParty
         $xml = '<ram:BuyerTradeParty>';
 
         $xml .= Identifiers::build($buyer->identifiers, $isAtLeastBasicWl) .
-            GlobalIdentifiers::build($buyer->globalIndetifiers, $isAtLeastBasicWl);
+            GlobalIdentifiers::build($buyer->globalIdentifiers, $isAtLeastBasicWl);
 
         if ($buyer->name) {
             $xml .= '<ram:Name>' . $buyer->name . '</ram:Name>';

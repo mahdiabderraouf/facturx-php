@@ -6,8 +6,6 @@ A PHP library for managing Factur-x/ZUGFeRD compliant PDF invoices.
 ---
 
 ## Features
-List the key features of your library.
-
 - **Factur-X XML generation:** Generate Factur-X XML file from an `Invoice` object, supports `minimum`, `basicwl`, `basic`, `en16931` (comfort) and `extended` profiles.
 - **Factur-X PDF generation:** Generate PDF-A3b Factur-X invoice from a given PDF file and a generated/provided XML file.
 - **Factur-X XML validation:** Validates Factur-X XML against the offical Extension Schema Definition (XSD).
@@ -18,8 +16,6 @@ Please note that the profile `XRECHNUNG` is not supported by this library.
 ---
 
 ## Requirements
-Specify the prerequisites for using the library.
-
 - PHP version: `>= 8.1`
 - [poppler-utils](https://tracker.debian.org/pkg/poppler) for XML extraction
 

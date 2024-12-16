@@ -11,7 +11,7 @@ class SellerTradeParty
         $xml = '<ram:SellerTradeParty>';
 
         $xml .= Identifiers::build($seller->identifiers, $isAtLeastBasicWl) .
-            GlobalIdentifiers::build($seller->globalIndetifiers, $isAtLeastBasicWl);
+            GlobalIdentifiers::build($seller->globalIdentifiers, $isAtLeastBasicWl);
 
         $xml .= '<ram:Name>' . $seller->name . '</ram:Name>';
 
