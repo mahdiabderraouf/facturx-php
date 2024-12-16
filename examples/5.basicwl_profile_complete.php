@@ -152,8 +152,8 @@ $invoice = Invoice::createFromArray([
             'amount' => 50.00,
             'vatCategory' => VatCategory::STANDARD_RATE,
             'vatRate' => 5.5,
-            'reasonCode' => 'CHARGE-001',
-            'reason' => 'Shipping cost'
+            'reasonCode' => '88',
+            'reason' => 'Material surcharge/deduction'
         ]
     ],
 
@@ -163,7 +163,7 @@ $invoice = Invoice::createFromArray([
             'amount' => 20.00,
             'vatCategory' => VatCategory::STANDARD_RATE,
             'percentage' => 5.00,
-            'reasonCode' => 'ALLOWANCE-001',
+            'reasonCode' => '95',
             'reason' => 'Discount'
         ]
     ],
