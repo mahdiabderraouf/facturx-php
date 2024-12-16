@@ -39,7 +39,7 @@ use MahdiAbderraouf\FacturX\Builder;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Invoice;
 
-// Create an invoice object from an array or you can use constructor instead new Invoice (...)
+// Create an invoice object from an array or you can use constructor instead (new Invoice (...))
 $invoice = Invoice::createFromArray([
     'profile' => Profile::MINIMUM,
     'number' => 'F-202400001',
