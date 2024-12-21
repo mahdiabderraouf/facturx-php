@@ -1,7 +1,20 @@
 # Factur-X PHP
-
-## About
 A PHP library for managing Factur-x/ZUGFeRD compliant PDF invoices.
+
+## Table of Contents
+- [Factur-X PHP](#factur-x-php)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Using composer](#using-composer)
+  - [Documentation](#documentation)
+  - [Usage](#usage)
+    - [Generate minimum profile XML](#generate-minimum-profile-xml)
+    - [Validate XML against XSD](#validate-xml-against-xsd)
+    - [Generate a Factur-X PDF](#generate-a-factur-x-pdf)
+    - [Parse Factur-X PDF](#parse-factur-x-pdf)
+  - [Contributing](#contributing)
 
 ---
 
@@ -27,6 +40,11 @@ Please note that the profile `XRECHNUNG` is not supported by this library.
 ```bash
 composer require mahdiabderraouf/facturx-php
 ```
+
+---
+
+## Documentation
+The full documentation can be found [here](documentation).
 
 ---
 
@@ -184,11 +202,6 @@ try {
     $message = $e->getMessage();
 }
 ```
-
----
-
-## Documentation
-The full documentation can be found [here](documentation).
 
 ---
 
