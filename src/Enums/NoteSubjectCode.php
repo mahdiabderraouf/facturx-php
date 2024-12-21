@@ -10,4 +10,6 @@ enum NoteSubjectCode: string
     case LEGAL_INFORMATION = 'ABL';
     case TAX_INFORMATION = 'TXD';
     case CUSTOMS_INFORMATION = 'CUS';
+    case PAYMENT_DETAIL = 'PMD';
+    case PAYMENT_TERM = 'AAB';
 }

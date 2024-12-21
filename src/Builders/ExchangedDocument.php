@@ -12,13 +12,15 @@ class ExchangedDocument
         $issueDate = DateFormat102::toFormat102($invoice->issueDate);
 
         $includedNote = '';
-        if ($isAtLeastBasicWl && $invoice->note) {
-            $includedNote = <<<XML
-            <ram:IncludedNote>
-                <ram:Content>{$invoice->note}</ram:Content>
-                <ram:SubjectCode>{$invoice->noteSubjectCode->value}</ram:SubjectCode>
-            </ram:IncludedNote>
-            XML;
+        if ($isAtLeastBasicWl && $invoice->notes) {
+            foreach ($invoice->notes as $note) {
+                $includedNote .= <<<XML
+                <ram:IncludedNote>
+                    <ram:Content>{$note->note}</ram:Content>
+                    <ram:SubjectCode>{$note->noteSubjectCode->value}</ram:SubjectCode>
+                </ram:IncludedNote>
+                XML;
+            }
         }
 
         return <<<XML

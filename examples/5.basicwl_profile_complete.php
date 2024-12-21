@@ -89,9 +89,25 @@ $invoice = Invoice::createFromArray([
         ]
     ],
 
-    // Note (comment)
-    'note' => 'Payment due within 30 days.',
-    'noteSubjectCode' => NoteSubjectCode::GENERAL_INFORMATION,
+    // Note (comment or extra information)
+    'notes' => [
+        [
+            'note' => 'Payment due within 30 days.',
+            'noteSubjectCode' => NoteSubjectCode::GENERAL_INFORMATION, // default
+        ],
+        [
+            'note' => 'Tout retard de paiement engendre une pénalité exigible à compter de la date d\'échéance, calculée sur la base de trois fois le taux d\'intérêt légal.',
+            'noteSubjectCode' => NoteSubjectCode::PAYMENT_DETAIL,
+        ],
+        [
+            'note' => 'Les réglements reçus avant la date d\'échéance ne donneront pas lieu à escompte.',
+            'noteSubjectCode' => NoteSubjectCode::PAYMENT_TERM,
+        ],
+        [
+            'note' => 'DONT 0,50 EUR de DEEE',
+            'noteSubjectCode' => NoteSubjectCode::GENERAL_INFORMATION,
+        ],
+    ],
 
     'purchaseOrderReference' => 'PO-2024000111',
 
