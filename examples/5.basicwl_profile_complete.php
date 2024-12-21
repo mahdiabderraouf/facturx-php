@@ -89,7 +89,7 @@ $invoice = Invoice::createFromArray([
         ]
     ],
 
-    // Note (comment or extra information)
+    // Notes
     'notes' => [
         [
             'note' => 'Payment due within 30 days.',
