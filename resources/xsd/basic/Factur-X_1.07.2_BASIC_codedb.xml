@@ -2,6 +2,7 @@
 <codedb>
   <cl id="1">
     <enumeration value="urn:cen.eu:en16931:2017#compliant#urn:factur-x.eu:1p0:basic"/>
+    <enumeration value="urn:cen.eu:en16931:2017#compliant#urn:zugferd.de:2p0:basic"/>
   </cl>
   <cl id="2">
     <enumeration value="71"/>
@@ -692,6 +693,14 @@
     <enumeration value="0228"/>
     <enumeration value="0229"/>
     <enumeration value="0230"/>
+    <enumeration value="0231"/>
+    <enumeration value="0232"/>
+    <enumeration value="0233"/>
+    <enumeration value="0234"/>
+    <enumeration value="0235"/>
+    <enumeration value="0236"/>
+    <enumeration value="0237"/>
+    <enumeration value="0238"/>
   </cl>
   <cl id="6">
     <enumeration value="10"/>
@@ -3298,6 +3307,14 @@
     <enumeration value="0228"/>
     <enumeration value="0229"/>
     <enumeration value="0230"/>
+    <enumeration value="0231"/>
+    <enumeration value="0232"/>
+    <enumeration value="0233"/>
+    <enumeration value="0234"/>
+    <enumeration value="0235"/>
+    <enumeration value="0236"/>
+    <enumeration value="0237"/>
+    <enumeration value="0238"/>
   </cl>
   <cl id="12">
     <enumeration value="0002"/>
@@ -3525,6 +3542,14 @@
     <enumeration value="0228"/>
     <enumeration value="0229"/>
     <enumeration value="0230"/>
+    <enumeration value="0231"/>
+    <enumeration value="0232"/>
+    <enumeration value="0233"/>
+    <enumeration value="0234"/>
+    <enumeration value="0235"/>
+    <enumeration value="0236"/>
+    <enumeration value="0237"/>
+    <enumeration value="0238"/>
   </cl>
   <cl id="13">
     <enumeration value="AD"/>
@@ -3795,6 +3820,7 @@
     <enumeration value="0147"/>
     <enumeration value="0151"/>
     <enumeration value="0170"/>
+    <enumeration value="0177"/>
     <enumeration value="0183"/>
     <enumeration value="0184"/>
     <enumeration value="0188"/>
@@ -3826,6 +3852,7 @@
     <enumeration value="0221"/>
     <enumeration value="0225"/>
     <enumeration value="0230"/>
+    <enumeration value="0235"/>
     <enumeration value="9901"/>
     <enumeration value="9910"/>
     <enumeration value="9913"/>
@@ -3942,7 +3969,6 @@
     <enumeration value="GYD"/>
     <enumeration value="HKD"/>
     <enumeration value="HNL"/>
-    <enumeration value="HRK"/>
     <enumeration value="HTG"/>
     <enumeration value="HUF"/>
     <enumeration value="IDR"/>
@@ -4035,6 +4061,7 @@
     <enumeration value="UYU"/>
     <enumeration value="UYW"/>
     <enumeration value="UZS"/>
+    <enumeration value="VED"/>
     <enumeration value="VES"/>
     <enumeration value="VND"/>
     <enumeration value="VUV"/>
@@ -4059,6 +4086,7 @@
     <enumeration value="YER"/>
     <enumeration value="ZAR"/>
     <enumeration value="ZMW"/>
+    <enumeration value="ZWG"/>
     <enumeration value="ZWL"/>
   </cl>
   <cl id="18">
@@ -4180,6 +4208,8 @@
     <enumeration value="VATEX-EU-143-1J"/>
     <enumeration value="VATEX-EU-143-1K"/>
     <enumeration value="VATEX-EU-143-1L"/>
+    <enumeration value="VATEX-EU-144"/>
+    <enumeration value="VATEX-EU-146-1E"/>
     <enumeration value="VATEX-EU-148"/>
     <enumeration value="VATEX-EU-148-A"/>
     <enumeration value="VATEX-EU-148-B"/>
@@ -4195,6 +4225,7 @@
     <enumeration value="VATEX-EU-151-1C"/>
     <enumeration value="VATEX-EU-151-1D"/>
     <enumeration value="VATEX-EU-151-1E"/>
+    <enumeration value="VATEX-EU-159"/>
     <enumeration value="VATEX-EU-309"/>
     <enumeration value="VATEX-EU-79-C"/>
     <enumeration value="VATEX-EU-AE"/>
@@ -4476,7 +4507,6 @@
     <enumeration value="GYD"/>
     <enumeration value="HKD"/>
     <enumeration value="HNL"/>
-    <enumeration value="HRK"/>
     <enumeration value="HTG"/>
     <enumeration value="HUF"/>
     <enumeration value="IDR"/>
@@ -4569,6 +4599,7 @@
     <enumeration value="UYU"/>
     <enumeration value="UYW"/>
     <enumeration value="UZS"/>
+    <enumeration value="VED"/>
     <enumeration value="VES"/>
     <enumeration value="VND"/>
     <enumeration value="VUV"/>
@@ -4593,6 +4624,7 @@
     <enumeration value="YER"/>
     <enumeration value="ZAR"/>
     <enumeration value="ZMW"/>
+    <enumeration value="ZWG"/>
     <enumeration value="ZWL"/>
   </cl>
   <cl id="24">
@@ -4657,7 +4689,6 @@
     <enumeration value="GYD"/>
     <enumeration value="HKD"/>
     <enumeration value="HNL"/>
-    <enumeration value="HRK"/>
     <enumeration value="HTG"/>
     <enumeration value="HUF"/>
     <enumeration value="IDR"/>
@@ -4750,6 +4781,7 @@
     <enumeration value="UYU"/>
     <enumeration value="UYW"/>
     <enumeration value="UZS"/>
+    <enumeration value="VED"/>
     <enumeration value="VES"/>
     <enumeration value="VND"/>
     <enumeration value="VUV"/>
@@ -4774,6 +4806,7 @@
     <enumeration value="YER"/>
     <enumeration value="ZAR"/>
     <enumeration value="ZMW"/>
+    <enumeration value="ZWG"/>
     <enumeration value="ZWL"/>
   </cl>
   <cl id="25">

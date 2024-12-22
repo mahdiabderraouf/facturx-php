@@ -58,11 +58,11 @@ class Validator
     private static function getXsdFilePathByProfile(Profile $profile): string
     {
         $xsdFilePath = match ($profile) {
-            Profile::MINIMUM => 'minimum/Factur-X_1.0.07_MINIMUM.xsd',
-            Profile::BASIC_WL => 'basic-wl/Factur-X_1.0.07_BASICWL.xsd',
-            Profile::BASIC => 'basic/Factur-X_1.0.07_BASIC.xsd',
-            Profile::EN16931 => 'en16931/Factur-X_1.0.07_EN16931.xsd',
-            Profile::EXTENDED => 'extended/Factur-X_1.0.07_EXTENDED.xsd',
+            Profile::MINIMUM => 'minimum/Factur-X_1.07.2_MINIMUM.xsd',
+            Profile::BASIC_WL => 'basic-wl/Factur-X_1.07.2_BASICWL.xsd',
+            Profile::BASIC => 'basic/Factur-X_1.07.2_BASIC.xsd',
+            Profile::EN16931 => 'en16931/Factur-X_1.07.2_EN16931.xsd',
+            Profile::EXTENDED => 'extended/Factur-X_1.07.2_EXTENDED.xsd',
         };
 
         return __DIR__ . '/../resources/xsd/' . $xsdFilePath;

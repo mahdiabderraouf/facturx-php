@@ -11,7 +11,7 @@ enum Profile: string
     /** Keep in order */
     case MINIMUM = 'urn:factur-x.eu:1p0:minimum';
     case BASIC_WL = 'urn:factur-x.eu:1p0:basicwl';
-    case BASIC = 'urn:factur-x.eu:1p0:basic';
+    case BASIC = 'urn:cen.eu:en16931:2017#compliant#urn:factur-x.eu:1p0:basic';
     case EN16931 = 'urn:cen.eu:en16931:2017';
     case EXTENDED = 'urn:cen.eu:en16931:2017#conformant#urn:factur-x.eu:1p0:extended';
 
