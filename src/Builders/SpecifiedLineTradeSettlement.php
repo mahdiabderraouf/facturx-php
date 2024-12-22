@@ -28,6 +28,5 @@ class SpecifiedLineTradeSettlement
         $xml .= '</ram:SpecifiedLineTradeSettlement>';
 
         return $xml;
-
     }
 }

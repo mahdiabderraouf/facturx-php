@@ -8,7 +8,8 @@ class TaxRespresentative
         public string $name,
         public string $vatIdentifier,
         public Address $address,
-    ) {}
+    ) {
+    }
 
     public static function createFromArray(array $data): self
     {

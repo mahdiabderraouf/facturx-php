@@ -14,7 +14,8 @@ class VatBreakdown
         public ?string $vatExemptionReasonCode = null,
         public ?string $exemptionReason = null,
         public ?string $valueAddedTaxPointDateCode = null,
-    ) {}
+    ) {
+    }
 
     public static function createFromArray(array $data): self
     {

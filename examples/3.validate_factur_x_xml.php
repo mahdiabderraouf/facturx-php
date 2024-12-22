@@ -15,7 +15,6 @@ $pdf = '/path/to/invoice.pdf';
 try {
     Validator::validate(
         $pdf,
-
         // You can precise the wanted profile
         Profile::EN16931,
     );
