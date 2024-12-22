@@ -19,12 +19,10 @@ A PHP library for managing Factur-x/ZUGFeRD compliant PDF invoices.
 ---
 
 ## Features
-- **Factur-X XML generation:** Generate Factur-X XML file from an `Invoice` object, supports `minimum`, `basicwl`, `basic`, `en16931` (comfort) and `extended` profiles.
+- **Factur-X XML generation:** Generate Factur-X XML file from an `Invoice` object, supports `minimum`, `basicwl` and `basic` profiles.
 - **Factur-X PDF generation:** Generate PDF-A3b Factur-X invoice from a given PDF file and a generated/provided XML file.
 - **Factur-X XML validation:** Validates Factur-X XML against the offical Extension Schema Definition (XSD).
 - **Factur-X parsing:** Extract XML file from a Factur-X.
-
-Please note that the profile `XRECHNUNG` is not supported by this library.
 
 ---
 

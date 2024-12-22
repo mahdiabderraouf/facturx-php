@@ -10,9 +10,9 @@ use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class Line
 {
-    public string $schemeIdentifier = '0009';
+    public ?string $schemeIdentifier = '0160';
     public ?string $priceQuantityUnit = null;
-    public ?string $invoicedQuantityUnit = null;
+    public string $invoicedQuantityUnit;
 
     /**
      * @param ?array<Allowance> $allowances
@@ -23,10 +23,10 @@ class Line
         public string $name,
         public float $netPrice,
         public float $totalNetPrice,
-        public VatCategory $vatCategory,
-        public ?float $vatRate = null,
         public float $invoicedQuantity,
         Unit|string $invoicedQuantityUnit,
+        public VatCategory $vatCategory,
+        public ?float $vatRate = null,
         public ?float $grossPrice = null,
         public ?float $priceQuantity = null,
         Unit|string|null $priceQuantityUnit = null,
@@ -40,7 +40,32 @@ class Line
         public ?DateTime $endDate = null,
     ) {
         $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
-        $this->priceQuantityUnit = Utils::stringOrEnumToString($schemeIdentifier);
-        $this->invoicedQuantity = Utils::stringOrEnumToString($schemeIdentifier);
+        $this->priceQuantityUnit = Utils::stringOrEnumToString($priceQuantityUnit);
+        $this->invoicedQuantityUnit = Utils::stringOrEnumToString($invoicedQuantityUnit);
+    }
+
+    public static function createFromArray(array $data): self
+    {
+        return new self(
+            identifier: $data['identifier'],
+            name: $data['name'],
+            netPrice: $data['netPrice'],
+            totalNetPrice: $data['totalNetPrice'],
+            invoicedQuantity: $data['invoicedQuantity'],
+            invoicedQuantityUnit: $data['invoicedQuantityUnit'],
+            vatCategory: $data['vatCategory'],
+            vatRate: $data['vatRate'] ?? null,
+            grossPrice: $data['grossPrice'] ?? null,
+            priceQuantity: $data['priceQuantity'] ?? null,
+            priceQuantityUnit: $data['priceQuantityUnit'] ?? null,
+            priceDiscount: $data['priceDiscount'] ?? null,
+            allowances: isset(($data['allowances'])) ? array_map([Allowance::class, 'createFromArray'], $data['allowances']) : null,
+            charges: isset(($data['charges'])) ? array_map([Charge::class, 'createFromArray'], $data['charges']) : null,
+            standardIdentifier: $data['standardIdentifier'] ?? null,
+            schemeIdentifier: $data['schemeIdentifier'] ?? null,
+            note: $data['note'] ?? null,
+            startDate: $data['startDate'] ?? null,
+            endDate: $data['endDate'] ?? null,
+        );
     }
 }

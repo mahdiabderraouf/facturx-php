@@ -8,6 +8,10 @@ class GrossPriceProductTradePrice
 {
     public static function build(Line $line): string
     {
+        if (!$line->grossPrice) {
+            return '';
+        }
+
         $xml = '<ram:GrossPriceProductTradePrice>';
         if ($line->grossPrice) {
             $xml .= '<ram:ChargeAmount>' . $line->grossPrice . '</ram:ChargeAmount>';

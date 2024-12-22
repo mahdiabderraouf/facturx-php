@@ -52,7 +52,7 @@ class Utils
         return new DOMXPath($domDocument);
     }
 
-    public static function stringOrEnumToString(string|BackedEnum $data): string
+    public static function stringOrEnumToString(string|BackedEnum|null $data): ?string
     {
         return $data instanceof BackedEnum ? $data->value : $data;
     }

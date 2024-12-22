@@ -19,7 +19,7 @@ class SpecifiedTradeAllowanceCharge
 
         foreach ($allowances as $allowance) {
             $xml .= '<ram:ChargeIndicator>' .
-                '<udt:Indicator>' . (!$allowance->isAllowance ? 'true' : 'false') . '</udt:Indicator>' .
+                '<udt:Indicator>' . ($allowance->isAllowance ? 'false' : 'true') . '</udt:Indicator>' .
             '</ram:ChargeIndicator>';
 
             if ($allowance->percentage) {
@@ -44,6 +44,7 @@ class SpecifiedTradeAllowanceCharge
                 $xml .= '<ram:CategoryTradeTax>' .
                     '<ram:TypeCode>VAT</ram:TypeCode>' .
                     '<ram:CategoryCode>' . $allowance->vatCategory->value . '</ram:CategoryCode>' .
+                    ($allowance->vatRate ? '<ram:RateApplicablePercent>' . $allowance->vatRate . '</ram:RateApplicablePercent>' : '') .
                     '</ram:CategoryTradeTax>';
             }
         }

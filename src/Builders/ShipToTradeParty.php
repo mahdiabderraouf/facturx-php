@@ -17,9 +17,10 @@ class ShipToTradeParty
 
         $xml .= Identifiers::build([$delivery->locationIdentifier]);
 
-        $xml .= GlobalIdentifiers::build([
-            'identifier' => $delivery->locationGlobalIdentifier,
-            'schemeIdentifier' => $delivery->locationSchemeIdentifier,
+        $xml .= GlobalIdentifiers::build([[
+                'identifier' => $delivery->locationGlobalIdentifier,
+                'schemeIdentifier' => $delivery->locationSchemeIdentifier,
+            ]
         ]);
 
         if ($delivery->partyName) {

@@ -18,9 +18,9 @@ class Allowance
         public ?string $reason = null
     ) {}
 
-    public static function createFromArray(array $data): self
+    public static function createFromArray(array $data): static
     {
-        return new self(
+        return new static(
             amount: $data['amount'],
             vatCategory: $data['vatCategory'],
             vatRate: $data['vatRate'] ?? null,

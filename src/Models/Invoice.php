@@ -104,6 +104,7 @@ class Invoice
             paidAmount: $data['paidAmount'] ?? null,
             purchaseOrderReference: $data['purchaseOrderReference'] ?? null,
             contractReference: $data['contractReference'] ?? null,
+            lines: isset(($data['lines'])) ? array_map([Line::class, 'createFromArray'], $data['lines']) : null,
             notes: isset(($data['notes'])) ? array_map([Note::class, 'createFromArray'], $data['notes']) : null,
             delivery: isset($data['delivery']) ? Delivery::createFromArray($data['delivery']) : null,
             bankAssignedCreditorIdentifier: $data['bankAssignedCreditorIdentifier'] ?? '',

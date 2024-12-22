@@ -11,6 +11,6 @@ class SpecifiedLineTradeAgreement
         return '<ram:SpecifiedLineTradeAgreement>' .
             GrossPriceProductTradePrice::build($line) .
             NetPriceProductTradePrice::build($line) .
-            '</SpecifiedLineTradeAgreement>';
+            '</ram:SpecifiedLineTradeAgreement>';
     }
 }
