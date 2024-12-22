@@ -2,31 +2,32 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Delivery;
 
 class ShipToTradeParty
 {
-    public static function build(?Delivery $delivery, bool $isAtLeastBasicWl): string
+    public static function build(Profile $profile, ?Delivery $delivery): string
     {
-        if (!$delivery || $isAtLeastBasicWl) {
+        if (!$delivery) {
             return '';
         }
 
         $xml = '<ram:ShipToTradeParty>';
 
-        $xml .= Identifiers::build([$delivery->locationIdentifier], $isAtLeastBasicWl);
+        $xml .= Identifiers::build([$delivery->locationIdentifier]);
 
         $xml .= GlobalIdentifiers::build([
             'identifier' => $delivery->locationGlobalIdentifier,
             'schemeIdentifier' => $delivery->locationSchemeIdentifier,
-        ], $isAtLeastBasicWl);
+        ]);
 
         if ($delivery->partyName) {
             $xml .= '<ram:Name>' . $delivery->partyName . '</ram:Name>';
         }
 
         if ($delivery->address) {
-            $xml .= PostalTradeAddress::build($delivery->address, $isAtLeastBasicWl);
+            $xml .= PostalTradeAddress::build($delivery->address, $profile);
         }
 
         $xml .= '</ram:ShipToTradeParty>';

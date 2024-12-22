@@ -2,17 +2,19 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
+
 class SpecifiedLegalOrganization
 {
     public static function build(
-        bool $isAtLeastBasicWl,
+        Profile $profile,
         ?string $legalRegistrationIdentifier = null,
         ?string $schemeIdentifier = null,
         ?string $tradingName = null,
     ): string {
         $xml = '';
 
-        $addTradingName = $tradingName && $isAtLeastBasicWl;
+        $addTradingName = $tradingName && $profile->isAtLeast(Profile::BASIC_WL);
 
         if ($legalRegistrationIdentifier || $addTradingName) {
             $xml .= '<ram:SpecifiedLegalOrganization>';

@@ -4,9 +4,9 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class CreditorReferenceID
 {
-    public static function build(?string $bankAssignedCreditorIdentifier, bool $isAtLeastBasicWl): string
+    public static function build(?string $bankAssignedCreditorIdentifier): string
     {
-        if (!$isAtLeastBasicWl || !$bankAssignedCreditorIdentifier) {
+        if (!$bankAssignedCreditorIdentifier) {
             return '';
         }
 

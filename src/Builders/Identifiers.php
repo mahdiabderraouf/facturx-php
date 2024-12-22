@@ -4,20 +4,12 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class Identifiers
 {
-    public static function build(?array $identifiers, bool $isAtLeastBasicWl): string
+    public static function build(?array $identifiers): string
     {
-        if (!$identifiers) {
-            return '';
-        }
-
         $xml = '';
 
-        if ($isAtLeastBasicWl) {
-            foreach ($identifiers as $identifier) {
-                $xml .= <<<XML
-                <ram:ID>$identifier</ram:ID>
-                XML;
-            }
+        foreach ($identifiers ?? [] as $identifier) {
+            $xml .= '<ram:ID>' . $identifier . '</ram:ID>';
         }
 
         return $xml;

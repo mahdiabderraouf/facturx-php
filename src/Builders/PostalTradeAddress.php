@@ -2,15 +2,16 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Address;
 
 class PostalTradeAddress
 {
-    public static function build(Address $address, bool $isAtLeastBasicWl): string
+    public static function build(Address $address, Profile $profile): string
     {
         $xml = '<ram:PostalTradeAddress>';
 
-        if ($isAtLeastBasicWl) {
+        if ($profile->isAtLeast(Profile::BASIC_WL)) {
             if ($address->postCode) {
                 $xml .= '<ram:PostcodeCode>' . $address->postCode . '</ram:PostcodeCode>';
             }
@@ -29,7 +30,8 @@ class PostalTradeAddress
         }
 
         $xml .= '<ram:CountryID>' . $address->countryCode . '</ram:CountryID>';
-        if ($isAtLeastBasicWl) {
+
+        if ($profile->isAtLeast(Profile::BASIC_WL)) {
             if ($address->province) {
                 $xml .= '<ram:CountrySubDivisionName>' . $address->province . '</ram:CountrySubDivisionName>';
             }

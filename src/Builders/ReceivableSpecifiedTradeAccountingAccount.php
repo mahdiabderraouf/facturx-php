@@ -4,16 +4,14 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class ReceivableSpecifiedTradeAccountingAccount
 {
-    public static function build(?string $buyerAccountingReference, bool $isAtLeastBasicWl): string
+    public static function build(?string $buyerAccountingReference): string
     {
-        $xml = '';
-
-        if ($isAtLeastBasicWl && $buyerAccountingReference) {
-            $xml .= '<ram:ReceivableSpecifiedTradeAccountingAccount>' .
-                '<ram:ID>' . $buyerAccountingReference . '</ram:ID>' .
-                '</ram:ReceivableSpecifiedTradeAccountingAccount>';
+        if (!$buyerAccountingReference) {
+            return '';
         }
 
-        return $xml;
+        return '<ram:ReceivableSpecifiedTradeAccountingAccount>' .
+        '<ram:ID>' . $buyerAccountingReference . '</ram:ID>' .
+        '</ram:ReceivableSpecifiedTradeAccountingAccount>';
     }
 }

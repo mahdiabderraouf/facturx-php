@@ -6,9 +6,9 @@ use MahdiAbderraouf\FacturX\Models\Payment;
 
 class SpecifiedTradeSettlementPaymentMeans
 {
-    public static function build(?Payment $payment, bool $isAtLeastBasicWl): string
+    public static function build(?Payment $payment): string
     {
-        if (!$isAtLeastBasicWl || !$payment) {
+        if (!$payment) {
             return '';
         }
 

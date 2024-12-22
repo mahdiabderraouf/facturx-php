@@ -2,32 +2,33 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Payee;
 
 class PayeeTradeParty
 {
-    public static function build(?Payee $payee, bool $isAtLeastBasicWl): string
+    public static function build(Profile $profile, ?Payee $payee): string
     {
-        if (!$isAtLeastBasicWl || !$payee) {
+        if (!$payee) {
             return '';
         }
 
         $xml = '<ram:PayeeTradeParty>';
 
-        $xml .= Identifiers::build([$payee->identifier], $isAtLeastBasicWl);
+        $xml .= Identifiers::build([$payee->identifier]);
 
         $xml .= GlobalIdentifiers::build([
             [
                 'identifier' => $payee->globalIdentifier,
                 'schemeIdentifier' => $payee->globalIdentifierSchemeIdentifier,
             ],
-        ], $isAtLeastBasicWl);
+        ]);
 
         $xml .= '<ram:Name>' . $payee->name . '</ram:Name>';
 
         if ($payee->legalRegistrationIdentifier) {
             $xml .= SpecifiedLegalOrganization::build(
-                $isAtLeastBasicWl,
+                $profile,
                 $payee->legalRegistrationIdentifier,
                 $payee->legalRegistrationSchemeIdentifier
             );

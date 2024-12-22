@@ -6,11 +6,11 @@ use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
 
 class Email
 {
-    public static function build(bool $isAtLeastBasicWl, ?string $email = null): string
+    public static function build(?string $email = null): string
     {
         $xml = '';
 
-        if ($isAtLeastBasicWl && $email) {
+        if ($email) {
             $schemeId = SchemeIdentifier::EMAIL->value;
             $xml .= <<<XML
             <ram:URIUniversalCommunication>

@@ -4,9 +4,9 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class DespatchAdviceReferencedDocument
 {
-    public static function build(?string $issuerAssignedID, bool $isAtLeastBasicWl): string
+    public static function build(?string $issuerAssignedID): string
     {
-        if (!$issuerAssignedID || !$isAtLeastBasicWl) {
+        if (!$issuerAssignedID) {
             return '';
         }
 

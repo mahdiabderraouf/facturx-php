@@ -14,6 +14,7 @@ class Invoice
     public string $typeCode;
 
     /**
+     * @param ?array<Line> $lines
      * @param ?array<Note> $notes
      * @param ?array<VatBreakdown> $vatBreakdowns
      * @param ?array<Allowance> $allowances
@@ -40,6 +41,7 @@ class Invoice
         public string $businessProcessType = 'A1',
         public string $currencyCode = 'EUR',
         public string $vatCurrency = 'EUR',
+        public ?array $lines = null,
         public ?float $lineNetAmount = null,
         public ?float $chargesSum = null,
         public ?float $allowancesSum = null,

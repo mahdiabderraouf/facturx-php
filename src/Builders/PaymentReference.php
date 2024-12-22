@@ -4,9 +4,9 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class PaymentReference
 {
-    public static function build(?string $remittanceInformation, bool $isAtLeastBasicWl): string
+    public static function build(?string $remittanceInformation): string
     {
-        if (!$isAtLeastBasicWl || !$remittanceInformation) {
+        if (!$remittanceInformation) {
             return '';
         }
 

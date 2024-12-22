@@ -9,9 +9,9 @@ class SpecifiedTradeAllowanceCharge
     /**
      * @param array<Allowance> $allowances
      */
-    public static function build(?array $allowances, bool $isAtLeastBasicWl): string
+    public static function build(?array $allowances): string
     {
-        if (!$isAtLeastBasicWl || !$allowances) {
+        if (!$allowances) {
             return '';
         }
 
