@@ -4,9 +4,9 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class ContractReferencedDocument
 {
-    public static function build(?string $contactReference, bool $isAtLeastBasicWl): string
+    public static function build(?string $contactReference): string
     {
-        if (!$isAtLeastBasicWl || !$contactReference) {
+        if (!$contactReference) {
             return '';
         }
 

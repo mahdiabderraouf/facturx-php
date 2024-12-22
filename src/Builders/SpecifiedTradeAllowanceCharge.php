@@ -9,9 +9,9 @@ class SpecifiedTradeAllowanceCharge
     /**
      * @param array<Allowance> $allowances
      */
-    public static function build(?array $allowances, bool $isAtLeastBasicWl): string
+    public static function build(?array $allowances): string
     {
-        if (!$isAtLeastBasicWl || !$allowances) {
+        if (!$allowances) {
             return '';
         }
 
@@ -19,7 +19,7 @@ class SpecifiedTradeAllowanceCharge
 
         foreach ($allowances as $allowance) {
             $xml .= '<ram:ChargeIndicator>' .
-                '<udt:Indicator>' . (!$allowance->isAllowance ? 'true' : 'false') . '</udt:Indicator>' .
+                '<udt:Indicator>' . ($allowance->isAllowance ? 'false' : 'true') . '</udt:Indicator>' .
             '</ram:ChargeIndicator>';
 
             if ($allowance->percentage) {
@@ -40,10 +40,13 @@ class SpecifiedTradeAllowanceCharge
                 $xml .= '<ram:Reason>' . $allowance->reason . '</ram:Reason>';
             }
 
-            $xml .= '<ram:CategoryTradeTax>' .
-                '<ram:TypeCode>VAT</ram:TypeCode>' .
-                '<ram:CategoryCode>' . $allowance->vatCategory->value . '</ram:CategoryCode>' .
-            '</ram:CategoryTradeTax>';
+            if ($allowance->vatCategory) {
+                $xml .= '<ram:CategoryTradeTax>' .
+                    '<ram:TypeCode>VAT</ram:TypeCode>' .
+                    '<ram:CategoryCode>' . $allowance->vatCategory->value . '</ram:CategoryCode>' .
+                    ($allowance->vatRate ? '<ram:RateApplicablePercent>' . $allowance->vatRate . '</ram:RateApplicablePercent>' : '') .
+                    '</ram:CategoryTradeTax>';
+            }
         }
 
         $xml .= '</ram:SpecifiedTradeAllowanceCharge>';

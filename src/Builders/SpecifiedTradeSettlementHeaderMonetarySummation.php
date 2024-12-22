@@ -2,22 +2,23 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Invoice;
 
 class SpecifiedTradeSettlementHeaderMonetarySummation
 {
-    public static function build(Invoice $invoice, bool $isAtLeastBasicWl): string
+    public static function build(Invoice $invoice): string
     {
         $xml = '<ram:SpecifiedTradeSettlementHeaderMonetarySummation>';
 
-        if ($isAtLeastBasicWl) {
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
             $xml .= '<ram:LineTotalAmount>' . $invoice->lineNetAmount . '</ram:LineTotalAmount>';
 
-            if ($invoice->chargesSum) {
+            if ($invoice->chargesSum !== null) {
                 $xml .= '<ram:ChargeTotalAmount>' . $invoice->chargesSum . '</ram:ChargeTotalAmount>';
             }
 
-            if ($invoice->allowancesSum) {
+            if ($invoice->allowancesSum !== null) {
                 $xml .= '<ram:AllowanceTotalAmount>' . $invoice->allowancesSum . '</ram:AllowanceTotalAmount>';
             }
         }
@@ -26,14 +27,14 @@ class SpecifiedTradeSettlementHeaderMonetarySummation
         $xml .= '<ram:TaxTotalAmount currencyID="' . $invoice->vatCurrency . '">'
             . $invoice->totalVATAmount . '</ram:TaxTotalAmount>';
 
-        if ($isAtLeastBasicWl && $invoice->vatAccountingCurrencyCode && $invoice->totalVATAmountInAccountingCurrency) {
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL) && $invoice->vatAccountingCurrencyCode && $invoice->totalVATAmountInAccountingCurrency !== null) {
             $xml .= '<ram:TaxTotalAmount currencyID="' . $invoice->vatAccountingCurrencyCode . '">'
                 . $invoice->totalVATAmountInAccountingCurrency . '</ram:TaxTotalAmount>';
         }
 
         $xml .= '<ram:GrandTotalAmount>' . $invoice->totalAmountWithVAT . '</ram:GrandTotalAmount>';
 
-        if ($isAtLeastBasicWl && $invoice->paidAmount) {
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL) && $invoice->paidAmount !== null) {
             $xml .= '<ram:TotalPrepaidAmount>' . $invoice->paidAmount . '</ram:TotalPrepaidAmount>';
         }
 

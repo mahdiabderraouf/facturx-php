@@ -2,28 +2,38 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Invoice;
 
 class ApplicableHeaderTradeSettlement
 {
-    public static function build(Invoice $invoice, bool $isAtLeastBasicWl): string
+    public static function build(Invoice $invoice): string
     {
         $xml = '<ram:ApplicableHeaderTradeSettlement>';
 
-        $xml .= CreditorReferenceID::build($invoice->bankAssignedCreditorIdentifier, $isAtLeastBasicWl);
-        $xml .= PaymentReference::build($invoice->remittanceInformation, $isAtLeastBasicWl);
-        $xml .= TaxCurrencyCode::build($invoice->vatCurrency, $isAtLeastBasicWl);
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
+            $xml .= CreditorReferenceID::build($invoice->bankAssignedCreditorIdentifier) .
+                PaymentReference::build($invoice->remittanceInformation) .
+                TaxCurrencyCode::build($invoice->vatCurrency);
+        }
+
         $xml .= '<ram:InvoiceCurrencyCode>' . $invoice->currencyCode . '</ram:InvoiceCurrencyCode>';
-        $xml .= PayeeTradeParty::build($invoice->payee, $isAtLeastBasicWl);
-        $xml .= SpecifiedTradeSettlementPaymentMeans::build($invoice->payment, $isAtLeastBasicWl);
-        $xml .= ApplicableTradeTax::build($invoice->vatBreakdowns, $isAtLeastBasicWl);
-        $xml .= BillingSpecifiedPeriod::build($invoice->invoicingPeriodStartDate, $invoice->invoicingPeriodEndDate, $isAtLeastBasicWl);
-        $xml .= SpecifiedTradeAllowanceCharge::build($invoice->allowances, $isAtLeastBasicWl);
-        $xml .= SpecifiedTradeAllowanceCharge::build($invoice->charges, $isAtLeastBasicWl);
-        $xml .= SpecifiedTradePaymentTerms::build($invoice->payterm, $isAtLeastBasicWl);
-        $xml .= SpecifiedTradeSettlementHeaderMonetarySummation::build($invoice, $isAtLeastBasicWl);
-        $xml .= InvoiceReferencedDocument::build($invoice->precedingInvoices, $isAtLeastBasicWl);
-        $xml .= ReceivableSpecifiedTradeAccountingAccount::build($invoice->buyer->accountingReference, $isAtLeastBasicWl);
+
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
+            $xml .= PayeeTradeParty::build($invoice->profile, $invoice->payee) .
+                SpecifiedTradeSettlementPaymentMeans::build($invoice->payment) .
+                ApplicableTradeTax::build($invoice->vatBreakdowns) .
+                BillingSpecifiedPeriod::build($invoice->invoicingPeriodStartDate, $invoice->invoicingPeriodEndDate) .
+                SpecifiedTradeAllowanceCharge::build($invoice->allowances) .
+                SpecifiedTradeAllowanceCharge::build($invoice->charges) .
+                SpecifiedTradePaymentTerms::build($invoice->payterm);
+        }
+        $xml .= SpecifiedTradeSettlementHeaderMonetarySummation::build($invoice);
+
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
+            $xml .= InvoiceReferencedDocument::build($invoice->precedingInvoices) .
+                ReceivableSpecifiedTradeAccountingAccount::build($invoice->buyer->accountingReference);
+        }
 
         $xml .= '</ram:ApplicableHeaderTradeSettlement>';
         return $xml;

@@ -4,9 +4,9 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class ApplicableTradeTax
 {
-    public static function build(?array $vatBreakdowns, bool $isAtLeastBasicWl): string
+    public static function build(?array $vatBreakdowns): string
     {
-        if (!$isAtLeastBasicWl || !$vatBreakdowns) {
+        if (!$vatBreakdowns) {
             return '';
         }
 

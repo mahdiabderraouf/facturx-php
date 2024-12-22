@@ -2,11 +2,12 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\Invoice;
 
 class ApplicableHeaderTradeAgreement
 {
-    public static function build(Invoice $invoice, bool $isAtLeastBasicWl): string
+    public static function build(Invoice $invoice): string
     {
         $xml = '<ram:ApplicableHeaderTradeAgreement>';
 
@@ -16,13 +17,18 @@ class ApplicableHeaderTradeAgreement
             XML;
         }
 
-        $xml .= SellerTradeParty::build($invoice->seller, $isAtLeastBasicWl);
-        $xml .= BuyerTradeParty::build($invoice->buyer, $isAtLeastBasicWl);
+        $xml .= SellerTradeParty::build($invoice->seller, $invoice->profile);
+        $xml .= BuyerTradeParty::build($invoice->buyer, $invoice->profile);
 
-        $xml .= SellerTaxRepresentativeTradeParty::build($invoice->seller->taxRespresentative, $isAtLeastBasicWl);
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
+            $xml .= SellerTaxRepresentativeTradeParty::build($invoice->profile, $invoice->seller->taxRespresentative);
+        }
 
         $xml .= BuyerOrderReferencedDocument::build($invoice->purchaseOrderReference);
-        $xml .= ContractReferencedDocument::build($invoice->contractReference, $isAtLeastBasicWl);
+
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
+            $xml .= ContractReferencedDocument::build($invoice->contractReference);
+        }
 
         $xml .= '</ram:ApplicableHeaderTradeAgreement>';
 

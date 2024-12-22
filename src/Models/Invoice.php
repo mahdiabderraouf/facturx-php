@@ -6,7 +6,6 @@ use DateTime;
 use InvalidArgumentException;
 use MahdiAbderraouf\FacturX\Builder;
 use MahdiAbderraouf\FacturX\Enums\InvoiceTypeCode;
-use MahdiAbderraouf\FacturX\Enums\NoteSubjectCode;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 
@@ -15,6 +14,8 @@ class Invoice
     public string $typeCode;
 
     /**
+     * @param ?array<Line> $lines
+     * @param ?array<Note> $notes
      * @param ?array<VatBreakdown> $vatBreakdowns
      * @param ?array<Allowance> $allowances
      * @param ?array<Charge> $charges
@@ -40,14 +41,14 @@ class Invoice
         public string $businessProcessType = 'A1',
         public string $currencyCode = 'EUR',
         public string $vatCurrency = 'EUR',
+        public ?array $lines = null,
         public ?float $lineNetAmount = null,
         public ?float $chargesSum = null,
         public ?float $allowancesSum = null,
         public ?float $paidAmount = null,
         public ?string $purchaseOrderReference = null,
         public ?string $contractReference = null,
-        public ?string $note = null,
-        public ?NoteSubjectCode $noteSubjectCode = NoteSubjectCode::GENERAL_INFORMATION,
+        public ?array $notes = null,
         public ?Delivery $delivery = null,
         public ?string $bankAssignedCreditorIdentifier = null,
         public ?string $remittanceInformation = null,
@@ -103,8 +104,8 @@ class Invoice
             paidAmount: $data['paidAmount'] ?? null,
             purchaseOrderReference: $data['purchaseOrderReference'] ?? null,
             contractReference: $data['contractReference'] ?? null,
-            note: $data['note'] ?? null,
-            noteSubjectCode: $data['noteSubjectCode'] ?? NoteSubjectCode::GENERAL_INFORMATION,
+            lines: isset(($data['lines'])) ? array_map([Line::class, 'createFromArray'], $data['lines']) : null,
+            notes: isset(($data['notes'])) ? array_map([Note::class, 'createFromArray'], $data['notes']) : null,
             delivery: isset($data['delivery']) ? Delivery::createFromArray($data['delivery']) : null,
             bankAssignedCreditorIdentifier: $data['bankAssignedCreditorIdentifier'] ?? '',
             remittanceInformation: $data['remittanceInformation'] ?? '',

@@ -7,9 +7,9 @@ use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
 
 class ActualDeliveryDate
 {
-    public static function build(?DateTime $deliveryDate, bool $isAtLeastBasicWl): string
+    public static function build(?DateTime $deliveryDate): string
     {
-        if (!$deliveryDate || !$isAtLeastBasicWl) {
+        if (!$deliveryDate) {
             return '';
         }
 

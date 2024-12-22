@@ -9,10 +9,9 @@ class BillingSpecifiedPeriod
 {
     public static function build(
         ?DateTime $invoicingPeriodStartDate,
-        ?DateTime $invoicingPeriodEndDate,
-        bool $isAtLeastBasicWl
+        ?DateTime $invoicingPeriodEndDate
     ): string {
-        if (!$isAtLeastBasicWl || (!$invoicingPeriodStartDate && !$invoicingPeriodEndDate)) {
+        if (!$invoicingPeriodStartDate && !$invoicingPeriodEndDate) {
             return '';
         }
 

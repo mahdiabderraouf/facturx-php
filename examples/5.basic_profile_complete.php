@@ -13,12 +13,13 @@ use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
 use MahdiAbderraouf\FacturX\Enums\AttachmentRelationship;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Enums\DeliveryLocationSchemeIdentifier;
+use MahdiAbderraouf\FacturX\Enums\Unit;
 
-$profile = Profile::BASIC_WL;
+$profile = Profile::BASIC;
 
 $invoice = Invoice::createFromArray([
     // Profile and Basic Information
-    'profile' => Profile::BASIC_WL,
+    'profile' => $profile,
     'number' => 'F-2024-12-15-0002',
     'typeCode' => InvoiceTypeCode::COMMERCIAL_INVOICE,
     'issueDate' => new DateTime(),
@@ -29,7 +30,7 @@ $invoice = Invoice::createFromArray([
     'totalAmountWithVAT' => 600.00,
     'amountDueForPayment' => 600.00,
     'lineNetAmount' => 500.00,
-    'paidAmount' => 600.00,
+    'paidAmount' => 0,
 
     // Buyer Information
     'buyer' => [
@@ -89,7 +90,52 @@ $invoice = Invoice::createFromArray([
         ]
     ],
 
-    // Notes
+    // Lines
+    'lines' => [
+        // Line with minimum needed data
+        [
+            'identifier' => '001', // must be unique
+            'name' => 'Product A',
+            'netPrice' => 100.00,
+            'totalNetPrice' => 300.00,
+            'invoicedQuantity' => 3,
+            'invoicedQuantityUnit' => Unit::ONE,
+            'vatCategory' => VatCategory::ZERO_RATED,
+        ],
+        // Line with all possible data
+        [
+            'identifier' => '002',
+            'name' => 'Product B',
+            'netPrice' => 60.00,
+            'totalNetPrice' => 180.00,
+            'invoicedQuantity' => 3,
+            'invoicedQuantityUnit' => 'XBX', // box
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'vatRate' => 20.00,
+            'grossPrice' => 50.00,
+            'priceQuantity' => 1,
+            'priceQuantityUnit' => 'XBX',
+            'note' => 'Dont 0,50€ d\'éco-participation',
+            'standardIdentifier' => '67890',
+            'schemeIdentifier' => SchemeIdentifier::GLOBAL_TRADE_ITEM_NUMBER, // default
+        ],
+        // Another example
+        [
+            'identifier' => '003',
+            'name' => 'Pack of milk',
+            'netPrice' => 60.00,
+            'totalNetPrice' => 60.00,
+            'invoicedQuantity' => 1,
+            'invoicedQuantityUnit' => Unit::GROUP,
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'vatRate' => 20.00,
+            'grossPrice' => 50.00,
+            'priceQuantity' => 6, // 6 bottles per pack
+            'priceQuantityUnit' => Unit::NUMBER_OF_ARTICLES,
+        ],
+    ],
+
+    // Notes (comment)
     'notes' => [
         [
             'note' => 'Payment due within 30 days.',
@@ -102,10 +148,6 @@ $invoice = Invoice::createFromArray([
         [
             'note' => 'Les réglements reçus avant la date d\'échéance ne donneront pas lieu à escompte.',
             'noteSubjectCode' => NoteSubjectCode::PAYMENT_TERM,
-        ],
-        [
-            'note' => 'DONT 0,50 EUR de DEEE',
-            'noteSubjectCode' => NoteSubjectCode::GENERAL_INFORMATION,
         ],
     ],
 
@@ -123,9 +165,9 @@ $invoice = Invoice::createFromArray([
         'name' => 'ACME Corp. Payments',
         'identifier' => 'PAYEE-1001',
         'globalIdentifier' => 'GLOBAL-PAYEE-ID',
-        'globalIdentifierSchemeIdentifier' => '003',
+        'globalIdentifierSchemeIdentifier' => '0003',
         'legalRegistrationIdentifier' => 'REG-PAYEE-1001',
-        'legalRegistrationSchemeIdentifier' => '004',
+        'legalRegistrationSchemeIdentifier' => '0004',
     ],
     'payment' => [
         'paymentMeansTypeCode' => PaymentMeans::CHECK,
@@ -144,44 +186,10 @@ $invoice = Invoice::createFromArray([
         ]
     ],
 
-    // Invoicing Period
-    'invoicingPeriodStartDate' => new DateTime('2024-01-01'),
-    'invoicingPeriodEndDate' => new DateTime('2024-12-31'),
-
     // Payment Terms
     'payterm' => [
         'paymentTerms' => 'Net 30',
         'dueDate' => new DateTime('2025-01-14'),
-    ],
-
-    // Preceding Invoices
-    'precedingInvoices' => [
-        [
-            'reference' => 'F-2024-11-15-0001',
-            'issueDate' => new DateTime('2024-11-15')
-        ]
-    ],
-
-    // Charges
-    'charges' => [
-        [
-            'amount' => 50.00,
-            'vatCategory' => VatCategory::STANDARD_RATE,
-            'vatRate' => 5.5,
-            'reasonCode' => '88',
-            'reason' => 'Material surcharge/deduction'
-        ]
-    ],
-
-    // Allowances
-    'allowances' => [
-        [
-            'amount' => 20.00,
-            'vatCategory' => VatCategory::STANDARD_RATE,
-            'percentage' => 5.00,
-            'reasonCode' => '95',
-            'reason' => 'Discount'
-        ]
     ],
 
     // Delivery Information
@@ -199,16 +207,45 @@ $invoice = Invoice::createFromArray([
         ],
         'actualDeliveryDate' => new DateTime('2024-12-10'),
         'issuerAssignedID' => 'ISSUER-12345'
-    ]
+    ],
+
+    // Preceding Invoices
+    'precedingInvoices' => [
+        [
+            'reference' => 'F-2024-11-15-0001',
+            'issueDate' => new DateTime('2024-11-15')
+        ]
+    ],
+
+    // Charges
+    'charges' => [
+        [
+            'amount' => 50.00,
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'reasonCode' => '88',
+            'reason' => 'Material surcharge/deduction'
+        ]
+    ],
+
+    // Allowances
+    'allowances' => [
+        [
+            'amount' => 20.00,
+            'vatCategory' => VatCategory::STANDARD_RATE,
+            'percentage' => 5.00,
+            'reasonCode' => '95',
+            'reason' => 'Discount'
+        ]
+    ],
 ]);
 
 try {
-    // The only relationship allowed for minimum profile is Data which is the default one
     Generator::generate(
         // path or PDF string
         '/path/to/Invoice.pdf',
         $invoice,
         // optional
+        relationship: AttachmentRelationship::ALTERNATIVE,
         profile: $profile, // the profile will be automatically detected when not given
         outputPath: 'Factur-X ' . $invoice->number . '.pdf', // if not given, pdf string will be returned
         additionalAttachments: [

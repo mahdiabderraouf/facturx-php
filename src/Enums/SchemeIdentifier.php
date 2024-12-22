@@ -15,4 +15,5 @@ enum SchemeIdentifier: string
     case DUNS = '0060';
     case GLN = '0088';
     case ODETTE = '0177';
+    case GLOBAL_TRADE_ITEM_NUMBER  = '0160';
 }

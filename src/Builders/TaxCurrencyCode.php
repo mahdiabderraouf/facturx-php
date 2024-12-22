@@ -4,9 +4,9 @@ namespace MahdiAbderraouf\FacturX\Builders;
 
 class TaxCurrencyCode
 {
-    public static function build(?string $taxCurrencyCode, bool $isAtLeastBasicWl): string
+    public static function build(?string $taxCurrencyCode): string
     {
-        if (!$isAtLeastBasicWl || !$taxCurrencyCode) {
+        if (!$taxCurrencyCode) {
             return '';
         }
 

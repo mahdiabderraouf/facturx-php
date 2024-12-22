@@ -2,23 +2,26 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Helpers\DateFormat102;
 use MahdiAbderraouf\FacturX\Models\Invoice;
 
 class ExchangedDocument
 {
-    public static function build(Invoice $invoice, bool $isAtLeastBasicWl): string
+    public static function build(Invoice $invoice): string
     {
         $issueDate = DateFormat102::toFormat102($invoice->issueDate);
 
         $includedNote = '';
-        if ($isAtLeastBasicWl && $invoice->note) {
-            $includedNote = <<<XML
-            <ram:IncludedNote>
-                <ram:Content>{$invoice->note}</ram:Content>
-                <ram:SubjectCode>{$invoice->noteSubjectCode->value}</ram:SubjectCode>
-            </ram:IncludedNote>
-            XML;
+        if ($invoice->profile->isAtLeast(Profile::BASIC_WL) && $invoice->notes) {
+            foreach ($invoice->notes as $note) {
+                $includedNote .= <<<XML
+                <ram:IncludedNote>
+                    <ram:Content>{$note->note}</ram:Content>
+                    <ram:SubjectCode>{$note->noteSubjectCode->value}</ram:SubjectCode>
+                </ram:IncludedNote>
+                XML;
+            }
         }
 
         return <<<XML

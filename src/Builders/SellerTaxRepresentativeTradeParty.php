@@ -2,18 +2,19 @@
 
 namespace MahdiAbderraouf\FacturX\Builders;
 
+use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Models\TaxRespresentative;
 
 class SellerTaxRepresentativeTradeParty
 {
-    public static function build(?TaxRespresentative $taxRespresentative, bool $isAtLeastBasicWl): string
+    public static function build(Profile $profile, ?TaxRespresentative $taxRespresentative): string
     {
-        if ($isAtLeastBasicWl && $taxRespresentative) {
+        if ($taxRespresentative) {
             $xml = '<ram:SellerTaxRepresentativeTradeParty>';
 
             $xml .= '<ram:Name>' . $taxRespresentative->name . '</ram:Name>';
 
-            $xml .= PostalTradeAddress::build($taxRespresentative->address, $isAtLeastBasicWl);
+            $xml .= PostalTradeAddress::build($taxRespresentative->address, $profile);
 
             $xml .= SpecifiedTaxRegistration::build($taxRespresentative->vatIdentifier);
 
