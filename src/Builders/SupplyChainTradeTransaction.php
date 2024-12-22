@@ -13,7 +13,7 @@ class SupplyChainTradeTransaction
 
         if ($invoice->profile->isAtLeast(Profile::BASIC)) {
             foreach ($invoice->lines ?? [] as $line) {
-                $xml .= IncludedSupplyChainTradeLineItem::build($line, $invoice->profile);
+                $xml .= IncludedSupplyChainTradeLineItem::build($line);
             }
         }
 

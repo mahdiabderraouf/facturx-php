@@ -10,7 +10,7 @@ class Allowance
 
     public function __construct(
         public float $amount,
-        public VatCategory $vatCategory,
+        public ?VatCategory $vatCategory = null,
         public ?float $vatRate = null,
         public ?float $percentage = null,
         public ?float $baseAmount = null,

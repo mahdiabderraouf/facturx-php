@@ -40,10 +40,12 @@ class SpecifiedTradeAllowanceCharge
                 $xml .= '<ram:Reason>' . $allowance->reason . '</ram:Reason>';
             }
 
-            $xml .= '<ram:CategoryTradeTax>' .
-                '<ram:TypeCode>VAT</ram:TypeCode>' .
-                '<ram:CategoryCode>' . $allowance->vatCategory->value . '</ram:CategoryCode>' .
-            '</ram:CategoryTradeTax>';
+            if ($allowance->vatCategory) {
+                $xml .= '<ram:CategoryTradeTax>' .
+                    '<ram:TypeCode>VAT</ram:TypeCode>' .
+                    '<ram:CategoryCode>' . $allowance->vatCategory->value . '</ram:CategoryCode>' .
+                    '</ram:CategoryTradeTax>';
+            }
         }
 
         $xml .= '</ram:SpecifiedTradeAllowanceCharge>';
