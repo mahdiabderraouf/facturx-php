@@ -14,7 +14,9 @@ A PHP library for managing Factur-x/ZUGFeRD compliant PDF invoices.
     - [Validate XML against XSD](#validate-xml-against-xsd)
     - [Generate a Factur-X PDF](#generate-a-factur-x-pdf)
     - [Parse Factur-X PDF](#parse-factur-x-pdf)
-  - [Contributing](#contributing)
+  - [Bug reports](#bug-reports)
+  - [Contributions](#contributions)
+  - [Roadmap](#roadmap)
 
 ---
 
@@ -203,5 +205,20 @@ try {
 
 ---
 
-## Contributing
-Contributions are welcome, no guidelines for the moment.
+## Bug reports
+Create an issue using the bug report template.
+
+---
+
+## Contributions
+Contributions are welcome, here are some guidelines:
+- Code must be PSR-12
+- Provide an explanation of the changes
+- Provide the reason for the changes
+- If needed, update the documentation and provide an example.
+
+---
+
+## Roadmap
+- Add support for generating `en16931` and `extended` profiles
+- Factur-X parsing: parse a Factur-X file to an `Invoice` object.
