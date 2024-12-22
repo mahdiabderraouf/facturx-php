@@ -44,12 +44,12 @@ composer require mahdiabderraouf/facturx-php
 ---
 
 ## Documentation
-The full documentation can be found [here](documentation).
+The full documentation can be found [here](../../wiki).
 
 ---
 
 ## Usage
-Here are some quick examples of usage. For advanced usage please refer to the [documentation](documentation)
+Here are some quick examples of usage. For advanced usage please refer to the [documentation](../../wiki)
 
 ### Generate minimum profile XML
 ```php
