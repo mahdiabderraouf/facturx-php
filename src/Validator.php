@@ -15,9 +15,6 @@ class Validator
      * Tells whether a Factur-X PDF or XML is valid against XSD schema
      *
      * @param  string $source Path for PDF or XML file or XML string
-     *
-     * @throws UnableToExtractXmlException
-     * @throws InvalidXmlException
      */
     public static function isValid(string $source, ?Profile $profile = null): bool
     {
