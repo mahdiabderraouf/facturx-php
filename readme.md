@@ -129,6 +129,9 @@ try {
     // array of LibXMLError
     $errors = $e->getErrors();
 }
+
+// Or simply check if its valid or not
+$isValid = Validator::isValid($source);
 ```
 
 ### Generate a Factur-X PDF

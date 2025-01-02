@@ -25,3 +25,10 @@ try {
     // array of LibXMLError
     $errors = $e->getErrors();
 }
+
+// Sometimes we want to only check if its valid or not
+$isValid = Validator::isValid($pdf);
+
+echo $isValid ?
+    'File ' . $pdf . ' is Factur-X Valid' :
+    'File ' . $pdf . ' is not Factur-X Valid';
