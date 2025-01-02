@@ -3,6 +3,7 @@
 namespace MahdiAbderraouf\FacturX;
 
 use DOMDocument;
+use Exception;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 use MahdiAbderraouf\FacturX\Exceptions\UnableToExtractXmlException;
@@ -10,6 +11,23 @@ use MahdiAbderraouf\FacturX\Helpers\Utils;
 
 class Validator
 {
+    /**
+     * Tells whether a Factur-X PDF or XML is valid against XSD schema
+     *
+     * @param  string $source Path for PDF or XML file or XML string
+     *
+     * @throws UnableToExtractXmlException
+     * @throws InvalidXmlException
+     */
+    public static function isValid(string $source, ?Profile $profile = null): bool
+    {
+        try {
+            return self::validate($source, $profile);
+        } catch (Exception) {
+            return false;
+        }
+    }
+
     /**
      * Validate Factur-X PDF or XML against XSD schema
      *
@@ -23,11 +41,13 @@ class Validator
         $xml = self::resolveXml($source);
 
         $domDocument = new DOMDocument();
-        $domDocument->loadXML($xml);
+
+        if (!@$domDocument->loadXML($xml)) {
+            throw new InvalidXmlException('Invalid Factur-X XML');
+        }
 
         $profile ??= Parser::getProfile($xml);
 
-        libxml_use_internal_errors(true);
         if (!$domDocument->schemaValidate(self::getXsdFilePathByProfile($profile))) {
             $xmlErrors = libxml_get_errors();
             libxml_clear_errors();
