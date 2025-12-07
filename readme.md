@@ -29,7 +29,7 @@ A PHP library for managing Factur-x/ZUGFeRD compliant PDF invoices.
 ---
 
 ## Requirements
-- PHP version: `>= 8.1`
+- PHP version: `>= 8.2`
 - [poppler-utils](https://tracker.debian.org/pkg/poppler) for XML extraction
 
 ---

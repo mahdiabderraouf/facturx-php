@@ -56,10 +56,10 @@ try {
     Generator::generate(
         // path or PDF string
         '/path/to/Invoice.pdf',
-        $invoice,
+        $invoice, // the profile will be automatically detected when not given
+        outputPath: 'Factur-X ' . $invoice->number . '.pdf',
         // optional
-        profile: $profile, // the profile will be automatically detected when not given
-        outputPath: 'Factur-X ' . $invoice->number . '.pdf', // if not given, pdf string will be returned
+        profile: $profile, // if not given, pdf string will be returned
         additionalAttachments: [
             [
                 'file' => 'extra_file.txt',
@@ -70,6 +70,6 @@ try {
             ]
         ]
     );
-} catch (InvalidXmlException $e) {
-    $errors = $e->getErrors();
+} catch (InvalidXmlException $invalidXmlException) {
+    $errors = $invalidXmlException->getErrors();
 }

@@ -245,9 +245,9 @@ try {
         '/path/to/Invoice.pdf',
         $invoice,
         // optional
-        relationship: AttachmentRelationship::ALTERNATIVE,
-        profile: $profile, // the profile will be automatically detected when not given
-        outputPath: 'Factur-X ' . $invoice->number . '.pdf', // if not given, pdf string will be returned
+        relationship: AttachmentRelationship::ALTERNATIVE, // the profile will be automatically detected when not given
+        outputPath: 'Factur-X ' . $invoice->number . '.pdf',
+        profile: $profile, // if not given, pdf string will be returned
         additionalAttachments: [
             [
                 'file' => 'extra_file.txt',
@@ -258,6 +258,6 @@ try {
             ]
         ]
     );
-} catch (InvalidXmlException $e) {
-    $errors = $e->getErrors();
+} catch (InvalidXmlException $invalidXmlException) {
+    $errors = $invalidXmlException->getErrors();
 }

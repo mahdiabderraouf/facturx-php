@@ -18,6 +18,7 @@ class Address
         if (strlen($countryCode) !== 2) {
             throw new InvalidArgumentException('$countryCode must be an ISO-2 country code');
         }
+
         $this->countryCode = strtoupper($countryCode);
     }
 

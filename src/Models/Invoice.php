@@ -67,11 +67,13 @@ class Invoice
         if (strlen($currencyCode) !== 3) {
             throw new InvalidArgumentException('$currencyCode must be contain 3 characters');
         }
+
         $this->currencyCode = strtoupper($currencyCode);
 
         if (strlen($vatCurrency) !== 3) {
             throw new InvalidArgumentException('$vatCurrency must be contain 3 characters');
         }
+
         $this->vatCurrency = strtoupper($vatCurrency);
 
         $this->typeCode = Utils::stringOrEnumToString($typeCode);
@@ -79,6 +81,7 @@ class Invoice
         if ($vatAccountingCurrencyCode && strlen($vatAccountingCurrencyCode) !== 3) {
             throw new InvalidArgumentException('$vatAccountingCurrencyCode must be contain 3 characters');
         }
+
         $this->vatAccountingCurrencyCode = strtoupper((string) $vatAccountingCurrencyCode);
     }
 
@@ -98,19 +101,19 @@ class Invoice
             businessProcessType: $data['businessProcessType'] ?? 'A1',
             currencyCode: $data['currencyCode'] ?? 'EUR',
             vatCurrency: $data['vatCurrency'] ?? 'EUR',
+            lines: isset(($data['lines'])) ? array_map([Line::class, 'createFromArray'], $data['lines']) : null,
             lineNetAmount: $data['lineNetAmount'] ?? null,
             chargesSum: $data['chargesSum'] ?? null,
             allowancesSum: $data['allowancesSum'] ?? null,
             paidAmount: $data['paidAmount'] ?? null,
             purchaseOrderReference: $data['purchaseOrderReference'] ?? null,
             contractReference: $data['contractReference'] ?? null,
-            lines: isset(($data['lines'])) ? array_map([Line::class, 'createFromArray'], $data['lines']) : null,
             notes: isset(($data['notes'])) ? array_map([Note::class, 'createFromArray'], $data['notes']) : null,
             delivery: isset($data['delivery']) ? Delivery::createFromArray($data['delivery']) : null,
             bankAssignedCreditorIdentifier: $data['bankAssignedCreditorIdentifier'] ?? '',
             remittanceInformation: $data['remittanceInformation'] ?? '',
-            vatAccountingCurrencyCode: $data['vatAccountingCurrencyCode'] ?? '',
             totalVATAmountInAccountingCurrency: $data['totalVATAmountInAccountingCurrency'] ?? '',
+            vatAccountingCurrencyCode: $data['vatAccountingCurrencyCode'] ?? '',
             payee: isset($data['payee']) ? Payee::createFromArray($data['payee']) : null,
             payment: isset($data['payment']) ? Payment::createFromArray($data['payment']) : null,
             vatBreakdowns: isset(($data['vatBreakdowns'])) ? array_map([VatBreakdown::class, 'createFromArray'], $data['vatBreakdowns']) : null,

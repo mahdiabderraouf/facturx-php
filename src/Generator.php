@@ -34,7 +34,7 @@ class Generator
     public static function generate(
         string $pdfPath,
         string|Invoice $xml,
-        AttachmentRelationship $relationship = AttachmentRelationship::DATA,
+        AttachmentRelationship $attachmentRelationship = AttachmentRelationship::DATA,
         ?string $outputPath = null,
         ?Profile $profile = null,
         ?array $additionalAttachments = []
@@ -43,16 +43,16 @@ class Generator
             throw new NotPdfFileException('The file ' . $pdfPath . ' is not a PDF file');
         }
 
-        if (!$relationship->isAllowedForFacturxXml()) {
-            throw new InvalidArgumentException('Invalid argument $relationship: ' . $relationship->value);
+        if (!$attachmentRelationship->isAllowedForFacturxXml()) {
+            throw new InvalidArgumentException('Invalid argument $relationship: ' . $attachmentRelationship->value);
         }
 
         $xml = self::resolveXml($xml);
 
         $profile ??= Parser::getProfile($xml);
 
-        if (in_array($profile, [Profile::MINIMUM, Profile::BASIC_WL]) && $relationship !== AttachmentRelationship::DATA) {
-            throw new InvalidArgumentException('Invalid argument $relationship: ' . $relationship->value . ', only the relationship Data is allowed for minimumn and basic-wl profiles.');
+        if (in_array($profile, [Profile::MINIMUM, Profile::BASIC_WL]) && $attachmentRelationship !== AttachmentRelationship::DATA) {
+            throw new InvalidArgumentException('Invalid argument $relationship: ' . $attachmentRelationship->value . ', only the relationship Data is allowed for minimumn and basic-wl profiles.');
         }
 
         Validator::validate($xml, $profile);
@@ -61,17 +61,17 @@ class Generator
         $updateDate = (new DateTime())->setTime(0, 0);
         $invoiceData = Parser::extractBaseData($xml);
 
-        $pdf = new PdfA3b($pdfPath);
+        $pdfA3b = new PdfA3b($pdfPath);
 
-        $pdf->setAttachments(self::buildAttachmentsArray($xml, $relationship, $additionalAttachments));
-        $pdf->setPdfId($invoiceData['issueDate']->format('Y-m-d'), $updateDate->format('Y-m-d'));
-        $pdf->setXmp(self::buildXmpString($invoiceData, $updateDate, $profile));
+        $pdfA3b->setAttachments(self::buildAttachmentsArray($xml, $attachmentRelationship, $additionalAttachments));
+        $pdfA3b->setPdfId($invoiceData['issueDate']->format('Y-m-d'), $updateDate->format('Y-m-d'));
+        $pdfA3b->setXmp(self::buildXmpString($invoiceData, $updateDate, $profile));
 
         if ($outputPath) {
-            return $pdf->Output('F', $outputPath);
+            return $pdfA3b->Output('F', $outputPath);
         }
 
-        return $pdf->Output('S');
+        return $pdfA3b->Output('S');
     }
 
     private static function resolveXml(string|Invoice $xml): string
@@ -102,29 +102,29 @@ class Generator
         $xmp = str_replace('{facturxFilename}', XmlFilename::FACTUR_X->value, $xmp);
         $xmp = str_replace('{libraryVersion}', Version::VERSION, $xmp);
         $xmp = str_replace('{facturxVersion}', Version::FACTURX_VERSION, $xmp);
-        $xmp = str_replace('{facturxProfile}', $profile->toConformanceLevel(), $xmp);
 
-        return $xmp;
+        return str_replace('{facturxProfile}', $profile->toConformanceLevel(), $xmp);
     }
 
     /**
      * @throws InvalidArgumentException
      */
-    private static function buildAttachmentsArray(string $xml, AttachmentRelationship $relationship, array $additionalAttachments = []): array
+    private static function buildAttachmentsArray(string $xml, AttachmentRelationship $attachmentRelationship, array $additionalAttachments = []): array
     {
         $attachments = [
             [
                 'file' => $xml,
                 'filename' => XmlFilename::FACTUR_X->value,
-                'relationship' => $relationship->value,
+                'relationship' => $attachmentRelationship->value,
                 'description' => 'Factur-X Invoice',
             ],
         ];
 
         foreach ($additionalAttachments as $additionalAttachment) {
             if (!file_exists($additionalAttachment['file'])) {
-                throw new InvalidArgumentException('File ' . ($additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file'])) . ' don\'t exist.');
+                throw new InvalidArgumentException('File ' . ($additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file'])) . " don't exist.");
             }
+
             $attachments[] = [
                 'file' => $additionalAttachment['file'],
                 'filename' => $additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file']),

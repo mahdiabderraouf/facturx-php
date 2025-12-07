@@ -17,19 +17,21 @@ use setasign\Fpdi\PdfParser\Type\PdfType;
  */
 class PdfA3b extends Fpdi
 {
-    private readonly string $pdfPath;
     private array $attachments = [];
+
     private string $xmp;
+
     private string $pdfId;
+
     private int $xmpIndex = 0;
+
     private int $outputIntentIndex = 0;
+
     private int $nFiles = 0;
 
-    public function __construct(string $pdfPath, $orientation = 'P', $unit = 'mm', $size = 'A4')
+    public function __construct(private readonly string $pdfPath, $orientation = 'P', $unit = 'mm', $size = 'A4')
     {
         parent::__construct($orientation, $unit, $size);
-
-        $this->pdfPath = $pdfPath;
         $this->setMinPdfVersion('1.7');
         $this->copyPages();
     }
@@ -63,7 +65,6 @@ class PdfA3b extends Fpdi
     /**
      * Set the PDF version.
      */
-    #[\Override]
     protected function _putheader()
     {
         parent::_putheader();
@@ -76,13 +77,13 @@ class PdfA3b extends Fpdi
      *
      * @throws \Exception
      */
-    #[\Override]
     protected function _putresources()
     {
         parent::_putresources();
         if ($this->attachments) {
             $this->putAttachments();
         }
+
         $this->putOutputIntent();
         $this->putXmp();
     }
@@ -90,33 +91,35 @@ class PdfA3b extends Fpdi
     /**
      * Put catalog node, including associated files.
      */
-    #[\Override]
     protected function _putcatalog()
     {
         parent::_putcatalog();
 
-        if (count($this->attachments)) {
+        if ($this->attachments !== []) {
             $attachmentsRef = '';
             foreach ($this->attachments as $attachment) {
-                if ($attachmentsRef) {
+                if ($attachmentsRef !== '' && $attachmentsRef !== '0') {
                     $attachmentsRef .= ' ';
                 }
+
                 $attachmentsRef .= $attachment['fileIndex'] . ' 0 R';
             }
+
             $this->_put('/AF [' . $attachmentsRef . ']');
         } else {
             $this->_put('/AF ' . $this->nFiles . ' 0 R');
         }
 
-        if ($this->xmpIndex) {
+        if ($this->xmpIndex !== 0) {
             $this->_put('/Metadata ' . $this->xmpIndex . ' 0 R');
         }
+
         $this->_put('/Names <<');
         $this->_put('/EmbeddedFiles ');
         $this->_put($this->nFiles . ' 0 R');
         $this->_put('>>');
 
-        if ($this->outputIntentIndex) {
+        if ($this->outputIntentIndex !== 0) {
             $this->_put('/OutputIntents [' . $this->outputIntentIndex . ' 0 R]',);
         }
 
@@ -130,7 +133,6 @@ class PdfA3b extends Fpdi
     /**
      * Put trailer including ID.
      */
-    #[\Override]
     protected function _puttrailer()
     {
         parent::_puttrailer();
@@ -141,7 +143,6 @@ class PdfA3b extends Fpdi
     /**
      * {@inheritDoc}
      */
-    #[\Override]
     protected function writePdfType(PdfType $value)
     {
         parent::writePdfType($value);
@@ -201,6 +202,7 @@ class PdfA3b extends Fpdi
         if ($attachment['description']) {
             $this->_put('/Desc ' . $this->_textstring($attachment['description']));
         }
+
         $this->_put('/EF <<');
         $this->_put('/F ' . ($this->n + 1) . ' 0 R');
         $this->_put('/UF ' . ($this->n + 1) . ' 0 R');
@@ -221,7 +223,7 @@ class PdfA3b extends Fpdi
         $updateAt = @date('YmdHis', filemtime($attachment['file']));
 
         $this->_put('/Length ' . strlen($fileContent));
-        $this->_put("/Params <</ModDate (D:$updateAt)>>");
+        $this->_put(sprintf('/Params <</ModDate (D:%s)>>', $updateAt));
         $this->_put('>>');
         $this->_putstream($fileContent);
         $this->_put('endobj');
@@ -244,9 +246,7 @@ class PdfA3b extends Fpdi
     {
         $attachmentsNamesSorted = '';
         $attachments = $this->attachments;
-        usort($attachments, function ($a, $b) {
-            return strcmp((string) $a['filename'], (string) $b['filename']);
-        });
+        usort($attachments, fn(array $a, array $b): int => strcmp((string) $a['filename'], (string) $b['filename']));
 
         foreach ($attachments as $attachment) {
             $attachmentsNamesSorted .= $this->_textstring($attachment['filename']) .

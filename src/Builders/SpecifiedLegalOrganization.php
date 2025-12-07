@@ -24,6 +24,7 @@ class SpecifiedLegalOrganization
                 <ram:ID schemeID="{$schemeIdentifier}">{$legalRegistrationIdentifier}</ram:ID>
                 XML;
             }
+
             if ($addTradingName) {
                 $xml .= <<<XML
                 <ram:TradingBusinessName>{$tradingName}</ram:TradingBusinessName>

@@ -9,7 +9,7 @@ class ApplicableHeaderTradeDelivery
 {
     public static function build(Invoice $invoice): string
     {
-        if (!$invoice->profile->isAtLeast(Profile::BASIC_WL) || !$invoice->delivery) {
+        if (!$invoice->profile->isAtLeast(Profile::BASIC_WL) || !$invoice->delivery instanceof \MahdiAbderraouf\FacturX\Models\Delivery) {
             return '<ram:ApplicableHeaderTradeDelivery />';
         }
 
@@ -18,8 +18,6 @@ class ApplicableHeaderTradeDelivery
         $xml .= ShipToTradeParty::build($invoice->profile, $invoice->delivery);
         $xml .= ActualDeliveryDate::build($invoice->delivery->actualDeliveryDate);
         $xml .= DespatchAdviceReferencedDocument::build($invoice->delivery->issuerAssignedID);
-
-        $xml .= '</ram:ApplicableHeaderTradeDelivery>';
-        return $xml;
+        return $xml . '</ram:ApplicableHeaderTradeDelivery>';
     }
 }

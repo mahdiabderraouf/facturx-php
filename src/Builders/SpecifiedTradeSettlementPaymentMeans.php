@@ -8,7 +8,7 @@ class SpecifiedTradeSettlementPaymentMeans
 {
     public static function build(?Payment $payment): string
     {
-        if (!$payment) {
+        if (!$payment instanceof \MahdiAbderraouf\FacturX\Models\Payment) {
             return '';
         }
 
@@ -28,14 +28,14 @@ class SpecifiedTradeSettlementPaymentMeans
             if ($payment->paymentAccountIdentifier) {
                 $xml .= '<ram:IBANID>' . $payment->paymentAccountIdentifier . '</ram:IBANID>';
             }
+
             if ($payment->nationalAccountNumber) {
                 $xml .= '<ram:ProprietaryID>' . $payment->nationalAccountNumber . '</ram:ProprietaryID>';
             }
+
             $xml .= '</ram:PayeePartyCreditorFinancialAccount>';
         }
 
-        $xml .= '</ram:SpecifiedTradeSettlementPaymentMeans>';
-
-        return $xml;
+        return $xml . '</ram:SpecifiedTradeSettlementPaymentMeans>';
     }
 }

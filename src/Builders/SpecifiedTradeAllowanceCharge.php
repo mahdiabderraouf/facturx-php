@@ -49,8 +49,6 @@ class SpecifiedTradeAllowanceCharge
             }
         }
 
-        $xml .= '</ram:SpecifiedTradeAllowanceCharge>';
-
-        return $xml;
+        return $xml . '</ram:SpecifiedTradeAllowanceCharge>';
     }
 }

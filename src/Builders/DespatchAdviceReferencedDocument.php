@@ -12,7 +12,7 @@ class DespatchAdviceReferencedDocument
 
         return <<<XML
         <ram:DespatchAdviceReferencedDocument>
-            <ram:IssuerAssignedID>$issuerAssignedID</ram:IssuerAssignedID>
+            <ram:IssuerAssignedID>{$issuerAssignedID}</ram:IssuerAssignedID>
         </ram:DespatchAdviceReferencedDocument>
         XML;
     }

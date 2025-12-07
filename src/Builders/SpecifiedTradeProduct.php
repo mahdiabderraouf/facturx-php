@@ -20,8 +20,7 @@ class SpecifiedTradeProduct
         }
 
         $xml .= '<ram:Name>' . $line->name . '</ram:Name>';
-        $xml .= '</ram:SpecifiedTradeProduct>';
 
-        return $xml;
+        return $xml . '</ram:SpecifiedTradeProduct>';
     }
 }

@@ -15,6 +15,7 @@ class SpecifiedLineTradeSettlement
         if ($line->vatRate) {
             $xml .= '<ram:RateApplicablePercent>' . $line->vatRate . '</ram:RateApplicablePercent>';
         }
+
         $xml .= '</ram:ApplicableTradeTax>';
 
         $xml .= BillingSpecifiedPeriod::build($line->startDate, $line->endDate);
@@ -25,8 +26,6 @@ class SpecifiedLineTradeSettlement
         $xml .= '<ram:LineTotalAmount>' . $line->totalNetPrice . '</ram:LineTotalAmount>';
         $xml .= '</ram:SpecifiedTradeSettlementLineMonetarySummation>';
 
-        $xml .= '</ram:SpecifiedLineTradeSettlement>';
-
-        return $xml;
+        return $xml . '</ram:SpecifiedLineTradeSettlement>';
     }
 }

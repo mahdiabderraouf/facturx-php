@@ -18,6 +18,6 @@ try {
         '/path/to/Invoice.pdf',
         $xml
     );
-} catch (InvalidXmlException $e) {
-    $errors = $e->getErrors();
+} catch (InvalidXmlException $invalidXmlException) {
+    $errors = $invalidXmlException->getErrors();
 }
