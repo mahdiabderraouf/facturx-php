@@ -8,17 +8,12 @@ use Throwable;
 
 class InvalidXmlException extends Exception
 {
-    /** @var array<LibXMLError> */
-    private readonly ?array $errors;
-
     /**
      * @param  ?array<LibXMLError> $errors
      */
-    public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null, ?array $errors = null)
+    public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null, private readonly ?array $errors = null)
     {
         parent::__construct($message, $code, $previous);
-
-        $this->errors = $errors;
     }
 
     public function getErrors(): ?array

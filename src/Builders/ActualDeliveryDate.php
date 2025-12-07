@@ -9,7 +9,7 @@ class ActualDeliveryDate
 {
     public static function build(?DateTime $deliveryDate): string
     {
-        if (!$deliveryDate) {
+        if (!$deliveryDate instanceof \DateTime) {
             return '';
         }
 
@@ -18,7 +18,7 @@ class ActualDeliveryDate
         return <<<XML
         <ram:ActualDeliverySupplyChainEvent>
             <ram:OccurrenceDateTime>
-                <udt:DateTimeString format="102">$deliveryDate</udt:DateTimeString>
+                <udt:DateTimeString format="102">{$deliveryDate}</udt:DateTimeString>
             </ram:OccurrenceDateTime>
         </ram:ActualDeliverySupplyChainEvent>
         XML;

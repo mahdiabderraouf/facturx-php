@@ -28,14 +28,13 @@ class ApplicableHeaderTradeSettlement
                 SpecifiedTradeAllowanceCharge::build($invoice->charges) .
                 SpecifiedTradePaymentTerms::build($invoice->payterm);
         }
+
         $xml .= SpecifiedTradeSettlementHeaderMonetarySummation::build($invoice);
 
         if ($invoice->profile->isAtLeast(Profile::BASIC_WL)) {
             $xml .= InvoiceReferencedDocument::build($invoice->precedingInvoices) .
                 ReceivableSpecifiedTradeAccountingAccount::build($invoice->buyer->accountingReference);
         }
-
-        $xml .= '</ram:ApplicableHeaderTradeSettlement>';
-        return $xml;
+        return $xml . '</ram:ApplicableHeaderTradeSettlement>';
     }
 }

@@ -33,7 +33,7 @@ class Utils
      */
     public static function isValidXmlFilenames(array $XmlFilename): bool
     {
-        return count(array_diff(XmlFilename::values(), $XmlFilename)) === 0;
+        return array_diff(XmlFilename::values(), $XmlFilename) === [];
     }
 
     /**

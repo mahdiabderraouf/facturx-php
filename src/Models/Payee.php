@@ -8,6 +8,7 @@ use MahdiAbderraouf\FacturX\Helpers\Utils;
 class Payee
 {
     public string $globalIdentifierSchemeIdentifier = '';
+
     public string $legalRegistrationSchemeIdentifier = '';
 
     public function __construct(

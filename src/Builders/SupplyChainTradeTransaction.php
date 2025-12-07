@@ -17,11 +17,6 @@ class SupplyChainTradeTransaction
             }
         }
 
-        $xml .= ApplicableHeaderTradeAgreement::build($invoice) .
-            ApplicableHeaderTradeDelivery::build($invoice) .
-            ApplicableHeaderTradeSettlement::build($invoice) .
-        '</rsm:SupplyChainTradeTransaction>';
-
-        return $xml;
+        return $xml . (ApplicableHeaderTradeAgreement::build($invoice) . ApplicableHeaderTradeDelivery::build($invoice) . ApplicableHeaderTradeSettlement::build($invoice) . '</rsm:SupplyChainTradeTransaction>');
     }
 }

@@ -9,7 +9,7 @@ class SpecifiedTradePaymentTerms
 {
     public static function build(?Payterm $payterm): string
     {
-        if (!$payterm) {
+        if (!$payterm instanceof \MahdiAbderraouf\FacturX\Models\Payterm) {
             return '';
         }
 
@@ -19,7 +19,7 @@ class SpecifiedTradePaymentTerms
             $xml .= '<ram:Description>' . $payterm->paymentTerms . '</ram:Description>';
         }
 
-        if ($payterm->dueDate) {
+        if ($payterm->dueDate instanceof \DateTime) {
             $xml .= '<ram:DueDateDateTime>';
             $xml .= '<udt:DateTimeString format="102">'
             . DateFormat102::toFormat102($payterm->dueDate)
@@ -27,14 +27,12 @@ class SpecifiedTradePaymentTerms
             $xml .= '</ram:DueDateDateTime>';
         }
 
-        if ($payterm->mandateReferenceIdentifier) {
+        if ($payterm->mandateReferenceIdentifier instanceof \DateTime) {
             $xml .= '<ram:DirectDebitMandateID>'
             . $payterm->mandateReferenceIdentifier
                 . '</ram:DirectDebitMandateID>';
         }
 
-        $xml .= '</ram:SpecifiedTradePaymentTerms>';
-
-        return $xml;
+        return $xml . '</ram:SpecifiedTradePaymentTerms>';
     }
 }

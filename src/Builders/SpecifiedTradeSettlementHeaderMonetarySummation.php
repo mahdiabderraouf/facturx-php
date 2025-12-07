@@ -39,8 +39,7 @@ class SpecifiedTradeSettlementHeaderMonetarySummation
         }
 
         $xml .= '<ram:DuePayableAmount>' . $invoice->amountDueForPayment . '</ram:DuePayableAmount>';
-        $xml .= '</ram:SpecifiedTradeSettlementHeaderMonetarySummation>';
 
-        return $xml;
+        return $xml . '</ram:SpecifiedTradeSettlementHeaderMonetarySummation>';
     }
 }

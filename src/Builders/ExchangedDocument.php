@@ -29,9 +29,9 @@ class ExchangedDocument
             <ram:ID>{$invoice->number}</ram:ID>
             <ram:TypeCode>{$invoice->typeCode}</ram:TypeCode>
             <ram:IssueDateTime>
-                <udt:DateTimeString format="102">$issueDate</udt:DateTimeString>
+                <udt:DateTimeString format="102">{$issueDate}</udt:DateTimeString>
             </ram:IssueDateTime>
-            $includedNote
+            {$includedNote}
         </rsm:ExchangedDocument>
         XML;
     }

@@ -30,8 +30,6 @@ class ApplicableHeaderTradeAgreement
             $xml .= ContractReferencedDocument::build($invoice->contractReference);
         }
 
-        $xml .= '</ram:ApplicableHeaderTradeAgreement>';
-
-        return $xml;
+        return $xml . '</ram:ApplicableHeaderTradeAgreement>';
     }
 }
