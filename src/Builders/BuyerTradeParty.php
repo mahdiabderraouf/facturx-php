@@ -20,7 +20,7 @@ class BuyerTradeParty
                 GlobalIdentifiers::build($buyer->globalIdentifiers);
         }
 
-        if ($buyer->name) {
+        if ($buyer->name !== '' && $buyer->name !== '0') {
             $xml .= '<ram:Name>' . $buyer->name . '</ram:Name>';
         }
 
@@ -31,8 +31,6 @@ class BuyerTradeParty
             $xml .= Email::build($buyer->email);
             $xml .= SpecifiedTaxRegistration::build($buyer->vatIdentifier);
         }
-
-        $xml .= '</ram:BuyerTradeParty>';
-        return $xml;
+        return $xml . '</ram:BuyerTradeParty>';
     }
 }

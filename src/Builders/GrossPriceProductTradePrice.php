@@ -26,8 +26,6 @@ class GrossPriceProductTradePrice
             $xml .= '</ram:AppliedTradeAllowanceCharge>';
         }
 
-        $xml .= '</ram:GrossPriceProductTradePrice>';
-
-        return $xml;
+        return $xml . '</ram:GrossPriceProductTradePrice>';
     }
 }

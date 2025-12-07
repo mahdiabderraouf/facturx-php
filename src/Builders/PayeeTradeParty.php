@@ -9,7 +9,7 @@ class PayeeTradeParty
 {
     public static function build(Profile $profile, ?Payee $payee): string
     {
-        if (!$payee) {
+        if (!$payee instanceof \MahdiAbderraouf\FacturX\Models\Payee) {
             return '';
         }
 
@@ -33,8 +33,7 @@ class PayeeTradeParty
                 $payee->legalRegistrationSchemeIdentifier
             );
         }
-        $xml .= '</ram:PayeeTradeParty>';
 
-        return $xml;
+        return $xml . '</ram:PayeeTradeParty>';
     }
 }

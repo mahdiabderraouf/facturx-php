@@ -13,7 +13,7 @@ class GlobalIdentifiers
         foreach ($globalIdentifiers ?? [] as $globalIdentifier) {
             $schemeId = Utils::stringOrEnumToString($globalIdentifier['schemeIdentifier']);
             $xml .= <<<XML
-            <ram:GlobalID schemeID="$schemeId">{$globalIdentifier['identifier']}</ram:GlobalID>
+            <ram:GlobalID schemeID="{$schemeId}">{$globalIdentifier['identifier']}</ram:GlobalID>
             XML;
         }
 

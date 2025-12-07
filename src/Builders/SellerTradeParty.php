@@ -32,8 +32,6 @@ class SellerTradeParty
         }
 
         $xml .= SpecifiedTaxRegistration::build($seller->vatIdentifier);
-
-        $xml .= '</ram:SellerTradeParty>';
-        return $xml;
+        return $xml . '</ram:SellerTradeParty>';
     }
 }

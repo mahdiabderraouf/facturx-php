@@ -25,8 +25,8 @@ class XmlExtractor
             }
 
             return $xml;
-        } catch (Exception $e) {
-            throw new UnableToExtractXmlException('Error occured while extracting XML : ' . $e->getMessage());
+        } catch (Exception $exception) {
+            throw new UnableToExtractXmlException('Error occured while extracting XML : ' . $exception->getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ class XmlExtractor
     {
         $pdfPath = escapeshellarg($pdfPath);
 
-        exec("pdfdetach -list {$pdfPath}", $output, $resultCode);
+        exec('pdfdetach -list ' . $pdfPath, $output, $resultCode);
 
         if (0 !== $resultCode) {
             throw new UnableToExtractXmlException('failed to list attachments');
@@ -72,7 +72,7 @@ class XmlExtractor
         $escapedXmlOutputPath = escapeshellarg($xmlOutputPath);
 
         exec(
-            "pdfdetach -save {$attachmentIndex} {$pdfPath} -o {$escapedXmlOutputPath}",
+            sprintf('pdfdetach -save %s %s -o %s', $attachmentIndex, $pdfPath, $escapedXmlOutputPath),
             $output,
             $resultCode
         );

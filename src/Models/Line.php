@@ -11,7 +11,9 @@ use MahdiAbderraouf\FacturX\Helpers\Utils;
 class Line
 {
     public ?string $schemeIdentifier = '0160';
+
     public ?string $priceQuantityUnit = null;
+
     public string $invoicedQuantityUnit;
 
     /**

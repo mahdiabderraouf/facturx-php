@@ -9,7 +9,7 @@ class SellerTaxRepresentativeTradeParty
 {
     public static function build(Profile $profile, ?TaxRespresentative $taxRespresentative): string
     {
-        if ($taxRespresentative) {
+        if ($taxRespresentative instanceof \MahdiAbderraouf\FacturX\Models\TaxRespresentative) {
             $xml = '<ram:SellerTaxRepresentativeTradeParty>';
 
             $xml .= '<ram:Name>' . $taxRespresentative->name . '</ram:Name>';
@@ -17,9 +17,7 @@ class SellerTaxRepresentativeTradeParty
             $xml .= PostalTradeAddress::build($taxRespresentative->address, $profile);
 
             $xml .= SpecifiedTaxRegistration::build($taxRespresentative->vatIdentifier);
-
-            $xml .= '</ram:SellerTaxRepresentativeTradeParty>';
-            return $xml;
+            return $xml . '</ram:SellerTaxRepresentativeTradeParty>';
         }
 
         return '';

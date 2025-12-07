@@ -28,8 +28,8 @@ enum Profile: string
             return true;
         }
 
-        $thisIndex = array_search($this, self::cases());
-        $profileIndex = array_search($profile, self::cases());
+        $thisIndex = array_search($this, self::cases(), true);
+        $profileIndex = array_search($profile, self::cases(), true);
 
         return $thisIndex >= $profileIndex;
     }

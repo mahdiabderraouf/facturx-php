@@ -14,7 +14,7 @@ class Email
             $schemeId = SchemeIdentifier::EMAIL->value;
             $xml .= <<<XML
             <ram:URIUniversalCommunication>
-                <ram:URIID schemeID="$schemeId">$email</ram:URIID>
+                <ram:URIID schemeID="{$schemeId}">{$email}</ram:URIID>
             </ram:URIUniversalCommunication>
             XML;
         }

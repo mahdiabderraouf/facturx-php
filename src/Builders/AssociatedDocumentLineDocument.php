@@ -16,8 +16,6 @@ class AssociatedDocumentLineDocument
             $xml .= '<ram:IncludedNote><ram:Content>' . $line->note . '</ram:Content></ram:IncludedNote>';
         }
 
-        $xml .= '</ram:AssociatedDocumentLineDocument>';
-
-        return $xml;
+        return $xml . '</ram:AssociatedDocumentLineDocument>';
     }
 }

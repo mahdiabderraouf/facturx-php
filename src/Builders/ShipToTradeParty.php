@@ -9,7 +9,7 @@ class ShipToTradeParty
 {
     public static function build(Profile $profile, ?Delivery $delivery): string
     {
-        if (!$delivery) {
+        if (!$delivery instanceof \MahdiAbderraouf\FacturX\Models\Delivery) {
             return '';
         }
 
@@ -27,11 +27,9 @@ class ShipToTradeParty
             $xml .= '<ram:Name>' . $delivery->partyName . '</ram:Name>';
         }
 
-        if ($delivery->address) {
+        if ($delivery->address instanceof \MahdiAbderraouf\FacturX\Models\Address) {
             $xml .= PostalTradeAddress::build($delivery->address, $profile);
         }
-
-        $xml .= '</ram:ShipToTradeParty>';
-        return $xml;
+        return $xml . '</ram:ShipToTradeParty>';
     }
 }

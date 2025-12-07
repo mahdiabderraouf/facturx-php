@@ -15,7 +15,7 @@ try {
         $pdf,
         XmlFilename::FACTUR_X, // look only for 'factur-x.xml'
     );
-} catch (UnableToExtractXmlException $e) {
+} catch (UnableToExtractXmlException $unableToExtractXmlException) {
     // Failed to extract XML from given PDF
-    $message = $e->getMessage();
+    $message = $unableToExtractXmlException->getMessage();
 }
