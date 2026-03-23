@@ -61,8 +61,12 @@ class Line
             priceQuantity: $data['priceQuantity'] ?? null,
             priceQuantityUnit: $data['priceQuantityUnit'] ?? null,
             priceDiscount: $data['priceDiscount'] ?? null,
-            allowances: isset(($data['allowances'])) ? array_map([Allowance::class, 'createFromArray'], $data['allowances']) : null,
-            charges: isset(($data['charges'])) ? array_map([Charge::class, 'createFromArray'], $data['charges']) : null,
+            allowances: isset(($data['allowances']))
+                ? array_map([Allowance::class, 'createFromArray'], $data['allowances'])
+                : null,
+            charges: isset(($data['charges']))
+                ? array_map([Charge::class, 'createFromArray'], $data['charges'])
+                : null,
             standardIdentifier: $data['standardIdentifier'] ?? null,
             schemeIdentifier: $data['schemeIdentifier'] ?? null,
             note: $data['note'] ?? null,

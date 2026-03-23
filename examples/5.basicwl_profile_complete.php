@@ -207,10 +207,10 @@ try {
     Generator::generate(
         // path or PDF string
         '/path/to/Invoice.pdf',
-        $invoice, // the profile will be automatically detected when not given
-        outputPath: 'Factur-X ' . $invoice->number . '.pdf',
+        $invoice,
         // optional
-        profile: $profile, // if not given, pdf string will be returned
+        outputPath: 'Factur-X ' . $invoice->number . '.pdf', // if not given, pdf string will be returned
+        profile: $profile, // the profile will be automatically detected when not given
         additionalAttachments: [
             [
                 'file' => 'extra_file.txt',

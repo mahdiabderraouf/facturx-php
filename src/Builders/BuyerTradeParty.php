@@ -20,11 +20,15 @@ class BuyerTradeParty
                 GlobalIdentifiers::build($buyer->globalIdentifiers);
         }
 
-        if ($buyer->name !== '' && $buyer->name !== '0') {
+        if ($buyer->name) {
             $xml .= '<ram:Name>' . $buyer->name . '</ram:Name>';
         }
 
-        $xml .= SpecifiedLegalOrganization::build($profile, $buyer->legalRegistrationIdentifier, $buyer->schemeIdentifier);
+        $xml .= SpecifiedLegalOrganization::build(
+            $profile,
+            $buyer->legalRegistrationIdentifier,
+            $buyer->schemeIdentifier
+        );
 
         if ($profile->isAtLeast(Profile::BASIC_WL)) {
             $xml .= PostalTradeAddress::build($buyer->address, $profile);

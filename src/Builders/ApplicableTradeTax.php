@@ -24,7 +24,9 @@ class ApplicableTradeTax
             $xml .= '<ram:CategoryCode>' . $vatBreakdown->vatCategory->value . '</ram:CategoryCode>';
 
             if ($vatBreakdown->vatExemptionReasonCode) {
-                $xml .= '<ram:ExemptionReasonCode>' . $vatBreakdown->vatExemptionReasonCode . '</ram:ExemptionReasonCode>';
+                $xml .= '<ram:ExemptionReasonCode>'
+                    . $vatBreakdown->vatExemptionReasonCode
+                    . '</ram:ExemptionReasonCode>';
             }
 
             if ($vatBreakdown->valueAddedTaxPointDateCode) {

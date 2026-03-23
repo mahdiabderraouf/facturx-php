@@ -11,8 +11,12 @@ class InvalidXmlException extends Exception
     /**
      * @param  ?array<LibXMLError> $errors
      */
-    public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null, private readonly ?array $errors = null)
-    {
+    public function __construct(
+        string $message = '',
+        int $code = 0,
+        Throwable|null $previous = null,
+        private readonly ?array $errors = null
+    ) {
         parent::__construct($message, $code, $previous);
     }
 

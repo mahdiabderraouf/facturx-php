@@ -51,8 +51,14 @@ class Generator
 
         $profile ??= Parser::getProfile($xml);
 
-        if (in_array($profile, [Profile::MINIMUM, Profile::BASIC_WL]) && $attachmentRelationship !== AttachmentRelationship::DATA) {
-            throw new InvalidArgumentException('Invalid argument $relationship: ' . $attachmentRelationship->value . ', only the relationship Data is allowed for minimumn and basic-wl profiles.');
+        if (
+            in_array($profile, [Profile::MINIMUM, Profile::BASIC_WL])
+            && $attachmentRelationship !== AttachmentRelationship::DATA
+        ) {
+            throw new InvalidArgumentException(
+                'Invalid argument $relationship: ' . $attachmentRelationship->value
+                . ', only the relationship Data is allowed for minimumn and basic-wl profiles.'
+            );
         }
 
         Validator::validate($xml, $profile);
@@ -109,8 +115,11 @@ class Generator
     /**
      * @throws InvalidArgumentException
      */
-    private static function buildAttachmentsArray(string $xml, AttachmentRelationship $attachmentRelationship, array $additionalAttachments = []): array
-    {
+    private static function buildAttachmentsArray(
+        string $xml,
+        AttachmentRelationship $attachmentRelationship,
+        array $additionalAttachments = []
+    ): array {
         $attachments = [
             [
                 'file' => $xml,
@@ -122,13 +131,19 @@ class Generator
 
         foreach ($additionalAttachments as $additionalAttachment) {
             if (!file_exists($additionalAttachment['file'])) {
-                throw new InvalidArgumentException('File ' . ($additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file'])) . " don't exist.");
+                $name = $additionalAttachment['filename']
+                    ?? basename((string) $additionalAttachment['file']);
+                throw new InvalidArgumentException(
+                    "File " . $name . " don't exist."
+                );
             }
 
             $attachments[] = [
                 'file' => $additionalAttachment['file'],
-                'filename' => $additionalAttachment['filename'] ?? basename((string) $additionalAttachment['file']),
-                'relationship' => $additionalAttachment['relationship']->value ?? AttachmentRelationship::UNSPECIFIED->value,
+                'filename' => $additionalAttachment['filename']
+                    ?? basename((string) $additionalAttachment['file']),
+                'relationship' => $additionalAttachment['relationship']->value
+                    ?? AttachmentRelationship::UNSPECIFIED->value,
                 'description' => $additionalAttachment['description'] ?? '',
             ];
         }

@@ -9,7 +9,7 @@ class Payterm
     public function __construct(
         public ?string $paymentTerms = null,
         public ?DateTime $dueDate = null,
-        public ?DateTime $mandateReferenceIdentifier = null,
+        public ?string $mandateReferenceIdentifier = null,
     ) {
     }
 
