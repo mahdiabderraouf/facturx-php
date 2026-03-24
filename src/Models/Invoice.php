@@ -116,10 +116,14 @@ class Invoice
             vatAccountingCurrencyCode: $data['vatAccountingCurrencyCode'] ?? '',
             payee: isset($data['payee']) ? Payee::createFromArray($data['payee']) : null,
             payment: isset($data['payment']) ? Payment::createFromArray($data['payment']) : null,
-            vatBreakdowns: isset(($data['vatBreakdowns'])) ? array_map([VatBreakdown::class, 'createFromArray'], $data['vatBreakdowns']) : null,
+            vatBreakdowns: isset(($data['vatBreakdowns']))
+                ? array_map([VatBreakdown::class, 'createFromArray'], $data['vatBreakdowns'])
+                : null,
             invoicingPeriodStartDate: $data['invoicingPeriodStartDate'] ?? null,
             invoicingPeriodEndDate: $data['invoicingPeriodEndDate'] ?? null,
-            allowances: isset(($data['allowances'])) ? array_map([Allowance::class, 'createFromArray'], $data['allowances']) : null,
+            allowances: isset(($data['allowances']))
+                ? array_map([Allowance::class, 'createFromArray'], $data['allowances'])
+                : null,
             charges: isset(($data['charges'])) ? array_map([Charge::class, 'createFromArray'], $data['charges']) : null,
             payterm: isset($data['payterm']) ? Payterm::createFromArray($data['payterm']) : null,
             precedingInvoices: $data['precedingInvoices'] ?? null

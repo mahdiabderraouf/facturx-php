@@ -27,7 +27,7 @@ class SpecifiedTradePaymentTerms
             $xml .= '</ram:DueDateDateTime>';
         }
 
-        if ($payterm->mandateReferenceIdentifier instanceof \DateTime) {
+        if ($payterm->mandateReferenceIdentifier) {
             $xml .= '<ram:DirectDebitMandateID>'
             . $payterm->mandateReferenceIdentifier
                 . '</ram:DirectDebitMandateID>';

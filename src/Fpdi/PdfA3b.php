@@ -8,7 +8,8 @@ use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
 use setasign\Fpdi\PdfParser\Type\PdfType;
 
 /**
- * This class is an enhanced version of the original work by the authors of https://github.com/atgp/factur-x, and Olivier from http://www.fpdf.org/.
+ * This class is an enhanced version of the original work by the authors of
+ * https://github.com/atgp/factur-x, and Olivier from http://www.fpdf.org/.
  *
  * Credit to the original authors for their foundational work.
  *
@@ -98,7 +99,7 @@ class PdfA3b extends Fpdi
         if ($this->attachments !== []) {
             $attachmentsRef = '';
             foreach ($this->attachments as $attachment) {
-                if ($attachmentsRef !== '' && $attachmentsRef !== '0') {
+                if ($attachmentsRef !== '') {
                     $attachmentsRef .= ' ';
                 }
 

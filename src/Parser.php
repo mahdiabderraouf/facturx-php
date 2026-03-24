@@ -46,7 +46,9 @@ class Parser
             'issueDate' => DateFormat102::fromFormat102(
                 $domXPath->query('//rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString')->item(0)->nodeValue
             ),
-            'supplier' => $domXPath->query('//ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:Name')->item(0)->nodeValue,
+            'supplier' => $domXPath
+                ->query('//ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:Name')
+                ->item(0)->nodeValue,
             'documentNumber' => $domXPath->query('//rsm:ExchangedDocument/ram:ID')->item(0)->nodeValue,
         ];
     }

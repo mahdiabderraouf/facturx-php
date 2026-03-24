@@ -245,9 +245,9 @@ try {
         '/path/to/Invoice.pdf',
         $invoice,
         // optional
-        relationship: AttachmentRelationship::ALTERNATIVE, // the profile will be automatically detected when not given
-        outputPath: 'Factur-X ' . $invoice->number . '.pdf',
-        profile: $profile, // if not given, pdf string will be returned
+        attachmentRelationship: AttachmentRelationship::ALTERNATIVE,
+        outputPath: 'Factur-X ' . $invoice->number . '.pdf', // if not given, pdf string will be returned
+        profile: $profile, // the profile will be automatically detected when not given
         additionalAttachments: [
             [
                 'file' => 'extra_file.txt',

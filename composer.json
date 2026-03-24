@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=8.2 <=8.5",
+    "php": ">=8.2 <8.6",
     "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^2.6"
   },

@@ -3,13 +3,17 @@
 namespace MahdiAbderraouf\FacturX\Builders;
 
 use MahdiAbderraouf\FacturX\Enums\Profile;
+use MahdiAbderraouf\FacturX\Models\Delivery;
 use MahdiAbderraouf\FacturX\Models\Invoice;
 
 class ApplicableHeaderTradeDelivery
 {
     public static function build(Invoice $invoice): string
     {
-        if (!$invoice->profile->isAtLeast(Profile::BASIC_WL) || !$invoice->delivery instanceof \MahdiAbderraouf\FacturX\Models\Delivery) {
+        if (
+            !$invoice->profile->isAtLeast(Profile::BASIC_WL)
+            || !$invoice->delivery instanceof Delivery
+        ) {
             return '<ram:ApplicableHeaderTradeDelivery />';
         }
 

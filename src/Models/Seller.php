@@ -41,7 +41,9 @@ class Seller
             identifiers: $data['identifiers'] ?? null,
             globalIdentifiers: $data['globalIdentifiers'] ?? null,
             tradingName: $data['tradingName'] ?? null,
-            taxRespresentative: isset($data['taxRespresentative']) ? TaxRespresentative::createFromArray($data['taxRespresentative']) : null,
+            taxRespresentative: isset($data['taxRespresentative'])
+                ? TaxRespresentative::createFromArray($data['taxRespresentative'])
+                : null,
         );
     }
 }

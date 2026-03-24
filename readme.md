@@ -139,6 +139,8 @@ Using the static method `Generator::generate` you can embed an XML into a PDF fi
 
 To ensure the integrity of every Factur-X file, the XML is validated before being embedded, so there is no need to validate it beforehand.
 
+**Important:** The input PDF must be PDF/A-3b compliant as required by the Factur-X specification. This library does not convert PDFs to PDF/A-3b.
+
 Please note about attachment relationship:
 - The only relationships that can be used for the XML file are `Data`, `Source` and `Alternative`.
 - In Germany the only relationship allowed is `Alternative`.
