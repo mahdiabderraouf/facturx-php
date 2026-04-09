@@ -112,7 +112,7 @@ class Invoice
             delivery: isset($data['delivery']) ? Delivery::createFromArray($data['delivery']) : null,
             bankAssignedCreditorIdentifier: $data['bankAssignedCreditorIdentifier'] ?? '',
             remittanceInformation: $data['remittanceInformation'] ?? '',
-            totalVATAmountInAccountingCurrency: $data['totalVATAmountInAccountingCurrency'] ?? '',
+            totalVATAmountInAccountingCurrency: $data['totalVATAmountInAccountingCurrency'] ?? null,
             vatAccountingCurrencyCode: $data['vatAccountingCurrencyCode'] ?? '',
             payee: isset($data['payee']) ? Payee::createFromArray($data['payee']) : null,
             payment: isset($data['payment']) ? Payment::createFromArray($data['payment']) : null,
