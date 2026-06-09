@@ -21,7 +21,7 @@ class GrossPriceProductTradePrice
 
         if ($line->priceDiscount) {
             $xml .= '<ram:AppliedTradeAllowanceCharge>';
-            $xml .= '<ram:chargeIndicator><udt:Indicator>false</udt:Indicator></ram:chargeIndicator>';
+            $xml .= '<ram:ChargeIndicator><udt:Indicator>false</udt:Indicator></ram:ChargeIndicator>';
             $xml .= '<ram:ActualAmount>' . $line->priceDiscount . '</ram:ActualAmount>';
             $xml .= '</ram:AppliedTradeAllowanceCharge>';
         }
