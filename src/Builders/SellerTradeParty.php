@@ -28,7 +28,7 @@ class SellerTradeParty
         $xml .= PostalTradeAddress::build($seller->address, $profile);
 
         if ($profile->isAtLeast(Profile::BASIC_WL)) {
-            $xml .= Email::build($seller->email);
+            $xml .= Email::build($seller->email, $seller->emailSchemeIdentifier);
         }
 
         $xml .= SpecifiedTaxRegistration::build($seller->vatIdentifier);

@@ -9,9 +9,13 @@ class Buyer
 {
     public string $schemeIdentifier = '0009';
 
+    public string $emailSchemeIdentifier = 'EM';
+
     /**
      * @param array<array> $globalIdentifiers Global identifiers when schemeIdentifier is known :
      *      [['id' => string, 'schemeIdentifier' => SchemeIdentifier|string], ...]
+     * @param SchemeIdentifier|string $emailSchemeIdentifier Scheme of the electronic address (BT-49-1),
+     *      e.g. SchemeIdentifier::EMAIL ('EM') or SchemeIdentifier::FRCTC_ELECTRONIC_ADDRESS ('0225').
      */
     public function __construct(
         public string $name,
@@ -24,9 +28,11 @@ class Buyer
         public ?array $globalIdentifiers = null,
         public ?string $vatIdentifier = null,
         public ?string $buyerReference = null,
-        public ?string $accountingReference = null
+        public ?string $accountingReference = null,
+        SchemeIdentifier|string $emailSchemeIdentifier = SchemeIdentifier::EMAIL,
     ) {
         $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
+        $this->emailSchemeIdentifier = Utils::stringOrEnumToString($emailSchemeIdentifier);
     }
 
     public static function createFromArray(array $data): self
@@ -41,7 +47,8 @@ class Buyer
             globalIdentifiers: $data['globalIdentifiers'] ?? null,
             vatIdentifier: $data['vatIdentifier'] ?? null,
             buyerReference: $data['buyerReference'] ?? null,
-            accountingReference: $data['accountingReference'] ?? null
+            accountingReference: $data['accountingReference'] ?? null,
+            emailSchemeIdentifier: $data['emailSchemeIdentifier'] ?? SchemeIdentifier::EMAIL,
         );
     }
 }

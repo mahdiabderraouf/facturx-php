@@ -9,9 +9,13 @@ class Seller
 {
     public string $schemeIdentifier = '0009';
 
+    public string $emailSchemeIdentifier = 'EM';
+
     /**
      * @param array<array> $globalIdentifiers Global identifiers when schemeIdentifier is known :
      *      [['id' => string, 'schemeIdentifier' => SchemeIdentifier|string], ...]
+     * @param SchemeIdentifier|string $emailSchemeIdentifier Scheme of the electronic address (BT-34-1),
+     *      e.g. SchemeIdentifier::EMAIL ('EM') or SchemeIdentifier::FRCTC_ELECTRONIC_ADDRESS ('0225').
      */
     public function __construct(
         public string $name,
@@ -25,8 +29,10 @@ class Seller
         public ?array $globalIdentifiers = null,
         public ?string $tradingName = null,
         public ?TaxRespresentative $taxRespresentative = null,
+        SchemeIdentifier|string $emailSchemeIdentifier = SchemeIdentifier::EMAIL,
     ) {
         $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
+        $this->emailSchemeIdentifier = Utils::stringOrEnumToString($emailSchemeIdentifier);
     }
 
     public static function createFromArray(array $data): self
@@ -44,6 +50,7 @@ class Seller
             taxRespresentative: isset($data['taxRespresentative'])
                 ? TaxRespresentative::createFromArray($data['taxRespresentative'])
                 : null,
+            emailSchemeIdentifier: $data['emailSchemeIdentifier'] ?? SchemeIdentifier::EMAIL,
         );
     }
 }
