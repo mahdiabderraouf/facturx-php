@@ -26,6 +26,8 @@ class Invoice
      *           'issueDate' => new DateTime(),
      *      ],
      *  ]
+     * @param string $vatCurrency @deprecated 2.1.0 Unused: BT-110 uses $currencyCode and BT-6/BT-111
+     *      derive from $vatAccountingCurrencyCode. Kept for backward compatibility, to be removed in 3.0.0.
      */
     public function __construct(
         public Profile $profile,

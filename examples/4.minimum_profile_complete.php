@@ -48,7 +48,6 @@ $invoice = Invoice::createFromArray([
     'businessProcessType' => 'A2', // default A1
     'purchaseOrderReference' => 'PO-202400005',
     'currencyCode' => 'EUR', // default EUR
-    'vatCurrency' => 'USD', // default EUR
 ]);
 
 try {

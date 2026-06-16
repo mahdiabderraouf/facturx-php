@@ -15,10 +15,12 @@ class ApplicableHeaderTradeSettlement
             $xml .= CreditorReferenceID::build($invoice->bankAssignedCreditorIdentifier) .
                 PaymentReference::build($invoice->remittanceInformation);
 
-            // BT-6 (VAT accounting currency) must only be present when it differs from
-            // BT-5 (invoice currency). Emitting it when both are equal violates rule BR-53.
-            if ($invoice->vatCurrency !== $invoice->currencyCode) {
-                $xml .= TaxCurrencyCode::build($invoice->vatCurrency);
+            if (
+                $invoice->vatAccountingCurrencyCode
+                && $invoice->vatAccountingCurrencyCode !== $invoice->currencyCode
+                && $invoice->totalVATAmountInAccountingCurrency !== null
+            ) {
+                $xml .= TaxCurrencyCode::build($invoice->vatAccountingCurrencyCode);
             }
         }
 

@@ -67,6 +67,7 @@ $invoice = Invoice::createFromArray([
             'province' => 'Auvergne-Rhône-Alpes',
         ],
         'email' => 'sales@acmecorp.com',
+        'emailSchemeIdentifier' => SchemeIdentifier::EMAIL, // default EM; use FRCTC_ELECTRONIC_ADDRESS (0225) for a SIREN address
         'legalRegistrationIdentifier' => 'SIRET-SELLER-67890',
         'identifiers' => ['S-2001'],
         'globalIdentifiers' => [
