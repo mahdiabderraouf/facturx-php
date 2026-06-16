@@ -24,12 +24,13 @@ class SpecifiedTradeSettlementHeaderMonetarySummation
         }
 
         $xml .= '<ram:TaxBasisTotalAmount>' . $invoice->totalAmountWithoutVAT . '</ram:TaxBasisTotalAmount>';
-        $xml .= '<ram:TaxTotalAmount currencyID="' . $invoice->vatCurrency . '">'
+        $xml .= '<ram:TaxTotalAmount currencyID="' . $invoice->currencyCode . '">'
             . $invoice->totalVATAmount . '</ram:TaxTotalAmount>';
 
         if (
             $invoice->profile->isAtLeast(Profile::BASIC_WL)
             && $invoice->vatAccountingCurrencyCode
+            && $invoice->vatAccountingCurrencyCode !== $invoice->currencyCode
             && $invoice->totalVATAmountInAccountingCurrency !== null
         ) {
             $xml .= '<ram:TaxTotalAmount currencyID="' . $invoice->vatAccountingCurrencyCode . '">'
