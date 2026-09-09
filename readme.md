@@ -133,6 +133,9 @@ try {
 $isValid = Validator::isValid($source);
 ```
 
+`Profile::EXTENDED_CTC_FR` has no XSD of its own, it is validated against the `extended` one. The french `BR-FR-*` rules
+live in the FNFE-MPE schematrons, out of the scope of this library.
+
 ### Generate a Factur-X PDF
 Using the static method `Generator::generate` you can embed an XML into a PDF file to generate a Factur-X file.
 

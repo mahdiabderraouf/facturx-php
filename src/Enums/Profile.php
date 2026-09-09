@@ -14,31 +14,43 @@ enum Profile: string
     case BASIC = 'urn:cen.eu:en16931:2017#compliant#urn:factur-x.eu:1p0:basic';
     case EN16931 = 'urn:cen.eu:en16931:2017';
     case EXTENDED = 'urn:cen.eu:en16931:2017#conformant#urn:factur-x.eu:1p0:extended';
+    case EXTENDED_CTC_FR = 'urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr';
+
+    /** EXTENDED_CTC_FR is a subset of EXTENDED and shares its XSD */
+    public function toBaseProfile(): Profile
+    {
+        return $this === Profile::EXTENDED_CTC_FR ? Profile::EXTENDED : $this;
+    }
 
     /**
      * Check if the current profile if >= $profile
      */
     public function isAtLeast(Profile $profile): bool
     {
+        $current = $this->toBaseProfile();
+        $profile = $profile->toBaseProfile();
+
         if (
             $profile === Profile::MINIMUM || // current profile is always at least minimum
-            $this === $profile ||
-            $this === Profile::EXTENDED // extended is the highest profile
+            $current === $profile ||
+            $current === Profile::EXTENDED // extended is the highest profile
         ) {
             return true;
         }
 
-        $thisIndex = array_search($this, self::cases(), true);
+        $currentIndex = array_search($current, self::cases(), true);
         $profileIndex = array_search($profile, self::cases(), true);
 
-        return $thisIndex >= $profileIndex;
+        return $currentIndex >= $profileIndex;
     }
 
     public function toConformanceLevel(): string
     {
-        return match ($this) {
+        $profile = $this->toBaseProfile();
+
+        return match ($profile) {
             Profile::BASIC_WL => 'BASIC WL',
-            default => $this->name,
+            default => $profile->name,
         };
     }
 }

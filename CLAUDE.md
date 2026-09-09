@@ -55,6 +55,7 @@ Public API (4 facade classes — everything else is internal):
 - Static methods for builders (`build()`) and model factories (`createFromArray()`). No instance methods or DI in these classes.
 - Prefer early returns and specific custom exceptions over nested conditionals or generic `\Exception`.
 - Enums also accept string backing values (via `Utils::stringOrEnumToString()`).
+- Comments: 0 by default. Write one only when the code cannot carry the information itself (spec quirk, non-obvious constraint, a `why`). Never restate what the code says. Keep it to one line, no block comment unless PHPDoc is required.
 - Do not add Composer dependencies without strong justification. Only fpdf + fpdi.
 
 ## Security Rules
