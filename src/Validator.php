@@ -74,7 +74,7 @@ class Validator
 
     private static function getXsdFilePathByProfile(Profile $profile): string
     {
-        $xsdFilePath = match ($profile) {
+        $xsdFilePath = match ($profile->toBaseProfile()) {
             Profile::MINIMUM => 'minimum/Factur-X_1.09.2_MINIMUM.xsd',
             Profile::BASIC_WL => 'basic-wl/Factur-X_1.09.2_BASICWL.xsd',
             Profile::BASIC => 'basic/Factur-X_1.09.2_BASIC.xsd',
