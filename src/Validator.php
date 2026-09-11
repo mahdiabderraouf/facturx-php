@@ -40,6 +40,8 @@ class Validator
 
         $profile ??= Parser::getProfile($xml);
 
+        libxml_use_internal_errors(true);
+
         if (!$domDocument->schemaValidate(self::getXsdFilePathByProfile($profile))) {
             $xmlErrors = libxml_get_errors();
             libxml_clear_errors();

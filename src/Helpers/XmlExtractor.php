@@ -50,8 +50,8 @@ class XmlExtractor
          */
         foreach ($output as $outputLine) {
             foreach ($searchFilenames as $searchFilename) {
-                if (strpos($outputLine, (string) $searchFilename)) {
-                    return (int) $outputLine[0];
+                if (str_contains($outputLine, (string) $searchFilename)) {
+                    return (int) $outputLine;
                 }
             }
         }

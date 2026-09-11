@@ -5,15 +5,15 @@ namespace MahdiAbderraouf\FacturX\Builders;
 use MahdiAbderraouf\FacturX\Enums\SchemeIdentifier;
 use MahdiAbderraouf\FacturX\Helpers\Utils;
 
-class Email
+class URIUniversalCommunication
 {
     public static function build(
-        ?string $email = null,
+        ?string $electronicAddress = null,
         SchemeIdentifier|string $schemeIdentifier = SchemeIdentifier::EMAIL
     ): string {
         $xml = '';
 
-        if ($email) {
+        if ($electronicAddress) {
             $schemeId = htmlspecialchars(
                 Utils::stringOrEnumToString($schemeIdentifier),
                 ENT_XML1 | ENT_QUOTES,
@@ -21,7 +21,7 @@ class Email
             );
             $xml .= <<<XML
             <ram:URIUniversalCommunication>
-                <ram:URIID schemeID="{$schemeId}">{$email}</ram:URIID>
+                <ram:URIID schemeID="{$schemeId}">{$electronicAddress}</ram:URIID>
             </ram:URIUniversalCommunication>
             XML;
         }

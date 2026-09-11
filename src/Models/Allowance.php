@@ -23,7 +23,7 @@ class Allowance
     {
         return new static(
             amount: $data['amount'],
-            vatCategory: $data['vatCategory'],
+            vatCategory: $data['vatCategory'] ?? null,
             vatRate: $data['vatRate'] ?? null,
             percentage: $data['percentage'] ?? null,
             baseAmount: $data['baseAmount'] ?? null,

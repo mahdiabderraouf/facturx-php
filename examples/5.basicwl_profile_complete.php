@@ -41,7 +41,8 @@ $invoice = Invoice::createFromArray([
             'city' => 'Paris',
             'province' => 'Ile-de-France',
         ],
-        'email' => 'johndoe@email.com',
+        'electronicAddress' => '123456789', // SIREN, routing address on the French e-invoicing platforms
+        'electronicAddressSchemeIdentifier' => SchemeIdentifier::FRCTC_ELECTRONIC_ADDRESS, // 0225; use EMAIL (EM) for an email address
         'legalRegistrationIdentifier' => 'SIRET-BUYER-12345',
         'identifiers' => ['B-1001'],
         'globalIdentifiers' => [
@@ -66,8 +67,8 @@ $invoice = Invoice::createFromArray([
             'city' => 'Lyon',
             'province' => 'Auvergne-Rhône-Alpes',
         ],
-        'email' => 'sales@acmecorp.com',
-        'emailSchemeIdentifier' => SchemeIdentifier::EMAIL, // default EM; use FRCTC_ELECTRONIC_ADDRESS (0225) for a SIREN address
+        'electronicAddress' => '987654321', // SIREN, routing address on the French e-invoicing platforms
+        'electronicAddressSchemeIdentifier' => SchemeIdentifier::FRCTC_ELECTRONIC_ADDRESS, // 0225; use EMAIL (EM) for an email address
         'legalRegistrationIdentifier' => 'SIRET-SELLER-67890',
         'identifiers' => ['S-2001'],
         'globalIdentifiers' => [

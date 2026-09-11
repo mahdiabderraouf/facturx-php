@@ -40,7 +40,9 @@ class Utils
             return false;
         }
 
-        return str_starts_with(ltrim((string) file_get_contents($xmlPath, length: 512)), '<');
+        $head = (string) file_get_contents($xmlPath, length: 512);
+
+        return str_starts_with(ltrim($head, " \t\n\r\0\x0B\xEF\xBB\xBF"), '<');
     }
 
     /**
@@ -48,7 +50,7 @@ class Utils
      */
     public static function isValidXmlFilenames(array $XmlFilename): bool
     {
-        return array_diff(XmlFilename::values(), $XmlFilename) === [];
+        return array_diff($XmlFilename, XmlFilename::values()) === [];
     }
 
     /**

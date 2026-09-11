@@ -3,3 +3,4 @@ demo/
 composer.lock
 .vscode
 rector.php
+.phpunit.cache/

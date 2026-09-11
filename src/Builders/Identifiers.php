@@ -8,7 +8,7 @@ class Identifiers
     {
         $xml = '';
 
-        foreach ($identifiers ?? [] as $identifier) {
+        foreach (array_filter($identifiers ?? []) as $identifier) {
             $xml .= '<ram:ID>' . $identifier . '</ram:ID>';
         }
 

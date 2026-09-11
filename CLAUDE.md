@@ -28,9 +28,12 @@ composer validate --strict        # Validate composer.json
 vendor/bin/phpcs                  # Code style (PSR-12 via phpcs.xml)
 vendor/bin/rector process --dry-run  # Rector checks
 bash -c 'find src -name "*.php" -print0 | xargs -0 -n1 php -l'  # Syntax check
+vendor/bin/paratest --no-coverage           # Full test suite (needs poppler-utils, present in Docker)
+vendor/bin/phpunit --testsuite Unit         # Unit tests only, no poppler needed
+vendor/bin/phpunit --filter test_name       # One test while iterating
 ```
 
-No unit tests exist. CI runs syntax checking only.
+CI runs composer validate, phpcs, and the full suite on PHP 8.2 to 8.5.
 
 ## Architecture
 
@@ -57,6 +60,7 @@ Public API (4 facade classes — everything else is internal):
 - Enums also accept string backing values (via `Utils::stringOrEnumToString()`).
 - Comments: 0 by default. Write one only when the code cannot carry the information itself (spec quirk, non-obvious constraint, a `why`). Never restate what the code says. Keep it to one line, no block comment unless PHPDoc is required.
 - Do not add Composer dependencies without strong justification. Only fpdf + fpdi.
+- Tests: read `.claude/skills/testing-best-practices/SKILL.md` before touching `tests/`. Every behavior change ships with a test. Test names are snake_case specifications (`test_omits_x_below_basic_wl`), PHPUnit attributes for data providers, XPath assertions from the base `TestCase` for XML.
 
 ## Security Rules
 
@@ -83,4 +87,4 @@ Run all inside Docker (`docker compose -f docker/docker-compose.yml exec facturx
 2. `bash -c 'find src -name "*.php" -print0 | xargs -0 -n1 php -l'`
 3. `vendor/bin/phpcs`
 4. `vendor/bin/rector process --dry-run`
-5. Verify XML output against XSD for any changed profile
+5. `vendor/bin/paratest --no-coverage` (Builder tests validate every generated profile against its XSD)

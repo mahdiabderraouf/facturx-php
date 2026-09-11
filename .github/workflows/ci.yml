@@ -21,6 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install poppler-utils
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -34,5 +37,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Check PHP syntax
-        run: find src -name "*.php" -print0 | xargs -0 -n1 php -l
+      - name: Check code style
+        run: vendor/bin/phpcs
+
+      - name: Run tests
+        run: vendor/bin/paratest --no-coverage

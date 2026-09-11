@@ -47,8 +47,32 @@ class Generator
             throw new InvalidArgumentException('Invalid argument $relationship: ' . $attachmentRelationship->value);
         }
 
-        $xml = self::resolveXml($xml);
+        $xmlPath = self::resolveXml($xml);
 
+        try {
+            return self::embed(
+                $pdfPath,
+                $xmlPath,
+                $attachmentRelationship,
+                $outputPath,
+                $profile,
+                $additionalAttachments
+            );
+        } finally {
+            if ($xmlPath !== $xml) {
+                @unlink($xmlPath);
+            }
+        }
+    }
+
+    private static function embed(
+        string $pdfPath,
+        string $xml,
+        AttachmentRelationship $attachmentRelationship,
+        ?string $outputPath,
+        ?Profile $profile,
+        array $additionalAttachments
+    ): string {
         $profile ??= Parser::getProfile($xml);
 
         if (

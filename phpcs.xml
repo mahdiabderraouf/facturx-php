@@ -5,6 +5,12 @@
     <rule ref="PSR12" />
 
     <file>src</file>
+    <file>tests</file>
+
+    <!-- Test methods are snake_case specifications, see .claude/skills/testing-best-practices -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
 
     <!-- FPDI parent class uses underscore-prefixed methods that we must override -->
     <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
