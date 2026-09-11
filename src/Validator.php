@@ -2,7 +2,6 @@
 
 namespace MahdiAbderraouf\FacturX;
 
-use DOMDocument;
 use Exception;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
@@ -37,11 +36,7 @@ class Validator
     {
         $xml = self::resolveXml($source);
 
-        $domDocument = new DOMDocument();
-
-        if (!@$domDocument->loadXML($xml)) {
-            throw new InvalidXmlException('Invalid Factur-X XML');
-        }
+        $domDocument = Utils::loadXml($xml);
 
         $profile ??= Parser::getProfile($xml);
 

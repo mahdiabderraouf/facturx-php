@@ -7,6 +7,7 @@ use DOMDocument;
 use DOMXPath;
 use MahdiAbderraouf\FacturX\Enums\Profile;
 use MahdiAbderraouf\FacturX\Enums\XmlFilename;
+use MahdiAbderraouf\FacturX\Exceptions\InvalidXmlException;
 
 class Utils
 {
@@ -31,8 +32,15 @@ class Utils
      */
     public static function isXmlFile(string $xmlPath): bool
     {
-        return file_exists($xmlPath) &&
-            in_array(mime_content_type($xmlPath), ['application/xml', 'text/xml']);
+        if (!file_exists($xmlPath)) {
+            return false;
+        }
+
+        if (!in_array(mime_content_type($xmlPath), ['application/xml', 'text/xml', 'text/plain'])) {
+            return false;
+        }
+
+        return str_starts_with(ltrim((string) file_get_contents($xmlPath, length: 512)), '<');
     }
 
     /**
@@ -51,12 +59,30 @@ class Utils
         return in_array($profile, Profile::values());
     }
 
+    /**
+     * @param  string $xml XML file path or XML string
+     *
+     * @throws InvalidXmlException
+     */
+    public static function loadXml(string $xml): DOMDocument
+    {
+        $xml = is_file($xml) ? (string) file_get_contents($xml) : $xml;
+
+        $domDocument = new DOMDocument();
+
+        if (trim($xml) === '' || !@$domDocument->loadXML($xml)) {
+            throw new InvalidXmlException('Invalid Factur-X XML');
+        }
+
+        return $domDocument;
+    }
+
+    /**
+     * @throws InvalidXmlException
+     */
     public static function getDomXPath(string $xml): DOMXPath
     {
-        $domDocument = new DOMDocument();
-        $domDocument->loadXML(is_file($xml) ? file_get_contents($xml) : $xml);
-
-        $domXPath = new DOMXPath($domDocument);
+        $domXPath = new DOMXPath(self::loadXml($xml));
 
         foreach (self::XML_NAMESPACES as $prefix => $uri) {
             $domXPath->registerNamespace($prefix, $uri);
