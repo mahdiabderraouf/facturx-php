@@ -41,7 +41,7 @@ class Line
         public ?DateTime $startDate = null,
         public ?DateTime $endDate = null,
     ) {
-        $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier);
+        $this->schemeIdentifier = Utils::stringOrEnumToString($schemeIdentifier) ?? '0160';
         $this->priceQuantityUnit = Utils::stringOrEnumToString($priceQuantityUnit);
         $this->invoicedQuantityUnit = Utils::stringOrEnumToString($invoicedQuantityUnit);
     }

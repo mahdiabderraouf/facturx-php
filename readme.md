@@ -223,9 +223,11 @@ Contributions are welcome, here are some guidelines:
 - Provide an explanation of the changes
 - Provide the reason for the changes
 - If needed, update the documentation and provide an example.
+- Add or update tests for every behavior change and run `composer test` (needs `poppler-utils`; `composer test:unit` runs without it).
 
 ---
 
 ## Roadmap
 - Add support for generating `en16931` and `extended` profiles
 - Factur-X parsing: parse a Factur-X file to an `Invoice` object.
+- Contact person (`DefinedTradeContact`: name, phone, contact email BT-43/BT-58), available from `en16931`.

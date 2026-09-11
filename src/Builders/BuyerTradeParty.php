@@ -32,7 +32,10 @@ class BuyerTradeParty
 
         if ($profile->isAtLeast(Profile::BASIC_WL)) {
             $xml .= PostalTradeAddress::build($buyer->address, $profile);
-            $xml .= Email::build($buyer->email, $buyer->emailSchemeIdentifier);
+            $xml .= URIUniversalCommunication::build(
+                $buyer->electronicAddress,
+                $buyer->electronicAddressSchemeIdentifier
+            );
             $xml .= SpecifiedTaxRegistration::build($buyer->vatIdentifier);
         }
         return $xml . '</ram:BuyerTradeParty>';

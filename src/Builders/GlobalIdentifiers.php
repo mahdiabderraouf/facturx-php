@@ -11,6 +11,10 @@ class GlobalIdentifiers
         $xml = '';
 
         foreach ($globalIdentifiers ?? [] as $globalIdentifier) {
+            if (!$globalIdentifier['identifier']) {
+                continue;
+            }
+
             $schemeId = Utils::stringOrEnumToString($globalIdentifier['schemeIdentifier']);
             $xml .= <<<XML
             <ram:GlobalID schemeID="{$schemeId}">{$globalIdentifier['identifier']}</ram:GlobalID>

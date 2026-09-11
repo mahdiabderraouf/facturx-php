@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CrossIndustryInvoice xmlns="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100">
+  <ExchangedDocumentContext>
+    <GuidelineSpecifiedDocumentContextParameter xmlns="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100">
+      <ID>urn:factur-x.eu:1p0:minimum</ID>
+    </GuidelineSpecifiedDocumentContextParameter>
+  </ExchangedDocumentContext>
+  <ExchangedDocument>
+    <ID xmlns="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100">F-DEFAULT-NS</ID>
+    <IssueDateTime xmlns="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100">
+      <DateTimeString xmlns="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100" format="102">20241202</DateTimeString>
+    </IssueDateTime>
+  </ExchangedDocument>
+  <SupplyChainTradeTransaction>
+    <ApplicableHeaderTradeAgreement xmlns="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100">
+      <SellerTradeParty>
+        <Name>Default NS Seller</Name>
+      </SellerTradeParty>
+    </ApplicableHeaderTradeAgreement>
+  </SupplyChainTradeTransaction>
+</CrossIndustryInvoice>

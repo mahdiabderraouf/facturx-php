@@ -19,8 +19,10 @@ class Payee
         public ?string $legalRegistrationIdentifier = '',
         SchemeIdentifier|string|null $legalRegistrationSchemeIdentifier = '',
     ) {
-        $this->globalIdentifierSchemeIdentifier = Utils::stringOrEnumToString($globalIdentifierSchemeIdentifier);
-        $this->legalRegistrationSchemeIdentifier = Utils::stringOrEnumToString($legalRegistrationSchemeIdentifier);
+        $this->globalIdentifierSchemeIdentifier =
+            Utils::stringOrEnumToString($globalIdentifierSchemeIdentifier) ?? '';
+        $this->legalRegistrationSchemeIdentifier =
+            Utils::stringOrEnumToString($legalRegistrationSchemeIdentifier) ?? '';
     }
 
     public static function createFromArray(array $data): self

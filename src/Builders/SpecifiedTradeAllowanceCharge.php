@@ -15,9 +15,10 @@ class SpecifiedTradeAllowanceCharge
             return '';
         }
 
-        $xml = '<ram:SpecifiedTradeAllowanceCharge>';
+        $xml = '';
 
         foreach ($allowances as $allowance) {
+            $xml .= '<ram:SpecifiedTradeAllowanceCharge>';
             $xml .= '<ram:ChargeIndicator>' .
                 '<udt:Indicator>' . ($allowance->isAllowance ? 'false' : 'true') . '</udt:Indicator>' .
             '</ram:ChargeIndicator>';
@@ -49,8 +50,10 @@ class SpecifiedTradeAllowanceCharge
                         : '') .
                     '</ram:CategoryTradeTax>';
             }
+
+            $xml .= '</ram:SpecifiedTradeAllowanceCharge>';
         }
 
-        return $xml . '</ram:SpecifiedTradeAllowanceCharge>';
+        return $xml;
     }
 }
