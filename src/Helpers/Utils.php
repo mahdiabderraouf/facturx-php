@@ -10,6 +10,13 @@ use MahdiAbderraouf\FacturX\Enums\XmlFilename;
 
 class Utils
 {
+    private const XML_NAMESPACES = [
+        'rsm' => 'urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100',
+        'ram' => 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100',
+        'udt' => 'urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100',
+        'qdt' => 'urn:un:unece:uncefact:data:standard:QualifiedDataType:100',
+    ];
+
     /**
      * Check if the given $pdfPath is a PDF file.
      */
@@ -49,7 +56,13 @@ class Utils
         $domDocument = new DOMDocument();
         $domDocument->loadXML(is_file($xml) ? file_get_contents($xml) : $xml);
 
-        return new DOMXPath($domDocument);
+        $domXPath = new DOMXPath($domDocument);
+
+        foreach (self::XML_NAMESPACES as $prefix => $uri) {
+            $domXPath->registerNamespace($prefix, $uri);
+        }
+
+        return $domXPath;
     }
 
     public static function stringOrEnumToString(string|BackedEnum|null $data): ?string
